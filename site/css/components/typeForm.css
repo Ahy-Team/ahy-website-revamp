@@ -378,7 +378,7 @@
     font-family: var(--ahy-body-font-grandstander);
     margin-top: 12px;
     margin-bottom: 12px;
-    font-size: 1.1rem;
+    font-size: 1rem;
     color: #ccc;
     font-weight: 500;
 }
@@ -447,4 +447,22 @@
     pointer-events: none;
     height: 0;
     overflow: hidden;
+}
+
+
+
+.checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 0.95rem !important;
+    margin-bottom: 0px !important;
+    margin-top: 2rem !important;
+}
+
+.checkbox-label input[type="checkbox"] {
+    margin-top: 3px;
+    width: 20px;
+    height: 20px;
+    accent-color: #ed4381;
 }

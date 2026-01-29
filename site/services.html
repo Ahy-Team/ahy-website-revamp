@@ -1,8 +1,9 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <!-- Google tag (gtag.js) -->
-    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-8Q53P5QHZ5"></script>
+
+<head>
+  <!-- Google tag (gtag.js) -->
+  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-8Q53P5QHZ5"></script>
     <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
@@ -10,109 +11,74 @@
 
     gtag('config', 'G-8Q53P5QHZ5');
     </script> -->
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=10.0, user-scalable=yes"
-    />
-    <title>What We Do | How We Create Value Through Systems</title>
-    <meta
-      name="description"
-      content="We design and build scalable commerce, AI, and digital systems—focused on outcomes, architecture, and long-term adaptability, not tools."
-    />
-    <!-- Cookie Consent (OrestBida v2) -->
-    <link
-      rel="preload"
-      href="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@v2.8.0/dist/cookieconsent.css"
-      as="style"
-      onload="
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=10.0, user-scalable=yes" />
+  <title>What We Do | How We Create Value Through Systems</title>
+  <meta name="description"
+    content="We design and build scalable commerce, AI, and digital systems—focused on outcomes, architecture, and long-term adaptability, not tools." />
+  <!-- Cookie Consent (OrestBida v2) -->
+  <link rel="preload" href="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@v2.8.0/dist/cookieconsent.css"
+    as="style" onload="
         this.onload = null;
         this.rel = 'stylesheet';
-      "
-    />
+      " />
 
-    <noscript>
-      <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@v2.8.0/dist/cookieconsent.css"
-      />
-    </noscript>
+  <noscript>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@v2.8.0/dist/cookieconsent.css" />
+  </noscript>
 
-    <link rel="preload" href="/css/cookieConsent.css" as="style" />
-    <link
-      rel="stylesheet"
-      href="/css/cookieConsent.css"
-      media="print"
-      onload="this.media = 'all'"
-    />
+  <link rel="preload" href="/css/cookieConsent.css" as="style" />
+  <link rel="stylesheet" href="/css/cookieConsent.css" media="print" onload="this.media = 'all'" />
 
-    <script
-      defer
-      src="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@v2.8.0/dist/cookieconsent.js"
-    ></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
+  <script defer src="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@v2.8.0/dist/cookieconsent.js"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      dataLayer.push(arguments);
+    }
 
-      let gaLoaded = false;
+    let gaLoaded = false;
 
-      function loadGA() {
-        if (gaLoaded) return;
-        gaLoaded = true;
+    function loadGA() {
+      if (gaLoaded) return;
+      gaLoaded = true;
 
-        const s = document.createElement("script");
-        s.src = "https://www.googletagmanager.com/gtag/js?id=UA-72482257-1";
-        s.async = true;
-        document.head.appendChild(s);
+      const s = document.createElement("script");
+      s.src = "https://www.googletagmanager.com/gtag/js?id=UA-72482257-1";
+      s.async = true;
+      document.head.appendChild(s);
 
-        gtag("js", new Date());
-        gtag("config", "UA-72482257-1", {
-          send_page_view: true,
-        });
-      }
+      gtag("js", new Date());
+      gtag("config", "UA-72482257-1", {
+        send_page_view: true,
+      });
+    }
 
-      ["scroll", "click", "mousemove", "touchstart"].forEach((e) =>
-        window.addEventListener(e, loadGA, { once: true, passive: true }),
-      );
-    </script>
-    <script>
-      window.ASSET_VERSION = Date.now();
-    </script>
+    ["scroll", "click", "mousemove", "touchstart"].forEach((e) =>
+      window.addEventListener(e, loadGA, { once: true, passive: true }),
+    );
+  </script>
+  <script>
+    window.ASSET_VERSION = Date.now();
+  </script>
 
-    <!-- Main Styles -->
-    <link
-      rel="preload"
-      href="css/main.css?v=dev"
-      as="style"
-      onload="this.rel = 'stylesheet'"
-    />
-    <noscript>
-      <link rel="stylesheet" href="css/main.css?v=dev" />
-    </noscript>
+  <!-- Main Styles -->
+  <link rel="preload" href="css/main.css?v=dev" as="style" onload="this.rel = 'stylesheet'" />
+  <noscript>
+    <link rel="stylesheet" href="css/main.css?v=dev" />
+  </noscript>
 
-    <!-- Preload fonts CSS asynchronously -->
-    <link
-      rel="preload"
-      href="fonts.css"
-      as="style"
-      onload="this.rel = 'stylesheet'"
-    />
-    <noscript>
-      <link rel="stylesheet" href="fonts.css" />
-    </noscript>
-    <link rel="shortcut icon" href="/assets/ahy-logo.webp" type="image/webp" />
-    <link
-      rel="preload"
-      as="image"
-      href="/assets/ahy-logo.webp"
-      fetchpriority="high"
-    />
-    <div data-component="header"></div>
+  <!-- Preload fonts CSS asynchronously -->
+  <link rel="preload" href="fonts.css" as="style" onload="this.rel = 'stylesheet'" />
+  <noscript>
+    <link rel="stylesheet" href="fonts.css" />
+  </noscript>
+  <link rel="shortcut icon" href="/assets/ahy-logo.webp" type="image/webp" />
+  <link rel="preload" as="image" href="/assets/ahy-logo.webp" fetchpriority="high" />
+  <div data-component="header"></div>
 
-    <!-- Schema.Org Text -->
-    <script type="application/ld+json">
+  <!-- Schema.Org Text -->
+  <script type="application/ld+json">
       {
         "@context": "http://www.schema.org",
         "@type": "WebSite",
@@ -122,7 +88,7 @@
       }
     </script>
 
-    <script type="application/ld+json">
+  <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
@@ -142,7 +108,7 @@
       }
     </script>
 
-    <script type="application/ld+json">
+  <script type="application/ld+json">
       {
         "@context": "https://schema.org/",
         "@type": "Dataset",
@@ -183,7 +149,7 @@
       }
     </script>
 
-    <script type="application/ld+json">
+  <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": ["ProfessionalService", "CreativeWork", "Service"],
@@ -274,7 +240,7 @@
       }
     </script>
 
-    <script type="application/ld+json">
+  <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "Organization",
@@ -283,7 +249,7 @@
       }
     </script>
 
-    <script type="application/ld+json">
+  <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "FAQPage",
@@ -324,82 +290,63 @@
         ]
       }
     </script>
-  </head>
+</head>
 
-  <body data-page="services">
-    <!-- ScrollSmoother wrapper -->
-    <div class="gradient-blobs">
-      <video
-        class="blobs-video"
-        src="/assets/video/background-video.mp4"
-        autoplay
-        muted
-        loop
-        playsinline
-      ></video>
-      <div class="blob blob-1"></div>
+<body data-page="services">
+  <style>
+    .blob-img {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+  <!-- ScrollSmoother wrapper -->
+  <div class="gradient-blobs">
+    <video class="blobs-video" src="/assets/video/background-video.mp4" autoplay muted loop playsinline></video>
+    <!-- <div class="blob blob-1"></div>
       <div class="blob blob-2"></div>
       <div class="blob blob-3"></div>
       <div class="blob blob-4"></div>
-      <div class="blob blob-5"></div>
+      <div class="blob blob-5"></div> -->
+    <picture>
+      <source srcset="/assets/blobs-desktop.webp" media="(min-width: 768px)">
+      <source srcset="/assets/blobs-mobile.webp" media="(max-width: 767px)">
+      <img class="blob-img" src="/assets/blobs-desktop.webp" alt="blobs image">
+    </picture>
+  </div>
+  <div id="smooth-wrapper">
+    <div id="smooth-content">
+      <main>
+        <div data-component="heroSection"></div>
+        <div data-component="ourCapabilities"></div>
+        <div data-component="CommerceManifesto"></div>
+        <div data-component="servicepageTechnologyStrip"></div>
+        <div data-component="technologyService"></div>
+        <div data-component="sanser"></div>
+        <div data-component="contactUsSection"></div>
+      </main>
+      <div data-component="footer"></div>
     </div>
-    <div id="smooth-wrapper">
-      <div id="smooth-content">
-        <main>
-          <div data-component="heroSection"></div>
-          <div data-component="ourCapabilities"></div>
-          <div data-component="CommerceManifesto"></div>
-          <div data-component="servicepageTechnologyStrip"></div>
-          <div data-component="technologyService"></div>
-          <div data-component="sanser"></div>
-          <div data-component="contactUsSection"></div>
-        </main>
-        <div data-component="footer"></div>
-      </div>
-    </div>
+  </div>
 
-    <!-- GSAP (Single Source) -->
-    <script
-      defer
-      src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"
-    ></script>
-    <script
-      defer
-      src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"
-    ></script>
-    <script
-      defer
-      src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollSmoother.min.js"
-    ></script>
-    <script
-      defer
-      src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/MotionPathPlugin.min.js"
-    ></script>
-    <!-- <script  defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/DrawSVGPlugin.min.js"></script> -->
-    <script
-      defer
-      src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrambleTextPlugin.min.js"
-    ></script>
-    <script
-      defer
-      src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"
-    ></script>
-    <script defer src="https://unpkg.com/gsap@3/dist/SplitText.min.js"></script>
-    <script
-      defer
-      src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollToPlugin.min.js"
-    ></script>
-    <script
-      defer
-      src="https://cdn.jsdelivr.net/npm/circletype@2.3.0/dist/circletype.min.js"
-    ></script>
-    <script defer src="/js/cookieConsent-otherPages.js?v=dev"></script>
-    <div data-component="rotatingBadge"></div>
+  <!-- GSAP (Single Source) -->
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollSmoother.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/MotionPathPlugin.min.js"></script>
+  <!-- <script  defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/DrawSVGPlugin.min.js"></script> -->
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrambleTextPlugin.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
+  <script defer src="https://unpkg.com/gsap@3/dist/SplitText.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollToPlugin.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/circletype@2.3.0/dist/circletype.min.js"></script>
+  <script defer src="/js/cookieConsent-otherPages.js?v=dev"></script>
+  <div data-component="rotatingBadge"></div>
 
-    <!-- Local Scripts -->
-    <script defer src="js/componentLoader.js?v=dev"></script>
-    <!-- <script defer type="module" src="js/main.js"></script> -->
-    <script defer src="js/main.js"></script>
-    <!-- <script defer src="/js/gsap-smooth-scroll.js?v=dev"></script> -->
-  </body>
+  <!-- Local Scripts -->
+  <script defer src="js/componentLoader.js?v=dev"></script>
+  <!-- <script defer type="module" src="js/main.js"></script> -->
+  <script defer src="js/main.js"></script>
+  <!-- <script defer src="/js/gsap-smooth-scroll.js?v=dev"></script> -->
+</body>
+
 </html>

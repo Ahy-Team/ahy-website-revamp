@@ -1,0 +1,286 @@
+.ahy-techstrip-section {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.ahy-techstrip-section {
+    height: min-content;
+}
+
+.ahy-techstrip-section3 {
+    --border-radius: 25px;
+    --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-white);
+    min-height: 100vh;
+    background: var(--bg-color);
+    overflow: hidden;
+    /* padding: 4rem 2rem; */
+    /* padding-top: 5rem; */
+    padding-bottom: 5rem;
+    padding-top: 5rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    /* padding-bottom: 0px !important; */
+}
+
+.ahy-techstrip-section3 .ahy-techstrip-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: auto;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    /* padding: 1.5rem; */
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+}
+
+.ahy-techstrip-title {
+    font-size: 3.5rem;
+    font-family: var(--ahy-heading-font-tomorrow);
+    font-weight: var(--ahy-weight-extrabold);
+    margin-bottom: 2.5rem;
+    /* margin-top: 3rem; */
+    background: linear-gradient(135deg, var(--text-white) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.5;
+    letter-spacing: -2px;
+    position: relative;
+    text-transform: capitalize;
+}
+
+.ahy-techstrip-title::after {
+    content: "";
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(90deg, #ff3d82 0%, #ec1965 50%, #6b0c2e 100%);
+    border-radius: 2px;
+    box-shadow: 0 2px 10px rgba(236, 25, 101, 0.5);
+}
+
+.ahy-techstrip-subtitle {
+    position: relative;
+    width: fit-content;
+    margin-inline: auto;
+    font-size: 2rem;
+    font-family: var(--ahy-body-font-tomorrow);
+    font-weight: var(--ahy-weight-medium);
+    color: var(--text-primary);
+    margin-bottom: 4rem;
+    letter-spacing: 3px;
+    line-height: 1.4;
+    text-transform: uppercase;
+}
+
+.ahy-techstrip-subtitle::before,
+.ahy-techstrip-subtitle::after {
+    content: "◆";
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-primary);
+    font-size: 1.2rem;
+}
+
+.ahy-techstrip-subtitle::before {
+    left: -30px;
+}
+
+.ahy-techstrip-subtitle::after {
+    right: -30px;
+}
+
+.ahy-techstrip-text-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.ahy-techstrip-text {
+    font-size: 1.5rem;
+    font-family: var(--ahy-body-font-grandstander);
+    font-weight: var(--ahy-weight-medium);
+    color: var(--text-primary);
+    line-height: 1.6;
+
+    text-align: center;
+}
+
+.ahy-techstrip-features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2.5rem;
+    margin-top: 5rem;
+}
+
+.ahy-techstrip-feature {
+    background: linear-gradient(135deg, #ec1965 0%, #6b0c2e 100%);
+    backdrop-filter: blur(20px);
+    border: 1px solid #3d3d3dfa;
+    border-radius: var(--border-radius);
+    padding: 3.5rem 2.5rem;
+    text-align: center;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.ahy-techstrip-feature:hover {
+    transform: scale(1.15);
+    box-shadow: 0 15px 50px rgba(236, 25, 101, 0.5);
+    border-color: rgba(255, 61, 130, 0.8);
+}
+
+.ahy-techstrip-feature h2 {
+    font-size: 1.8rem;
+    font-family: var(--ahy-body-font-tomorrow);
+    font-weight: var(--ahy-weight-bold);
+    color: var(--text-white);
+    margin-bottom: 1.5rem;
+    background: linear-gradient(90deg, #ffffff 0%, #ffe5ef 50%, #ffffff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.ahy-techstrip-feature p {
+    font-size: 1.1rem;
+    font-family: var(--ahy-body-font-grandstander);
+    font-weight: var(--ahy-weight-regular);
+    color: var(--text-white);
+    line-height: 1.6;
+}
+/* Add this only, keep all your existing styles as-is */
+
+/* Add smooth transform to text */
+.ahy-techstrip-feature h3,
+.ahy-techstrip-feature p {
+    transition: transform 0.3s ease; /* keep original colors intact */
+}
+
+/* Zoom text on hover */
+.ahy-techstrip-feature:hover h3,
+.ahy-techstrip-feature:hover p {
+    transform: scale(1.1);
+}
+
+.ahy-techstrip-carousel-heading {
+    font-family: var(--ahy-heading-font-tomorrow);
+    font-size: 3rem;
+    font-weight: var(--ahy-weight-bold);
+    margin-bottom: 5rem;
+    text-align: center;
+    color: var(--text-white);
+    text-transform: capitalize;
+    color: var(--primary-color);
+
+    /* text-shadow: 2px 2px 2px var( --primary-theme-color); */
+
+    /* You can change color to match your theme */
+}
+
+/* Responsive */
+@media (max-width: 1440px) {
+    .ahy-techstrip-section3 {
+        padding: 5rem 1rem;
+    }}
+ 
+@media (max-width: 1440px) {
+    .ahy-techstrip-section3 {
+        padding: 5rem 1rem;
+    }}
+
+@media (max-width: 768px) {
+    .ahy-techstrip-section3 {
+        padding: 6rem 1rem;
+
+    }
+
+    .ahy-techstrip-title {
+        font-size: 2rem;
+        letter-spacing: -1px;
+    }
+
+    .ahy-techstrip-title::after {
+        width: 60px;
+        height: 3px;
+    }
+
+    .ahy-techstrip-subtitle {
+        font-size: 1.2rem;
+        margin-bottom: 2.5rem;
+        letter-spacing: 2px;
+    }
+
+    .ahy-techstrip-subtitle::before,
+    .ahy-techstrip-subtitle::after {
+        display: none;
+    }
+
+    .ahy-techstrip-text {
+        font-size: 1.1rem;
+    }
+
+    .ahy-techstrip-features {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        margin-top: 2.5rem;
+    }
+
+    .ahy-techstrip-feature {
+        padding: 2.5rem 2rem;
+    }
+
+    .ahy-techstrip-feature h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .ahy-techstrip-feature p {
+        font-size: 1rem;
+    }
+
+    .ahy-techstrip-carousel-heading {
+        font-size: 2rem;
+        margin-bottom: 5.5rem;
+        margin-top: 0rem;
+    }
+}
+
+@media (max-width: 425px) {
+    .ahy-techstrip-section {
+        padding: 6rem 1rem;
+    }
+
+    .ahy-techstrip-carousel-track {
+        --left: -100rem;
+        height: 25rem;
+    }
+
+    .ahy-techstrip-carousel-heading {
+        font-size: 1.8rem;
+    }
+
+    .ahy-techstrip-title {
+        font-size: 1.8rem;
+    }
+
+    .ahy-techstrip-carousel-item img {
+        width: 70%;
+        height: 70%;
+        object-fit: cover;
+    }
+}

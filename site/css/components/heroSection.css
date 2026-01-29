@@ -731,3 +731,42 @@ body.loading {
 .line-split-section {
     contain: layout style paint;
 }
+
+
+
+
+/* 1. Prevent iOS Layout Jitter */
+.line-split-section {
+    opacity: 0; /* JS will fade this in */
+    will-change: opacity;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* 2. Force Hardware Acceleration on Animating Elements */
+.service-hero-title, 
+.line-split-text-hero, 
+.letter, 
+.parallax-pill {
+    transform: translateZ(0); 
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    will-change: transform, opacity;
+}
+
+/* 3. Ensure text is visible if JS fails or on Mobile */
+@media (max-width: 1024px) {
+    .service-hero-title .letter {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+    
+    .hero-big-text-wrapper {
+        padding-bottom: 1rem;
+    }
+}
+
+/* 4. Improve Loader Stability */
+#hero-loader {
+    background: #00000000; /* Match your site background */
+    /* z-index: 9999; */
+}

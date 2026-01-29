@@ -231,6 +231,12 @@
             email: form.email.value.trim(),
             company: form.company.value.trim(),
             message: form.message.value.trim(),
+            consent: {
+                status: form.consent.checked ? "Granted" : "Not Granted",
+                text: "User consented to be contacted via email, WhatsApp, or phone",
+                timestamp: new Date().toISOString(),
+                source: "Contact Form",
+            },
             recaptcha: recaptchaToken,
         };
         try {
