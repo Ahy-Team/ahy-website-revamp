@@ -1,74 +1,28 @@
 !(function () {
     function e() {
-        const MOBILE_VIDEO_SRC = "/assets/ahy_showreel_mobile.mp4";
-        const DESKTOP_VIDEO_SRC = "/assets/ahy_showreel_desktop.mp4";
+        // Videos are static in HTML; just attempt to play the visible one and pause the other
+        function playVisibleHeroVideo() {
+            try {
+                const mobileVideo = document.querySelector('.video-container-mobile video');
+                const desktopVideo = document.querySelector('.video-container-desktop video');
+                const isDesktop = window.innerWidth >= 900;
 
-        const ensureHeroVideoForCurrentBreakpoint = () => {
-            const isDesktop = window.innerWidth >= 900;
-            const mobileWrapper = document.querySelector(".video-container-mobile .video-wrapper");
-            const desktopWrapper = document.querySelector(".video-container-desktop .video-wrapper");
+                const toPlay = isDesktop ? desktopVideo : mobileVideo;
+                const toPause = isDesktop ? mobileVideo : desktopVideo;
 
-            if (!mobileWrapper || !desktopWrapper) return;
-
-            const targetWrapper = isDesktop ? desktopWrapper : mobileWrapper;
-            const otherWrapper = isDesktop ? mobileWrapper : desktopWrapper;
-
-            const cleanupWrapper = (wrapper) => {
-                if (!wrapper) return;
-                const existingVideo = wrapper.querySelector("video");
-                if (existingVideo && existingVideo.parentNode) {
-                    existingVideo.parentNode.removeChild(existingVideo);
+                if (toPause && !toPause.paused) {
+                    try { toPause.pause(); } catch (e) {}
                 }
-            };
 
-            // Remove any video from the non-active wrapper
-            cleanupWrapper(otherWrapper);
-
-            let video = targetWrapper.querySelector("video");
-            const expectedSrc = isDesktop ? DESKTOP_VIDEO_SRC : MOBILE_VIDEO_SRC;
-
-            if (!video) {
-                video = document.createElement("video");
-                video.className = isDesktop ? "desktop-video" : "mobile-video";
-                video.muted = true;
-                video.loop = true;
-                video.playsInline = true;
-                video.preload = "none";
-
-                // Add error handling to prevent console errors
-                video.addEventListener("error", (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    // Optionally hide the video container on error
-                    if (targetWrapper) {
-                        targetWrapper.style.backgroundColor = "#1a1a1a";
-                    }
-                }, true);
-
-                const track = document.createElement("track");
-                track.kind = "captions";
-                track.srclang = "en";
-                track.label = "English";
-                video.appendChild(track);
-
-                targetWrapper.appendChild(video);
-                
-                // Set src after appending to DOM and adding error handler
-                video.src = expectedSrc;
-            } else {
-                if (!video.src || !video.src.includes(expectedSrc)) {
-                    video.src = expectedSrc;
+                if (toPlay) {
+                    const p = toPlay.play && toPlay.play();
+                    if (p && typeof p.catch === 'function') p.catch(() => {});
                 }
-            }
-
-            // Only attempt to play if video has a valid source and can play
-            if (video.src && video.readyState >= 0) {
-                const playPromise = video.play && video.play();
-                if (playPromise && typeof playPromise.catch === "function") {
-                    playPromise.catch(() => {});
-                }
+            } catch (err) {
+                // Silent fallback: do nothing if videos are unavailable
             }
         };
+
 
         const messages = [
             "From pixels to performance, we design results.",
@@ -123,10 +77,12 @@
                 });
             }
         })();
-        // Render the appropriate hero video for the current breakpoint
-        ensureHeroVideoForCurrentBreakpoint();
-        window.addEventListener("resize", () => {
-            ensureHeroVideoForCurrentBreakpoint();
+        // Attempt to play the appropriate (static) hero video for the current breakpoint
+        playVisibleHeroVideo();
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(playVisibleHeroVideo, 150);
         });
 
         if (window.innerWidth >= 900) {

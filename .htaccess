@@ -1,0 +1,8 @@
+# --------------------------------------
+# 1) Custom 404 fallback
+# Only trigger if no file & no directory
+# --------------------------------------
+RewriteCond %{REQUEST_URI} !^/404$ [NC]       # avoid loop
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^.*$ /404 [L]

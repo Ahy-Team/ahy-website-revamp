@@ -282,17 +282,27 @@
         section h1 {
             font-size: clamp(1.8rem, 3vw, 2.6rem);
         }
+
+        .blob-img {
+            width: 100%;
+            height: 100%;
+        }
     </style>
 </head>
 
 <body data-page="hyva">
     <div class="gradient-blobs">
         <video class="blobs-video" src="/assets/video/background-video.mp4" autoplay muted loop playsinline></video>
-        <div class="blob blob-1"></div>
+        <!-- <div class="blob blob-1"></div>
         <div class="blob blob-2"></div>
         <div class="blob blob-3"></div>
         <div class="blob blob-4"></div>
-        <div class="blob blob-5"></div>
+        <div class="blob blob-5"></div> -->
+        <picture>
+            <source srcset="/assets/blobs-desktop.webp" media="(min-width: 768px)">
+            <source srcset="/assets/blobs-mobile.webp" media="(max-width: 767px)">
+            <img class="blob-img" src="/assets/blobs-desktop.webp" alt="blobs image">
+        </picture>
     </div>
     <!-- ScrollSmoother wrapper structure -->
     <div id="smooth-wrapper">
