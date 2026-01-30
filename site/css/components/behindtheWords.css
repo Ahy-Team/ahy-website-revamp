@@ -131,6 +131,9 @@
     .BTwords-pin-text {
         z-index: 10;
         opacity: 0.75;
+        padding: 0px;
+        font-size: 30px;
+        line-height: 1.4;
     }
 
     .BTwords-image:nth-child(3),

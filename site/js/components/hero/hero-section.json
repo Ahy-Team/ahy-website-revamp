@@ -1,31 +1,31 @@
 {
     "hyva": {
         "title": "Hyvä Themes",
-        "subtitle": "Experts in building fast, modern, and scalable Magento 2 storefronts using the Hyvä theme for high-performance e-commerce experiences."
+        "subtitle": "We build Magento storefronts with a strong focus on performance, structure, and long-term maintainability. Using Hyvä as a foundation, we remove unnecessary complexity and design frontends that are fast, predictable, and easy to evolve as business and customer expectations grow."
     },
     "react": {
         "title": "React Js",
-        "subtitle": "Experts in building fast, modern, and scalable web apps using ReactJS for high-performance user experiences."
+        "subtitle": "We use React to build structured, high-performance web applications designed for clarity and scale. Our approach emphasizes clean architecture, reusable patterns, and interfaces that remain stable and adaptable as products mature and requirements become more complex."
     },
     "reactnative": {
         "title": "React <br> Native",
-        "subtitle": "Experts in building high-performance, scalable, and visually polished mobile applications using React Native for seamless cross-platform experiences."
+        "subtitle": "We develop cross-platform mobile applications with a focus on performance, consistency, and long-term usability. By prioritizing shared logic and disciplined architecture, we create mobile systems that scale smoothly without sacrificing user experience or reliability."
     },
     "shopify": {
         "title": "Shopify",
-        "subtitle": "Specialists in creating fast, modern, and scalable Shopify stores for high-performing e-commerce experiences."
+        "subtitle": "We design Shopify experiences that balance speed, flexibility, and operational clarity. Our work focuses on building commerce systems that are easy to manage, optimized for conversion, and structured to support growth without introducing technical friction."
     },
     "researchLab": {
-         "title": "How We Think",
-        "subtitle": "We think beyond what works today to build systems that hold up tomorrow."
+        "title": "How We Think",
+        "subtitle": "We think beyond features and trends to understand the systems underneath. By focusing on constraints, trade-offs, and long-term impact, we design solutions that remain adaptable, resilient, and aligned with evolving business realities."
     },
     "career": {
         "title": "Career",
-        "subtitle": "Work with people who think ahead and build what matters."
+        "subtitle": "We work with people who value clarity, ownership, and thoughtful problem-solving. Our environment is built around learning, accountability, and creating systems that have real-world impact beyond short-term delivery."
     },
     "services": {
         "title": "What We Do",
-         "subtitle": "We design and engineer intelligent digital systems that combine AI, data, and software to reduce complexity, enable change, and turn strategy into execution."
+        "subtitle": "We design and engineer digital systems that align technology with business intent. By combining strategy, data, and software, we help organizations reduce complexity, make better decisions, and execute change with confidence."
     },
     "team": {
         "title": "Our Team",
@@ -33,14 +33,14 @@
     },
     "about": {
         "title": "Who We Are",
-        "subtitle": "We help businesses improve how they operate, decide and scale. By aligning strategy, experience and intelligent systems, we design digital platforms that reduce complexity, enable better decisions and support long-term growth."
+        "subtitle": "We help businesses improve how they operate, decide, and scale. By aligning strategy, experience, and intelligent systems, we design digital platforms that reduce complexity, enable better decisions, and support sustainable long-term growth."
     },
     "contact": {
         "title": "Contact Us",
-        "subtitle": "We work with organizations facing important digital decisions. If you're planning what comes next, rethinking how your systems support the business, or navigating complexity at scale, let's start a conversation."
+        "subtitle": "We work with organizations facing important digital decisions. Whether planning what comes next, rethinking system foundations, or navigating complexity at scale, we help turn uncertainty into clear, actionable direction."
     },
-     "partners": {
+    "partners": {
         "title": "Partners",
-        "subtitle": "A network of leading partners providing scalable solutions. Innovating across industries. Delivering measurable results."
+        "subtitle": "We collaborate with a global network of trusted technology and solution partners. Together, we deliver enterprise-grade systems that combine proven platforms, deep expertise, and outcomes that create measurable business value."
     }
 }

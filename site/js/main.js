@@ -94,27 +94,17 @@ function initIntroPinWithAboutUs() {
     if (!aboutUs) return;
 
     const isMobileView = cachedViewportWidth <= 900;
-
     if (isMobileView) {
-        // On mobile: ensure aboutUs is visible and positioned correctly
         gsap.set(aboutUs, { opacity: 1 });
-
-        // Ensure intro is completely hidden on mobile
-        if (intro) {
-            intro.style.display = "none";
-        }
-
-        // Single refresh after all changes
+        if (intro) intro.style.display = "none";
         requestAnimationFrame(() => ScrollTrigger.refresh());
         return;
     }
 
-    // Desktop only: intro pinning
     if (!intro) return;
 
-    // CRITICAL iOS FIX: Use scroller: window on iOS instead of the smooth-wrapper
-    // This tells ScrollTrigger to use native scroll instead of transformed container
-    const useNativeScroll = isIOS;
+    // ✅ SINGLE SOURCE OF TRUTH
+    const scroller = isIOS ? window : "#smooth-wrapper";
 
     ScrollTrigger.create({
         trigger: intro,
@@ -124,8 +114,7 @@ function initIntroPinWithAboutUs() {
         pin: true,
         pinSpacing: false,
         scrub: true,
-        scroller: useNativeScroll ? window : "#smooth-wrapper", // KEY FIX for iOS
-        pinnedContainer: useNativeScroll ? null : "#smooth-content",
+        scroller,
     });
 
     gsap.to(intro, {
@@ -135,9 +124,8 @@ function initIntroPinWithAboutUs() {
             start: "top bottom",
             end: "top top",
             scrub: true,
-            scroller: useNativeScroll ? window : "#smooth-wrapper", // KEY FIX for iOS
-            pinnedContainer: useNativeScroll ? null : "#smooth-content",
-            onUpdate: (self) => {
+            scroller,
+            onUpdate(self) {
                 intro.style.opacity = 1 - self.progress;
                 intro.style.pointerEvents = self.progress > 0.1 ? "none" : "";
             },
@@ -154,14 +142,14 @@ function initIntroPinWithAboutUs() {
                 start: "top bottom",
                 end: "top top",
                 scrub: true,
-                scroller: useNativeScroll ? window : "#smooth-wrapper", // KEY FIX for iOS
-                pinnedContainer: useNativeScroll ? null : "#smooth-content",
+                scroller,
             },
         },
     );
 
     requestAnimationFrame(() => ScrollTrigger.refresh());
 }
+
 
 window.addEventListener(
     "beforeunload",
