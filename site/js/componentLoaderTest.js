@@ -162,7 +162,7 @@ class ComponentLoader {
 
     async loadAll() {
         // Load LCP-critical components in parallel for fastest FCP/LCP
-        const lcpCritical = ['hero', 'header'];
+        const lcpCritical = ['hero', 'header', 'rotatingBadge'];
         
         // Load LCP components in parallel (faster than sequential)
         await Promise.all(lcpCritical.map(name => this.loadComponent(name)));
