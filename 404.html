@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=10.0, user-scalable=yes" />
+        <title>404 Page Not Found | Ahy Consulting</title>
+        <meta name="description" content="Oops! The page you are looking for does not exist. Return to the homepage to explore Ahy Consulting’s services in eCommerce, web, and mobile development." />
+        <script>
+            window.ASSET_VERSION = Date.now();
+        </script>
+
+        <link rel="stylesheet" href="css/main.css?v=dev" />
+        <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrambleTextPlugin.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/DrawSVGPlugin.min.js"></script>
+        <link rel="shortcut icon" href="/assets/ahy-logo.webp" type="image/webp" />
+
+        <style>
+            .error-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                height: 100vh;
+                text-align: center;
+                gap: 3rem;
+            }
+            .margin-top-btn {
+                margin-top: 1rem;
+            }
+            .error-code {
+                font-size: 8rem;
+                color: #ec1865; /* 404 color */
+                margin: 0;
+            }
+
+            .error-message {
+                font-size: 1.5rem;
+                color: #333;
+                font-family: var(--ahy-body-font-grandstander);
+                font-weight: var(--ahy-weight-semibold);
+            }
+
+            .home-link {
+                display: inline-block;
+                margin-top: 20px;
+                padding: 10px 20px;
+                text-decoration: none;
+                background-color: #ec1865;
+                color: white;
+                border-radius: 5px;
+                transition: background-color 0.3s;
+                font-family: var(--ahy-body-font-grandstander);
+                font-weight: var(--ahy-weight-semibold);
+                cursor: pointer;
+            }
+
+            .home-link:hover {
+                background-color: #b01550;
+            }
+
+            /* ---------------------------------------------------- */
+            /* --- NEW & FIXED BUTTON CSS (SLOT ANIMATION) --- */
+            /* ---------------------------------------------------- */
+
+            .prefooter-center-btn {
+                --btn-bg: #ec1865;
+                --btn-text: #ffffff;
+                --btn-padding: 1.5rem 3rem;
+                --btn-radius: 50px;
+
+                position: relative;
+                display: inline-flex;
+                justify-content: center;
+                align-items: center;
+
+                background: var(--btn-bg);
+                color: var(--btn-text);
+                padding: var(--btn-padding);
+                border-radius: var(--btn-radius);
+
+                font-family: var(--ahy-body-font-grandstander);
+                font-size: clamp(1rem, 4vw, 1.8rem);
+                font-weight: 800;
+                letter-spacing: 0.5px;
+                text-decoration: none;
+                line-height: 1;
+
+                cursor: pointer;
+                overflow: hidden; /* Essential for masking the slot text */
+                box-shadow: 0 2px 8px -1px rgba(39, 94, 254, 0.32);
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+                /* Ensure minimum width to prevent jitter if text sizes vary drastically */
+                min-width: 250px;
+            }
+
+            .prefooter-center-btn:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 10px 20px -2px rgba(39, 94, 254, 0.5);
+            }
+
+            /* This wrapper uses Grid to stack the two text states exactly on top of each other */
+            .btn-text-wrapper {
+                display: grid;
+                place-items: center;
+                position: relative;
+                overflow: hidden;
+                height: 1.5em; /* Define height based on font size */
+            }
+
+            .text-default,
+            .text-hover {
+                grid-area: 1 / 1; /* Both occupy the same space */
+                display: flex; /* Flex for char spans */
+                white-space: nowrap;
+                will-change: transform;
+            }
+
+            /* Individual character styles */
+            .char {
+                display: inline-block;
+                transform-style: preserve-3d;
+                backface-visibility: hidden;
+            }
+
+            /* Hover text starts hidden below */
+            .text-hover .char {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+
+            /* Default text starts visible */
+            .text-default .char {
+                transform: translateY(0%);
+                opacity: 1;
+            }
+
+            /* --- RESPONSIVE QUERIES --- */
+            @media (max-width: 768px) {
+                .prefooter-heading-style-h2 {
+                    font-size: clamp(1.25rem, 6vw, 2.5rem);
+                }
+                .prefooter-center-btn {
+                    padding: 1.2rem 2.5rem;
+                    min-width: 200px;
+                }
+            }
+
+            @media (max-width: 425px) {
+                .prefooter-center-btn {
+                    padding: 1rem 2rem;
+                    min-width: auto;
+                    width: 90%;
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <!-- <div data-component="preloader"></div> -->
+        <!-- ScrollSmoother wrapper structure -->
+        <div class="gradient-blobs">
+            <video class="blobs-video" src="/assets/video/background-video.mp4" autoplay muted loop playsinline></video>
+            <div class="blob blob-1"></div>
+            <div class="blob blob-2"></div>
+            <div class="blob blob-3"></div>
+            <div class="blob blob-4"></div>
+            <div class="blob blob-5"></div>
+        </div>
+        <div id="smooth-wrapper">
+            <!-- <div data-component="scrollRotate"></div> -->
+
+            <div data-component="header"></div>
+            <div id="smooth-content">
+                <main>
+                    <div class="error-container">
+                        <h1 class="error-code">404</h1>
+                        <p class="error-message">Oops! The page you are looking for does not exist.</p>
+                        <!-- <a class="home-link" href="/">Go Back Home</a> -->
+                        <!-- UPDATED BUTTON STRUCTURE -->
+                        <a class="prefooter-center-btn margin-top-btn" href="/" data-default="Go Back Home" data-hover="Go Back Home">
+                            <!-- Wrapper for Grid Stacking -->
+                            <div class="btn-text-wrapper">
+                                <!-- Text inserted via JS -->
+                            </div>
+                        </a>
+                    </div>
+                </main>
+                <div data-component="footer"></div>
+            </div>
+        </div>
+
+        <script>
+            (function () {
+                // --- 1. SETUP BUTTON TEXT & ANIMATION ---
+                function initButtonAnimation() {
+                    const buttons = document.querySelectorAll(".prefooter-center-btn");
+
+                    buttons.forEach((button) => {
+                        const defaultText = button.getAttribute("data-default");
+                        const hoverText = button.getAttribute("data-hover");
+                        const wrapper = button.querySelector(".btn-text-wrapper");
+
+                        // Helper to wrap letters in spans
+                        function splitToSpans(text) {
+                            return text
+                                .split("")
+                                .map((char) => `<span class="char">${char === " " ? "&nbsp;" : char}</span>`)
+                                .join("");
+                        }
+
+                        // Inject HTML with Grid structure
+                        wrapper.innerHTML = `
+                <div class="text-default">${splitToSpans(defaultText)}</div>
+                <div class="text-hover">${splitToSpans(hoverText)}</div>
+            `;
+
+                        // Select chars
+                        const defaultChars = wrapper.querySelectorAll(".text-default .char");
+                        const hoverChars = wrapper.querySelectorAll(".text-hover .char");
+
+                        // Hover Events
+                        button.addEventListener("mouseenter", () => {
+                            // Animate OLD text UP and fade out
+                            gsap.to(defaultChars, {
+                                y: "-100%",
+                                opacity: 0,
+                                stagger: 0.02,
+                                duration: 0.4,
+                                ease: "power2.inOut",
+                            });
+
+                            // Animate NEW text UP from bottom
+                            gsap.to(hoverChars, {
+                                y: "0%",
+                                opacity: 1,
+                                stagger: 0.02,
+                                duration: 0.4,
+                                ease: "power2.inOut",
+                            });
+                        });
+
+                        button.addEventListener("mouseleave", () => {
+                            // Reverse: New text goes back DOWN
+                            gsap.to(hoverChars, {
+                                y: "100%",
+                                opacity: 0,
+                                stagger: 0.02,
+                                duration: 0.4,
+                                ease: "power2.inOut",
+                            });
+
+                            // Reverse: Old text comes back DOWN
+                            gsap.to(defaultChars, {
+                                y: "0%",
+                                opacity: 1,
+                                stagger: 0.02,
+                                duration: 0.4,
+                                ease: "power2.inOut",
+                            });
+                        });
+                    });
+                }
+
+                // --- INITIALIZATION ---
+                if (document.readyState === "loading") {
+                    document.addEventListener("DOMContentLoaded", () => {
+                        initButtonAnimation();
+                        // initAirplaneAnimation();
+                        // initHeader();
+                    });
+                } else {
+                    initButtonAnimation();
+                    // initAirplaneAnimation();
+                    // initHeader();
+                }
+            })();
+        </script>
+
+        <!-- GSAP Scripts -->
+        <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollSmoother.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/Flip.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/MotionPathPlugin.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/matter-js@0.20.0/build/matter.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/circletype@2.3.0/dist/circletype.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollToPlugin.min.js"></script>
+        <script src="js/componentLoader.js?v=dev"></script>
+        <script src="js/main.js"></script>
+        <!-- <script src="js/gsap-smooth-scroll.js?v=dev"></script> -->
+    </body>
+</html>
