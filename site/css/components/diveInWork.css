@@ -1,6 +1,6 @@
 .ditork-section {
     text-align: center;
-    padding: 0px 20px 4rem 20px;
+    padding: 2rem 20px 4rem 20px;
     /* background: #f7f7f7; */
 }
 
@@ -35,7 +35,7 @@
     --btn-text: #ffffff;
     --btn-padding: 1.4rem 2.2rem;
     /* set vertical padding to 1.4rem */
-    --btn-radius: 24px;
+    --btn-radius: 42px;
     /* decreased border radius */
 
     position: relative;

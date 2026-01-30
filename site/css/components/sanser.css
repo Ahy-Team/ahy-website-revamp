@@ -51,6 +51,7 @@
     align-items: center;
     perspective: 1500px;
     transform-style: preserve-3d;
+    margin-top: 4rem;
 }
 
 .sanser-background {
@@ -241,7 +242,7 @@
 
     .services-we-offer-heading {
         font-size: 2rem;
-        padding-top: 3rem;
+        padding-top: 2rem;
     }
 }
 
@@ -301,7 +302,7 @@
         width: min(90vw, 470px);
     }
     .sanser-section2{
-        gap: 2rem;
+        gap: 1rem;
     }
     .sanser-card-face{
         padding-top: 0px;

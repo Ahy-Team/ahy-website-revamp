@@ -233,7 +233,9 @@
             message: form.message.value.trim(),
             consent: {
                 status: form.consent.checked ? "Granted" : "Not Granted",
-                text: "User consented to be contacted via email, WhatsApp, or phone",
+                text: form.consent.checked
+                    ? "Consent granted to be contacted via email, WhatsApp, or phone"
+                    : "Consent not granted to be contacted via email, WhatsApp, or phone",
                 timestamp: new Date().toISOString(),
                 source: "Contact Form",
             },
@@ -251,11 +253,23 @@
             }
             if (response.ok) {
                 showToast("Message sent successfully!", "success");
+
+                // Store current consent state before reset
+                const consentState = form.consent.checked;
+
                 form.reset();
+
+                // Restore consent checkbox to last submitted value
+                if (form.consent) {
+                    form.consent.checked = consentState;
+                }
+
                 if (widgetId !== null) {
                     grecaptcha.reset(widgetId);
                 }
-            } else {
+            }
+
+            else {
                 showToast(result?.error || "Failed to send message.", "error");
             }
         } catch (err) {
