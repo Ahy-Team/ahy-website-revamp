@@ -287,6 +287,12 @@
             width: 100%;
             height: 100%;
         }
+        @media (min-width: 768px) {
+            .blob-img {
+                height: auto;
+                width: 100%;
+            }
+        }
     </style>
 </head>
 
@@ -299,9 +305,11 @@
         <div class="blob blob-4"></div>
         <div class="blob blob-5"></div> -->
         <picture>
-            <source srcset="/assets/blobs-desktop.webp" media="(min-width: 768px)">
-            <source srcset="/assets/blobs-mobile.webp" media="(max-width: 767px)">
-            <img class="blob-img" src="/assets/blobs-desktop.webp" alt="blobs image">
+            <source srcset="/assets/blobs-desktop.webp" media="(min-width: 768px)" />
+            <source
+                srcset="/assets/blobs-mobile.webp 1x, /assets/blobs-mobile@1.5x.webp 1.5x, /assets/blobs-mobile@2x.webp 2x"
+                media="(max-width: 767px)" />
+            <img class="blob-img" src="/assets/blobs-desktop.webp" alt="blobs image" width="100%" height="100%" />
         </picture>
     </div>
     <!-- ScrollSmoother wrapper structure -->
