@@ -171,3 +171,9 @@
         display: block;
     }
 }
+
+.footer-content .code,
+.create,
+.conquer {
+    text-shadow: 6.2px 5.2px 0 #000000ac;
+}

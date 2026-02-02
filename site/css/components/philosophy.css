@@ -437,3 +437,7 @@
 .philosophy-col__content .philosophy-col__content--2 {
   gap: 0px;
 }
+.philosophy-intro__title {
+  color: rgb(255, 255, 255) !important;
+  text-shadow: 6.2px 5.2px 0 #ec1966dc;
+}
