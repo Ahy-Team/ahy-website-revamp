@@ -1,7 +1,7 @@
 class ComponentLoader {
     constructor() {
-        this.componentsPath = './components/';
-        this.cssPath = './css/components/';
+        this.componentsPath = '/components/';
+        this.cssPath = '/css/components/';
         this.jsPath = './js/components/';
         this.loadedComponents = new Set();
         this.loadingQueue = [];
@@ -33,7 +33,7 @@ class ComponentLoader {
 
         try {
             // Load HTML
-            const htmlResponse = await fetch(`${this.componentsPath}${name}.html`);
+            const htmlResponse = await fetch(`${this.componentsPath}${name}`);
             const html = await htmlResponse.text();
 
             // Yield before DOM manipulation
