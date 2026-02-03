@@ -1,4 +1,4 @@
-const CACHE_NAME = "ahy-cache-v2"; // ✅ Bump version to force cache refresh
+const CACHE_NAME = "ahy-cache-v3"; // ✅ Bump version to force cache refresh
 const PRECACHE_URLS = [
     "/",
     "/index.html",

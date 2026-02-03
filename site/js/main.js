@@ -86,7 +86,16 @@ function initScrollSmoother() {
     return smoother;
 }
 
+let introTweens = [];
+let introTriggers = [];
+
 function initIntroPinWithAboutUs() {
+    // Cleanup previous instances
+    introTweens.forEach(t => t.kill());
+    introTweens = [];
+    introTriggers.forEach(t => t.kill());
+    introTriggers = [];
+
     if (!window.gsap || !window.ScrollTrigger) return;
 
     const intro = document.querySelector(".intro");
@@ -106,7 +115,7 @@ function initIntroPinWithAboutUs() {
     // ✅ SINGLE SOURCE OF TRUTH
     const scroller = isIOS ? window : "#smooth-wrapper";
 
-    ScrollTrigger.create({
+    const pinT = ScrollTrigger.create({
         trigger: intro,
         start: "top top",
         endTrigger: aboutUs,
@@ -116,8 +125,9 @@ function initIntroPinWithAboutUs() {
         scrub: true,
         scroller,
     });
+    introTriggers.push(pinT);
 
-    gsap.to(intro, {
+    const t1 = gsap.to(intro, {
         opacity: 1,
         scrollTrigger: {
             trigger: aboutUs,
@@ -131,8 +141,9 @@ function initIntroPinWithAboutUs() {
             },
         },
     });
+    introTweens.push(t1);
 
-    gsap.fromTo(
+    const t2 = gsap.fromTo(
         aboutUs,
         { opacity: 0 },
         {
@@ -146,10 +157,27 @@ function initIntroPinWithAboutUs() {
             },
         },
     );
+    introTweens.push(t2);
 
     requestAnimationFrame(() => ScrollTrigger.refresh());
 }
 
+window.addEventListener(
+    "pageshow",
+    async (event) => {
+        if (event.persisted) {
+            cachedViewportWidth = window.innerWidth;
+            try {
+                if (smoother) smoother.kill();
+            } catch (e) {}
+            
+            window.smoother = initScrollSmoother();
+            await yieldToMain();
+            initIntroPinWithAboutUs();
+            ScrollTrigger.refresh();
+        }
+    }
+);
 
 window.addEventListener(
     "beforeunload",
