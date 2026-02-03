@@ -1,10 +1,10 @@
-/* Menu Component CSS */
+/*UPDATED Menu Component CSS */
 
 /* Logo */
 .ahy-logo {
     width: 50px;
     height: 50px;
-    z-index: 10;
+    z-index: 9999;
     position: fixed;
     top: 2.2rem;
     left: 2rem;
@@ -16,6 +16,8 @@
     object-fit: contain;
     transition: transform 0.3s ease-in-out;
     cursor: pointer;
+    position: relative;
+    z-index: 9999;
 }
 
 .ahy-logo:hover img {
@@ -442,11 +444,33 @@
 }
 
 
-.menu-link a{
+.menu-link a {
     text-decoration: none !important;
     color: white !important;
 
 }
+
 .modern-menu-item:hover .menu-link a {
     color: var(--primary-theme-color) !important;
+}
+
+
+
+
+.menu-copy {
+    left: 30px;
+    /* static */
+    transform: translateX(0);
+    transition: transform 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+    will-change: transform;
+    top: 40%;
+}
+
+.menu-toggle.is-hover .menu-copy {
+    transform: translateX(-3px);
+}
+
+.menu-copy {
+    backface-visibility: hidden;
+    -webkit-font-smoothing: antialiased;
 }
