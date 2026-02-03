@@ -99,7 +99,7 @@
     font-size: clamp(6rem, 10vw, 12rem); /* Larger marquee text */
     font-weight: 700;
     margin-right: clamp(40px, 6vw, 120px); /* increased spacing between words */
-    color: rgba(255, 255, 255, 0.95);
+    color: rgb(255, 255, 255);
     letter-spacing: -0.02em;
 }
 
@@ -483,4 +483,14 @@
     .marquee-card-content{
         padding-top: 4rem;
     }
+}
+
+
+.marquee-track h1 {
+  color: #ffffff;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.65);
+}
+
+.marquee-overlay {
+  opacity: 0.3;
 }
