@@ -2,10 +2,7 @@
     <div class="contact-container">
         <!-- Left side content -->
         <div class="contact-info">
-            <h2 class="contact-title title" data-splitting>
-                Let’s <span class="word">Connect</span> and <br />Explore What We Can Build Together
-            </h2>
-
+            <h2 class="contact-title title" data-splitting>Let's <span class="word">Connect</span> and <br />Explore What We Can Build Together</h2>
 
             <div class="stats">
                 <div class="stat-card">
@@ -32,16 +29,13 @@
                 <div class="testimonial-text">
                     <h4>Harpreet Singh</h4>
                     <p class="company">Ahy Consulting</p>
-                    <p class="quote">As CEO, I believe every great partnership begins with a conversation. Whether you
-                        have a question, an idea, or a challenge we’re here to listen and help. Reach out, and let’s
-                        build something meaningful together.</p>
+                    <p class="quote">As CEO, I believe every great partnership begins with a conversation. Whether you have a question, an idea, or a challenge we're here to listen and help. Reach out, and let's build something meaningful together.</p>
                 </div>
             </div>
 
             <div class="book-call">
                 <p>Thinking of scheduling a meeting?</p>
-                <a class="btn-anim" href="https://calendly.com/ahyconsulting/" target="_blank"
-                    rel="noopener noreferrer"> Schedule Now </a>
+                <a class="btn-anim" href="https://calendly.com/ahyconsulting/" target="_blank" rel="noopener noreferrer"> Schedule Now </a>
             </div>
 
             <div class="contact-two-col">
@@ -56,53 +50,177 @@
             </div>
         </div>
 
-        <!-- Right side Typeform embed -->
+        <!-- Right side Step Form -->
         <div class="contact-form">
-            <form id="contactForm" onsubmit="event.preventDefault(); onSubmitClick();">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="first_name">First Name<span class="required">*</span></label>
-                        <input type="text" id="first_name" name="first_name" placeholder="Jane"
-                            autocomplete="given-name" pattern="[A-Za-z\s]+" title="Only letters are allowed" required />
+            <form id="contactForm" onsubmit="event.preventDefault()">
+                <!-- Progress Indicator -->
+                <div class="form-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
                     </div>
+                    <div class="progress-text"><span id="currentStep">1</span> of <span id="totalSteps">5</span></div>
+                </div>
 
-                    <div class="form-group">
-                        <label for="last_name">Last Name<span class="required">*</span></label>
-                        <input type="text" id="last_name" name="last_name" placeholder="Smith"
-                            autocomplete="family-name" pattern="[A-Za-z\s]+" title="Only letters are allowed"
-                            required />
+                <!-- Step 1: Name -->
+                <div class="form-step active" data-step="1">
+                    <div class="step-content">
+                        <label class="step-label">Is your name Ariel? Because I think we mermaid for each other.<span class="required">*</span></label>
+                        <p class="step-subtext">My name is Ahy, what's yours?</p>
+                        <input type="text" id="full_name" name="full_name" placeholder="Enter your name" autocomplete="name" pattern="[A-Za-z\s]+" title="Only letters are allowed" required />
+                    </div>
+                    <div class="step-navigation step-navigation-single">
+                        <button type="button" class="btn-next">OK</button>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="phone">Phone<span class="required">*</span></label>
-                    <input type="tel" id="phone" name="phone" placeholder="(201) 555-0123" autocomplete="tel"
-                        inputmode="numeric" pattern="\+?[0-9]{7,15}" title="Enter a valid phone number" required />
+                <!-- Step 2: Email -->
+                <div class="form-step" data-step="2">
+                    <div class="step-content">
+                        <label class="step-label">What's your email, <span id="nameDisplay" class="highlight-name">there</span>?<span class="required">*</span></label>
+                        <input type="email" id="email" name="email" placeholder="name@example.com" autocomplete="email" required />
+                    </div>
+                    <div class="step-navigation">
+                        <button type="button" class="btn-back">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M19 12H5M12 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+                        <button type="button" class="btn-next">OK</button>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="email">Email<span class="required">*</span></label>
-                    <input type="email" id="email" name="email" placeholder="name@example.com" autocomplete="email"
-                        required />
+                <!-- Step 3: What do you want help with? -->
+                <div class="form-step" data-step="3">
+                    <div class="step-content">
+                        <label class="step-label">What do you want help with?<span class="required">*</span></label>
+                        <div class="option-grid">
+                            <button type="button" class="option-btn" data-value="Website Development">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="2" y="3" width="20" height="14" rx="2" />
+                                    <line x1="8" y1="21" x2="16" y2="21" />
+                                    <line x1="12" y1="17" x2="12" y2="21" />
+                                </svg>
+                                Website Development
+                            </button>
+                            <button type="button" class="option-btn" data-value="E-commerce Solutions">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="9" cy="21" r="1" />
+                                    <circle cx="20" cy="21" r="1" />
+                                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                                </svg>
+                                E-commerce Solutions
+                            </button>
+                            <button type="button" class="option-btn" data-value="Mobile App Development">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="5" y="2" width="14" height="20" rx="2" />
+                                    <line x1="12" y1="18" x2="12.01" y2="18" />
+                                </svg>
+                                Mobile App Development
+                            </button>
+                            <button type="button" class="option-btn" data-value="AI Integration">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                                    <polyline points="7.5 4.21 12 6.81 16.5 4.21" />
+                                    <polyline points="7.5 19.79 7.5 14.6 3 12" />
+                                    <polyline points="21 12 16.5 14.6 16.5 19.79" />
+                                    <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                                    <line x1="12" y1="22.08" x2="12" y2="12" />
+                                </svg>
+                                AI Integration
+                            </button>
+                            <button type="button" class="option-btn" data-value="Digital Marketing">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M3 3v18h18" />
+                                    <path d="m19 9-5 5-4-4-3 3" />
+                                </svg>
+                                Digital Marketing
+                            </button>
+                            <button type="button" class="option-btn" data-value="Other">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <line x1="12" y1="16" x2="12" y2="12" />
+                                    <line x1="12" y1="8" x2="12.01" y2="8" />
+                                </svg>
+                                Other
+                            </button>
+                        </div>
+                        <input type="hidden" id="help_with" name="help_with" required />
+                    </div>
+                    <div class="step-navigation">
+                        <button type="button" class="btn-back">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M19 12H5M12 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+                        <button type="button" class="btn-next" disabled>OK</button>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="company">Company</label>
-                    <input type="text" id="company" name="company" placeholder="Company" autocomplete="organization"/>
+                <!-- Step 4: Budget -->
+                <div class="form-step" data-step="4">
+                    <div class="step-content">
+                        <label class="step-label">Do you have a budget in mind?<span class="required">*</span></label>
+                        <div class="yes-no-buttons">
+                            <button type="button" class="yn-btn" data-value="yes">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg>
+                                Yes
+                            </button>
+                            <button type="button" class="yn-btn" data-value="no">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="18" y1="6" x2="6" y2="18" />
+                                    <line x1="6" y1="6" x2="18" y2="18" />
+                                </svg>
+                                No
+                            </button>
+                        </div>
+                        <input type="hidden" id="has_budget" name="has_budget" />
+
+                        <!-- Budget Range (shown if Yes selected) -->
+                        <div class="budget-range-container" style="display: none; margin-top: 20px">
+                            <label class="step-label" style="font-size: 1rem; margin-bottom: 10px">Select your budget range:</label>
+                            <select id="budget_range" name="budget_range" class="budget-select">
+                                <option value="">Choose a range</option>
+                                <option value="$5,000 - $10,000">$5,000 - $10,000</option>
+                                <option value="$10,000 - $25,000">$10,000 - $25,000</option>
+                                <option value="$25,000 - $50,000">$25,000 - $50,000</option>
+                                <option value="$50,000 - $100,000">$50,000 - $100,000</option>
+                                <option value="$100,000+">$100,000+</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="step-navigation">
+                        <button type="button" class="btn-back">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M19 12H5M12 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+                        <button type="button" class="btn-next" disabled>OK</button>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="message">Message<span class="required">*</span></label>
-                    <textarea id="message" name="message" placeholder="Your Message" required></textarea>
+                <!-- Step 5: Ideas/Inspiration -->
+                <div class="form-step" data-step="5">
+                    <div class="step-content">
+                        <label class="step-label">Do you have any ideas or inspiration to share with us?</label>
+                        <textarea id="message" name="message" placeholder="Tell us about your project, share links, or describe your vision..." rows="6"></textarea>
+                        <div class="form-group consent" style="margin-top: 20px">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="consent" name="consent" checked />
+                                By submitting this form, you allow our team to contact you via emails, WhatsApp, or phone.
+                            </label>
+                        </div>
+                    </div>
+                    <div class="step-navigation">
+                        <button type="button" class="btn-back">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M19 12H5M12 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+                        <button type="submit" class="btn-submit">Submit</button>
+                    </div>
                 </div>
-                <div class="form-group consent">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="consent" name="consent" checked />
-                        By submitting this form, you allow our team to contact you via emails, WhatsApp, or phone.
-                    </label>
-                </div>
-
-                <button class="btn-anim" type="submit">Send Message</button>
             </form>
 
             <!-- Invisible reCAPTCHA container -->
