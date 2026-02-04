@@ -83,6 +83,15 @@ function initScrollSmoother() {
         { passive: true },
     );
 
+    // Auto-refresh when content height changes (images loading, etc.)
+    const content = document.querySelector("#smooth-content");
+    if (content) {
+        const ro = new ResizeObserver(debounce(() => {
+            smoother?.refresh();
+        }, 500));
+        ro.observe(content);
+    }
+
     return smoother;
 }
 
@@ -162,19 +171,19 @@ function initIntroPinWithAboutUs() {
     requestAnimationFrame(() => ScrollTrigger.refresh());
 }
 
+// Track if we've already handled bfcache restoration
+let bfcacheHandled = false;
+
 window.addEventListener(
     "pageshow",
-    async (event) => {
-        if (event.persisted) {
-            cachedViewportWidth = window.innerWidth;
-            try {
-                if (smoother) smoother.kill();
-            } catch (e) {}
-            
-            window.smoother = initScrollSmoother();
-            await yieldToMain();
-            initIntroPinWithAboutUs();
-            ScrollTrigger.refresh();
+    (event) => {
+        if (event.persisted && !bfcacheHandled) {
+            bfcacheHandled = true;
+            // When returning from bfcache (browser back/forward), 
+            // the safest approach is to do a clean reload.
+            // This ensures all ScrollTrigger and GSAP animations are properly reinitialized
+            // since component scripts have complex state that can't easily be reset.
+            window.location.reload();
         }
     }
 );
