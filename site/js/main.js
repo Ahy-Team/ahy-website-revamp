@@ -1,14 +1,16 @@
-// iOS-FIXED main.js - Keeps ScrollSmoother + Fixes iOS Pinning
+// OPTIMIZED main.js - iOS-FIXED + Reflow Optimized + Smart bfcache handling
 if (window.gsap && window.ScrollTrigger && window.ScrollSmoother) {
     gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 }
 
-// Detect iOS
+// Detect iOS and Mobile
 const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
 // State
 let smoother;
 let cachedViewportWidth = window.innerWidth;
+let bfcacheHandled = false;
 
 // Utility to break up long tasks
 const yieldToMain = () =>
@@ -50,6 +52,12 @@ document.addEventListener(
 function initScrollSmoother() {
     gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
+    // ✅ Configure ScrollTrigger to reduce reflows
+    ScrollTrigger.config({
+        autoRefreshEvents: "visibilitychange,DOMContentLoaded,load",
+        syncInterval: 250, // Reduce update frequency
+    });
+
     // iOS-optimized configuration
     smoother = ScrollSmoother.create({
         wrapper: "#smooth-wrapper",
@@ -74,20 +82,23 @@ function initScrollSmoother() {
         }
     }
 
+    // ✅ Debounced resize with RAF to prevent reflows
     window.addEventListener(
         "resize",
         debounce(() => {
-            cachedViewportWidth = window.innerWidth;
-            smoother?.refresh();
+            requestAnimationFrame(() => {
+                cachedViewportWidth = window.innerWidth;
+                smoother?.refresh();
+            });
         }, 250),
         { passive: true },
     );
 
-    // Auto-refresh when content height changes (images loading, etc.)
+    // ✅ Auto-refresh with ResizeObserver (more efficient)
     const content = document.querySelector("#smooth-content");
     if (content) {
         const ro = new ResizeObserver(debounce(() => {
-            smoother?.refresh();
+            requestAnimationFrame(() => smoother?.refresh());
         }, 500));
         ro.observe(content);
     }
@@ -124,38 +135,23 @@ function initIntroPinWithAboutUs() {
     // ✅ SINGLE SOURCE OF TRUTH
     const scroller = isIOS ? window : "#smooth-wrapper";
 
-    const pinT = ScrollTrigger.create({
-        trigger: intro,
-        start: "top top",
-        endTrigger: aboutUs,
-        end: "top top",
-        pin: true,
-        pinSpacing: false,
-        scrub: true,
-        scroller,
-    });
-    introTriggers.push(pinT);
-
-    const t1 = gsap.to(intro, {
-        opacity: 1,
-        scrollTrigger: {
-            trigger: aboutUs,
-            start: "top bottom",
+    // ✅ Batch all ScrollTrigger creation in single RAF to minimize reflows
+    requestAnimationFrame(() => {
+        const pinT = ScrollTrigger.create({
+            trigger: intro,
+            start: "top top",
+            endTrigger: aboutUs,
             end: "top top",
+            pin: true,
+            pinSpacing: false,
             scrub: true,
             scroller,
-            onUpdate(self) {
-                intro.style.opacity = 1 - self.progress;
-                intro.style.pointerEvents = self.progress > 0.1 ? "none" : "";
-            },
-        },
-    });
-    introTweens.push(t1);
+            invalidateOnRefresh: false, // ✅ Prevent unnecessary recalculations
+            fastScrollEnd: true, // ✅ Optimize for fast scrolling
+        });
+        introTriggers.push(pinT);
 
-    const t2 = gsap.fromTo(
-        aboutUs,
-        { opacity: 0 },
-        {
+        const t1 = gsap.to(intro, {
             opacity: 1,
             scrollTrigger: {
                 trigger: aboutUs,
@@ -163,27 +159,75 @@ function initIntroPinWithAboutUs() {
                 end: "top top",
                 scrub: true,
                 scroller,
+                invalidateOnRefresh: false,
+                fastScrollEnd: true,
+                // ✅ Use gsap.set instead of direct style manipulation to reduce reflows
+                onUpdate(self) {
+                    gsap.set(intro, {
+                        opacity: 1 - self.progress,
+                        pointerEvents: self.progress > 0.1 ? "none" : "auto"
+                    });
+                },
             },
-        },
-    );
-    introTweens.push(t2);
+        });
+        introTweens.push(t1);
 
-    requestAnimationFrame(() => ScrollTrigger.refresh());
+        const t2 = gsap.fromTo(
+            aboutUs,
+            { opacity: 0 },
+            {
+                opacity: 1,
+                scrollTrigger: {
+                    trigger: aboutUs,
+                    start: "top bottom",
+                    end: "top top",
+                    scrub: true,
+                    scroller,
+                    invalidateOnRefresh: false,
+                    fastScrollEnd: true,
+                },
+            },
+        );
+        introTweens.push(t2);
+
+        // ✅ Double RAF for refresh to ensure layout stability
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => ScrollTrigger.refresh());
+        });
+    });
 }
 
-// Track if we've already handled bfcache restoration
-let bfcacheHandled = false;
-
+// ✅ Smart bfcache handling: Mobile reload, Desktop reinitialize
 window.addEventListener(
     "pageshow",
-    (event) => {
+    async (event) => {
         if (event.persisted && !bfcacheHandled) {
             bfcacheHandled = true;
-            // When returning from bfcache (browser back/forward), 
-            // the safest approach is to do a clean reload.
-            // This ensures all ScrollTrigger and GSAP animations are properly reinitialized
-            // since component scripts have complex state that can't easily be reset.
-            window.location.reload();
+            
+            // ✅ Mobile: Force reload for clean state
+            if (isMobile) {
+                window.location.reload();
+                return;
+            }
+            
+            // ✅ Desktop: Reinitialize GSAP/ScrollTrigger
+            cachedViewportWidth = window.innerWidth;
+            
+            try {
+                if (smoother) smoother.kill();
+            } catch (e) {
+                console.error("Error killing smoother:", e);
+            }
+            
+            // Reinitialize with yields
+            window.smoother = initScrollSmoother();
+            await yieldToMain();
+            initIntroPinWithAboutUs();
+            
+            // ✅ Refresh in RAF to prevent reflows
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => ScrollTrigger.refresh());
+            });
         }
     }
 );
@@ -209,6 +253,7 @@ window.addEventListener("load", () => {
     });
 });
 
+// Service Worker registration
 if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
         navigator.serviceWorker
@@ -219,8 +264,8 @@ if ("serviceWorker" in navigator) {
                     const newSW = reg.installing;
                     newSW.addEventListener("statechange", () => {
                         if (newSW.state === "installed" && navigator.serviceWorker.controller) {
-                            // New update available — you can prompt user to refresh
-                            //   console.log('New content available; consider refreshing.');
+                            // New update available – you can prompt user to refresh
+                            // console.log('New content available; consider refreshing.');
                         }
                     });
                 });
@@ -230,3 +275,5 @@ if ("serviceWorker" in navigator) {
             });
     });
 }
+
+
