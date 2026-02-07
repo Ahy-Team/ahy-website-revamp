@@ -1,6 +1,30 @@
-// OPTIMIZED main.js - iOS-FIXED + Reflow Optimized + Smart bfcache handling
-if (window.gsap && window.ScrollTrigger && window.ScrollSmoother) {
-    gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
+// OPTIMIZED main.js - iOS-FIXED + Reflow Optimized + Smart bfcache handling + GSAP wait logic
+
+// Wait for GSAP to be available
+async function waitForGSAP(timeout = 10000) {
+    return new Promise((resolve) => {
+        const startTime = Date.now();
+        
+        const check = () => {
+            if (typeof gsap !== 'undefined' && 
+                typeof ScrollTrigger !== 'undefined' && 
+                typeof ScrollSmoother !== 'undefined') {
+                console.log('[Main] GSAP ready');
+                resolve(true);
+                return;
+            }
+            
+            if (Date.now() - startTime > timeout) {
+                console.error('[Main] GSAP timeout - not all plugins loaded');
+                resolve(false);
+                return;
+            }
+            
+            requestAnimationFrame(check);
+        };
+        
+        check();
+    });
 }
 
 // Detect iOS and Mobile
@@ -34,22 +58,44 @@ const debounce = (fn, delay) => {
 document.addEventListener(
     "componentsLoaded",
     async () => {
+        console.log('[Main] Components loaded event received');
+        
+        // Wait for GSAP to be fully loaded
+        const gsapReady = await waitForGSAP();
+        
+        if (!gsapReady) {
+            console.error('[Main] GSAP failed to load - skipping animations');
+            return;
+        }
+
         // Task 1: ScrollSmoother (critical)
         try {
             window.smoother = initScrollSmoother();
+            console.log('[Main] ScrollSmoother initialized');
         } catch (e) {
-            console.error("ScrollSmoother init failed:", e);
+            console.error('[Main] ScrollSmoother init failed:', e);
         }
 
         await yieldToMain();
 
         // Task 2: GSAP animations (can be deferred)
-        initIntroPinWithAboutUs();
+        try {
+            initIntroPinWithAboutUs();
+            console.log('[Main] Intro pin animations initialized');
+        } catch (e) {
+            console.error('[Main] Intro pin init failed:', e);
+        }
     },
     { once: true },
 );
 
 function initScrollSmoother() {
+    // Ensure GSAP plugins are available
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined' || typeof ScrollSmoother === 'undefined') {
+        console.error('[Main] GSAP not ready for ScrollSmoother');
+        return null;
+    }
+
     gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
     // ✅ Configure ScrollTrigger to reduce reflows
@@ -110,13 +156,17 @@ let introTweens = [];
 let introTriggers = [];
 
 function initIntroPinWithAboutUs() {
+    // Ensure GSAP is available
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+        console.error('[Main] GSAP not ready for intro pin');
+        return;
+    }
+
     // Cleanup previous instances
     introTweens.forEach(t => t.kill());
     introTweens = [];
     introTriggers.forEach(t => t.kill());
     introTriggers = [];
-
-    if (!window.gsap || !window.ScrollTrigger) return;
 
     const intro = document.querySelector(".intro");
     const aboutUs = document.querySelector(".about-scroll-container");
@@ -204,6 +254,8 @@ window.addEventListener(
         if (event.persisted && !bfcacheHandled) {
             bfcacheHandled = true;
             
+            console.log('[Main] Page restored from bfcache');
+            
             // ✅ Mobile: Force reload for clean state
             if (isMobile) {
                 window.location.reload();
@@ -213,10 +265,17 @@ window.addEventListener(
             // ✅ Desktop: Reinitialize GSAP/ScrollTrigger
             cachedViewportWidth = window.innerWidth;
             
+            // Wait for GSAP
+            const gsapReady = await waitForGSAP();
+            if (!gsapReady) {
+                console.error('[Main] GSAP not available after bfcache restore');
+                return;
+            }
+            
             try {
                 if (smoother) smoother.kill();
             } catch (e) {
-                console.error("Error killing smoother:", e);
+                console.error('[Main] Error killing smoother:', e);
             }
             
             // Reinitialize with yields
@@ -259,21 +318,19 @@ if ("serviceWorker" in navigator) {
         navigator.serviceWorker
             .register("/sw.js", { scope: "/" })
             .then((reg) => {
+                console.log('[Main] ServiceWorker registered');
                 // Optional: listen for updates
                 reg.addEventListener("updatefound", () => {
                     const newSW = reg.installing;
                     newSW.addEventListener("statechange", () => {
                         if (newSW.state === "installed" && navigator.serviceWorker.controller) {
-                            // New update available – you can prompt user to refresh
-                            // console.log('New content available; consider refreshing.');
+                            console.log('[Main] New content available');
                         }
                     });
                 });
             })
             .catch((err) => {
-                // console.error('ServiceWorker registration failed:', err);
+                console.error('[Main] ServiceWorker registration failed:', err);
             });
     });
 }
-
-
