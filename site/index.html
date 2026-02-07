@@ -3,8 +3,6 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=10.0, user-scalable=yes" />
-        <link rel="preload" href="/assets/ahy_showreel_mobile.mp4" as="video" />
-        <link rel="preload" href="/assets/ahy_showreel_desktop.mp4" as="video" />
         <title>Commerce & AI Systems Partner for Impact | Ahy Consulting</title>
         <meta name="description" content="Ahy Consulting partners with businesses to design resilient commerce and AI systems—focused on architecture, scale, and long-term outcomes." />
 
@@ -666,13 +664,13 @@
 
         <!-- GSAP (Local Single Source) -->
         <script defer src="/js/gsap.min.js?v=dev"></script>
-        <script defer src="/js/ScrollSmoother.min.js?v=dev"></script>
+        <!-- <script defer src="/js/ScrollSmoother.min.js?v=dev"></script>
         <script defer src="/js/ScrollTrigger.min.js?v=dev"></script>
         <script defer src="/js/MotionPath.min.js?v=dev"></script>
         <script defer src="/js/circletype.min.js?v=dev"></script>
         <script defer src="/js/SplitText.min.js?v=dev"></script>
         <script defer src="/js/ScrollToPlugin.min.js?v=dev"></script>
-        <script defer src="/js/ScrambleTextPlugin.min.js?v=dev"></script>
+        <script defer src="/js/ScrambleTextPlugin.min.js?v=dev"></script> -->
         <script defer src="/js/cookieConsent.js?v=dev"></script>
 
         <!-- Component Loader -->
@@ -698,6 +696,23 @@
                             console.log("ServiceWorker registration failed: ", err);
                         });
                 });
+            }
+        </script>
+        <script>
+            if ("Worker" in window) {
+                console.log("[Main] Initializing GSAP prefetch worker");
+
+                window.gsapPrefetchWorker = new Worker("/js/prefetch.worker.js");
+
+                window.gsapPrefetchWorker.postMessage({
+                    type: "PREFETCH_GSAP",
+                });
+
+                window.gsapPrefetchWorker.addEventListener("message", (e) => {
+                    console.log("[Main] Worker message:", e.data);
+                });
+            } else {
+                console.warn("[Main] Web Workers not supported");
             }
         </script>
     </body>
