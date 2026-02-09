@@ -687,10 +687,25 @@
         <script>
             if ("serviceWorker" in navigator) {
                 window.addEventListener("load", () => {
+                    // Use single unified service worker for all devices
                     navigator.serviceWorker
                         .register("/sw.js")
                         .then((registration) => {
                             console.log("ServiceWorker registration successful with scope: ", registration.scope);
+                            
+                            // Handle updates
+                            registration.addEventListener("updatefound", () => {
+                                const newWorker = registration.installing;
+                                newWorker.addEventListener("statechange", () => {
+                                    if (newWorker.state === "installed" && navigator.serviceWorker.controller) {
+                                        // New version available
+                                        console.log("New content available - reload to update");
+                                        
+                                        // Optional: Show update notification to user
+                                        // You can add UI here to prompt user to reload
+                                    }
+                                });
+                            });
                         })
                         .catch((err) => {
                             console.log("ServiceWorker registration failed: ", err);
