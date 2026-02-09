@@ -11,16 +11,26 @@ class ComponentLoader {
         this.gsapPluginsReady = false;
         this.prefetchWorker = null;
         this.cacheWarmed = false;
+        
+        // Scroll detection
+        this.hasScrolled = false;
+        this.scrollHandler = this.handleFirstScroll.bind(this);
 
-        // Components that absolutely need GSAP
+        // Critical components (load immediately)
+        this.criticalComponents = new Set(['header', 'hero', 'rotatingBadge', 'aboutUs']);
+        
+        // Components that need GSAP
         this.gsapDependent = new Set([
             'hero', 'aboutUs', 'philosophy', 'techStack',
             'marqueeReveal', 'featured-work', 'diveInWork', 'whatWeDo',
-            'testimonial'
+            'testimonial', 'preFooter'
         ]);
 
         // Queue for components waiting for GSAP
         this.gsapWaitingQueue = [];
+        
+        // Store all component names for batch loading
+        this.remainingComponents = new Set();
 
         this.observer = new IntersectionObserver(
             this.handleIntersection.bind(this),
@@ -29,6 +39,67 @@ class ComponentLoader {
 
         this.initPrefetchWorker();
         this.initGSAPLoader();
+        this.setupScrollDetection();
+    }
+
+    /* ===============================
+       Scroll Detection
+       =============================== */
+
+    setupScrollDetection() {
+        // Listen for first scroll event
+        window.addEventListener('scroll', this.scrollHandler, { 
+            once: true, 
+            passive: true 
+        });
+        
+        // Also listen for wheel event (catches scroll intention even before actual scroll)
+        window.addEventListener('wheel', this.scrollHandler, { 
+            once: true, 
+            passive: true 
+        });
+        
+        // Touch scroll on mobile
+        window.addEventListener('touchmove', this.scrollHandler, { 
+            once: true, 
+            passive: true 
+        });
+    }
+
+    handleFirstScroll() {
+        if (this.hasScrolled) return;
+        this.hasScrolled = true;
+        
+        console.log('[Loader] 🚀 User started scrolling - loading all remaining components');
+        
+        // Remove listeners
+        window.removeEventListener('scroll', this.scrollHandler);
+        window.removeEventListener('wheel', this.scrollHandler);
+        window.removeEventListener('touchmove', this.scrollHandler);
+        
+        // Start loading all remaining components
+        this.loadRemainingComponents();
+    }
+
+    /* ===============================
+       Batch Load Remaining Components
+       =============================== */
+
+    async loadRemainingComponents() {
+        // Load all remaining components in order of priority
+        const componentsToLoad = Array.from(this.remainingComponents);
+        
+        console.log('[Loader] Loading', componentsToLoad.length, 'remaining components');
+        
+        for (const name of componentsToLoad) {
+            if (this.loadedComponents.has(name)) continue;
+            this.enqueue(name);
+            
+            // Yield every 2 components to keep UI responsive
+            if (componentsToLoad.indexOf(name) % 2 === 0) {
+                await this.yieldToMain();
+            }
+        }
     }
 
     /* ===============================
@@ -36,10 +107,7 @@ class ComponentLoader {
        =============================== */
 
     initGSAPLoader() {
-        // Start loading GSAP scripts immediately
         this.loadGSAPScripts();
-
-        // Listen for when GSAP is ready
         this.checkGSAPReady();
     }
 
@@ -57,8 +125,6 @@ class ComponentLoader {
 
         // Load GSAP core first
         await this.loadScript(gsapScripts[0].src);
-        
-        // Wait for GSAP to be available
         await this.waitForGlobal('gsap', 3000);
         this.gsapReady = true;
         console.log('[Loader] GSAP core loaded');
@@ -70,25 +136,21 @@ class ComponentLoader {
 
         await Promise.all(pluginPromises);
         
-        // Wait for all plugins
         await this.waitForGlobal('ScrollTrigger', 2000);
         await this.waitForGlobal('ScrollSmoother', 2000);
         
         this.gsapPluginsReady = true;
         console.log('[Loader] All GSAP plugins loaded');
 
-        // Register plugins
         if (window.gsap && window.ScrollTrigger) {
             gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
         }
 
-        // Process any components waiting for GSAP
         this.processGSAPWaitingQueue();
     }
 
     loadScript(src) {
         return new Promise((resolve, reject) => {
-            // Check if already loaded
             if (document.querySelector(`script[src="${src}"]`)) {
                 resolve();
                 return;
@@ -97,21 +159,15 @@ class ComponentLoader {
             const script = document.createElement('script');
             script.src = src;
             script.defer = true;
-            script.onload = () => {
-                console.log('[Loader] Script loaded:', src);
-                resolve();
-            };
-            script.onerror = () => {
-                console.error('[Loader] Script failed:', src);
-                reject(new Error(`Failed to load ${src}`));
-            };
+            script.onload = () => resolve();
+            script.onerror = () => reject(new Error(`Failed to load ${src}`));
             
             document.head.appendChild(script);
         });
     }
 
     waitForGlobal(globalName, timeout = 5000) {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             const startTime = Date.now();
             
             const check = () => {
@@ -134,7 +190,7 @@ class ComponentLoader {
     }
 
     async checkGSAPReady() {
-        const maxWait = 10000; // 10 seconds max
+        const maxWait = 10000;
         const startTime = Date.now();
         
         while (!this.gsapPluginsReady) {
@@ -158,7 +214,6 @@ class ComponentLoader {
                 }
                 
                 if (performance.now() - start > timeout) {
-                    console.warn('[Loader] GSAP timeout');
                     resolve(false);
                     return;
                 }
@@ -194,24 +249,12 @@ class ComponentLoader {
                 const { type, assetType, results, duration } = e.data;
                 
                 if (type === 'PREFETCH_COMPLETE') {
-                    console.log(`[Loader] ${assetType} prefetched in ${duration}ms`, results);
-                    
-                    if (assetType === 'gsap') {
-                        this.cacheWarmed = true;
-                    }
-                }
-                
-                if (type === 'CACHE_STATUS') {
-                    console.log('[Loader] Cache status:', e.data.status);
+                    console.log(`[Loader] ${assetType} prefetched in ${duration}ms`);
+                    if (assetType === 'gsap') this.cacheWarmed = true;
                 }
             };
             
-            // Start prefetching (this warms the cache but doesn't execute scripts)
             this.prefetchWorker.postMessage({ type: 'PREFETCH_GSAP' });
-            this.prefetchWorker.postMessage({ 
-                type: 'PREFETCH_COMPONENTS', 
-                priority: 'low' 
-            });
             
         } catch (e) {
             console.warn('[Loader] Worker failed:', e);
@@ -235,24 +278,30 @@ class ComponentLoader {
 
         // If component needs GSAP and it's not ready, queue it
         if (this.gsapDependent.has(name) && !this.gsapPluginsReady) {
-            console.log(`[Loader] Queueing ${name} - waiting for GSAP`);
             if (!this.gsapWaitingQueue.includes(name)) {
                 this.gsapWaitingQueue.push(name);
             }
             return;
         }
 
+        const startTime = performance.now();
+
         try {
-            const res = await fetch(`${this.componentsPath}${name}`);
+            // Load HTML
+            const res = await fetch(`${this.componentsPath}${name}.html`);
             const html = await res.text();
 
             await this.yieldToMain();
+            
+            // Load CSS
             await this.loadCSS(name);
             await this.yieldToMain();
+
+            // Insert HTML
             await this.insertHTML(name, html);
             await this.yieldToMain();
             
-            // For GSAP-dependent components, wait for GSAP before loading JS
+            // Load JS (wait for GSAP if needed)
             if (this.gsapDependent.has(name)) {
                 await this.waitForGSAP(5000);
             }
@@ -260,9 +309,11 @@ class ComponentLoader {
             await this.loadJS(name);
 
             this.loadedComponents.add(name);
-            console.log(`[Loader] Component loaded: ${name}`);
+            
+            const duration = Math.round(performance.now() - startTime);
+            console.log(`[Loader] ✓ ${name} (${duration}ms)`);
         } catch (err) {
-            console.error(`[Loader] Failed: ${name}`, err);
+            console.error(`[Loader] ✗ ${name}:`, err);
         }
     }
 
@@ -306,7 +357,6 @@ class ComponentLoader {
             script.type = 'module';
             script.src = src;
             script.onload = () => {
-                console.log(`[Loader] JS loaded: ${name}`);
                 requestAnimationFrame(resolve);
             };
             script.onerror = () => {
@@ -314,7 +364,7 @@ class ComponentLoader {
                 resolve();
             };
             
-            const isCritical = ['hero', 'header'].includes(name);
+            const isCritical = this.criticalComponents.has(name);
             if (!isCritical && 'requestIdleCallback' in window) {
                 requestIdleCallback(() => document.body.appendChild(script), { timeout: 2000 });
             } else {
@@ -324,13 +374,12 @@ class ComponentLoader {
     }
 
     /* ===============================
-       Queue & Intersection
+       Queue & Intersection Management
        =============================== */
 
     enqueue(name) {
         if (!name || this.loadedComponents.has(name) || this.loadingQueue.includes(name)) return;
         
-        // If component needs GSAP and it's not ready, add to waiting queue
         if (this.gsapDependent.has(name) && !this.gsapPluginsReady) {
             if (!this.gsapWaitingQueue.includes(name)) {
                 this.gsapWaitingQueue.push(name);
@@ -358,48 +407,63 @@ class ComponentLoader {
     handleIntersection(entries) {
         for (const entry of entries) {
             if (!entry.isIntersecting) continue;
+            
             const name = entry.target.getAttribute('data-component');
+            
+            // If user hasn't scrolled yet, wait for scroll
+            if (!this.hasScrolled) {
+                continue;
+            }
+            
             this.enqueue(name);
             this.observer.unobserve(entry.target);
         }
     }
 
     /* ===============================
-       Boot Sequence (Optimized)
+       Boot Sequence
        =============================== */
 
     async loadAll() {
-        // Wait for GSAP core to be ready before loading hero
+        const perfStart = performance.now();
+        
+        // Wait for GSAP core
         await this.waitForGSAP(5000);
         
-        // Load critical components
-        await this.loadComponent('header');
-        await this.loadComponent('hero');
+        // Load only critical components (above the fold)
+        const critical = ['header', 'hero', 'rotatingBadge', 'aboutUs'];
+        
+        for (const name of critical) {
+            await this.loadComponent(name);
+        }
         
         document.body.style.opacity = '1';
         
-        // Load next visible
-        await this.loadComponent('aboutUs');
+        const criticalLoadTime = Math.round(performance.now() - perfStart);
+        console.log(`[Loader] Critical components loaded in ${criticalLoadTime}ms`);
         
-        // Dispatch event that components are loaded
+        // Dispatch event
         document.dispatchEvent(new CustomEvent('componentsLoaded'));
 
-        // Lazy load rest
-        const skip = new Set(['hero', 'aboutUs', 'header']);
+        // Collect all remaining components
         document.querySelectorAll('[data-component]').forEach(el => {
             const name = el.getAttribute('data-component');
-            if (!name || skip.has(name)) return;
+            if (!name || critical.includes(name)) return;
+            
+            this.remainingComponents.add(name);
             this.observer.observe(el);
-            this.enqueue(name);
         });
-
-        setTimeout(() => this.processQueue(), 100);
+        
+        console.log(`[Loader] ${this.remainingComponents.size} components waiting for scroll`);
     }
 
     destroy() {
         this.observer.disconnect();
         this.loadingQueue.length = 0;
         this.gsapWaitingQueue.length = 0;
+        window.removeEventListener('scroll', this.scrollHandler);
+        window.removeEventListener('wheel', this.scrollHandler);
+        window.removeEventListener('touchmove', this.scrollHandler);
         if (this.prefetchWorker) {
             this.prefetchWorker.terminate();
         }
