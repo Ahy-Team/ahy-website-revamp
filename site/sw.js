@@ -1,5 +1,8 @@
-const CACHE_NAME = "ahy-cache-v3";
-const GSAP_CACHE_NAME = "ahy-gsap-v3"; // Separate cache for GSAP files
+// UNIFIED Service Worker - Optimized for Mobile & Desktop
+// Adaptive caching strategies based on device capabilities
+
+const CACHE_NAME = "ahy-cache-v4";
+const GSAP_CACHE_NAME = "ahy-gsap-v4";
 
 const PRECACHE_URLS = [
     "/",
@@ -17,6 +20,12 @@ const GSAP_FILES = [
     "/js/circletype.min.js",
     "/js/ScrollToPlugin.min.js"
 ];
+
+// Detect if request is from mobile device
+function isMobileRequest(request) {
+    const ua = request.headers.get('user-agent') || '';
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
+}
 
 self.addEventListener("install", (event) => {
     self.skipWaiting();
@@ -63,24 +72,38 @@ self.addEventListener("fetch", (event) => {
 
     if (!url.protocol.startsWith("http")) return;
 
-    // GSAP files: Cache-first with background revalidate
+    const isMobile = isMobileRequest(event.request);
+
+    // GSAP files: Ultra-fast cache-first with background revalidate
     if (GSAP_FILES.some(path => url.pathname.endsWith(path))) {
         event.respondWith(gsapCacheStrategy(event.request));
         return;
     }
 
-    // Static assets & components: Cache-first
+    // Static assets & components
     if (url.pathname.match(/\.(js|css|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot|ico|mp4|webm|avif|webp)$/) || 
         url.pathname.includes("/components/") || 
         url.pathname.includes("/assets/")) {
         
-        event.respondWith(cacheFirstStrategy(event.request));
+        // Mobile: More aggressive caching
+        if (isMobile) {
+            event.respondWith(cacheFirstStrategy(event.request));
+        } else {
+            // Desktop: Cache-first with faster revalidation
+            event.respondWith(cacheFirstWithRevalidate(event.request));
+        }
         return;
     }
 
-    // HTML pages: Stale-while-revalidate
+    // HTML pages: Device-aware strategy
     if (event.request.mode === "navigate") {
-        event.respondWith(staleWhileRevalidateStrategy(event.request));
+        if (isMobile) {
+            // Mobile: More aggressive stale-while-revalidate
+            event.respondWith(staleWhileRevalidateStrategy(event.request, true));
+        } else {
+            // Desktop: Standard stale-while-revalidate
+            event.respondWith(staleWhileRevalidateStrategy(event.request, false));
+        }
         return;
     }
 
@@ -88,7 +111,11 @@ self.addEventListener("fetch", (event) => {
     event.respondWith(fetch(event.request));
 });
 
-// Cache-first with optional background update
+/* ===============================
+   Caching Strategies
+   =============================== */
+
+// Cache-first (standard)
 async function cacheFirstStrategy(request) {
     const cache = await caches.open(CACHE_NAME);
     const cached = await cache.match(request);
@@ -107,7 +134,41 @@ async function cacheFirstStrategy(request) {
     }
 }
 
-// GSAP-specific: Ultra-fast cache-first, revalidate in background
+// Cache-first with background revalidation (desktop)
+async function cacheFirstWithRevalidate(request) {
+    const cache = await caches.open(CACHE_NAME);
+    const cached = await cache.match(request);
+    
+    if (cached) {
+        // Return cached immediately
+        const response = cached.clone();
+        
+        // Revalidate in background (non-blocking)
+        fetch(request, { redirect: 'follow' })
+            .then(networkResponse => {
+                if (networkResponse.ok) {
+                    cache.put(request, networkResponse);
+                }
+            })
+            .catch(() => {});
+        
+        return response;
+    }
+    
+    // Not in cache, fetch and cache
+    try {
+        const response = await fetch(request, { redirect: 'follow' });
+        if (response.ok) {
+            cache.put(request, response.clone());
+        }
+        return response;
+    } catch (err) {
+        console.error('[SW] Fetch failed:', request.url);
+        throw err;
+    }
+}
+
+// GSAP-specific: Ultra-fast cache-first
 async function gsapCacheStrategy(request) {
     const cache = await caches.open(GSAP_CACHE_NAME);
     const cached = await cache.match(request);
@@ -135,8 +196,8 @@ async function gsapCacheStrategy(request) {
     }
 }
 
-// Stale-while-revalidate for HTML
-async function staleWhileRevalidateStrategy(request) {
+// Stale-while-revalidate (adaptive for mobile/desktop)
+async function staleWhileRevalidateStrategy(request, aggressiveCache = false) {
     const cache = await caches.open(CACHE_NAME);
     const cached = await cache.match(request);
     
@@ -149,10 +210,19 @@ async function staleWhileRevalidateStrategy(request) {
         })
         .catch(() => cached);
     
+    // Mobile: Return cache immediately if available (aggressive)
+    if (aggressiveCache && cached) {
+        return cached;
+    }
+    
+    // Desktop: Race between cache and network (with cache preference)
     return cached || fetchPromise;
 }
 
-// Message handler from Web Worker / Main thread
+/* ===============================
+   Message Handler
+   =============================== */
+
 self.addEventListener('message', async (event) => {
     if (event.data.type === 'PREFETCH_GSAP') {
         const cache = await caches.open(GSAP_CACHE_NAME);
@@ -183,4 +253,43 @@ self.addEventListener('message', async (event) => {
             });
         });
     }
+    
+    // Handle cache clear request
+    if (event.data.type === 'CLEAR_CACHE') {
+        const cacheNames = await caches.keys();
+        await Promise.all(cacheNames.map(name => caches.delete(name)));
+        
+        const clients = await self.clients.matchAll();
+        clients.forEach(client => {
+            client.postMessage({ type: 'CACHE_CLEARED' });
+        });
+    }
 });
+
+/* ===============================
+   Background Sync (for offline support)
+   =============================== */
+
+self.addEventListener('sync', (event) => {
+    if (event.tag === 'sync-assets') {
+        event.waitUntil(syncAssets());
+    }
+});
+
+async function syncAssets() {
+    const cache = await caches.open(CACHE_NAME);
+    const requests = await cache.keys();
+    
+    const updates = requests.map(async (request) => {
+        try {
+            const response = await fetch(request, { redirect: 'follow' });
+            if (response.ok) {
+                await cache.put(request, response);
+            }
+        } catch (e) {
+            // Silently fail - offline or network error
+        }
+    });
+    
+    await Promise.all(updates);
+}

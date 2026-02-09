@@ -1,3 +1,6 @@
+// UNIFIED ComponentLoader - Adaptive for Mobile & Desktop
+// Intelligent loading based on device capabilities and user behavior
+
 class ComponentLoader {
     constructor() {
         this.componentsPath = '/components/';
@@ -12,7 +15,15 @@ class ComponentLoader {
         this.prefetchWorker = null;
         this.cacheWarmed = false;
         
-        // Scroll detection
+        // Device detection
+        this.isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        this.isTablet = /(iPad|tablet|playbook|silk)|(android(?!.*mobile))/i.test(navigator.userAgent);
+        this.isDesktop = !this.isMobile && !this.isTablet;
+        
+        // Performance tier
+        this.performanceTier = this.detectPerformanceTier();
+        
+        // Scroll detection (mobile-optimized)
         this.hasScrolled = false;
         this.scrollHandler = this.handleFirstScroll.bind(this);
 
@@ -32,34 +43,57 @@ class ComponentLoader {
         // Store all component names for batch loading
         this.remainingComponents = new Set();
 
+        // Adaptive intersection observer settings
+        const rootMargin = this.isMobile ? '200px' : '100px';
         this.observer = new IntersectionObserver(
             this.handleIntersection.bind(this),
-            { rootMargin: '100px' }
+            { rootMargin }
         );
 
         this.initPrefetchWorker();
         this.initGSAPLoader();
-        this.setupScrollDetection();
+        
+        // Only setup scroll detection on mobile
+        if (this.isMobile) {
+            this.setupScrollDetection();
+        }
     }
 
     /* ===============================
-       Scroll Detection
+       Performance Detection
+       =============================== */
+
+    detectPerformanceTier() {
+        const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+        const memory = navigator.deviceMemory || 4;
+        const cores = navigator.hardwareConcurrency || 2;
+        
+        if ((connection && connection.effectiveType === '2g') || memory < 4 || cores < 4) {
+            return 'low';
+        }
+        
+        if (this.isDesktop || (memory >= 8 && cores >= 8)) {
+            return 'high';
+        }
+        
+        return 'medium';
+    }
+
+    /* ===============================
+       Scroll Detection (Mobile Only)
        =============================== */
 
     setupScrollDetection() {
-        // Listen for first scroll event
         window.addEventListener('scroll', this.scrollHandler, { 
             once: true, 
             passive: true 
         });
         
-        // Also listen for wheel event (catches scroll intention even before actual scroll)
         window.addEventListener('wheel', this.scrollHandler, { 
             once: true, 
             passive: true 
         });
         
-        // Touch scroll on mobile
         window.addEventListener('touchmove', this.scrollHandler, { 
             once: true, 
             passive: true 
@@ -70,14 +104,12 @@ class ComponentLoader {
         if (this.hasScrolled) return;
         this.hasScrolled = true;
         
-        console.log('[Loader] 🚀 User started scrolling - loading all remaining components');
+        console.log('[Loader] 🚀 User started scrolling - loading remaining components');
         
-        // Remove listeners
         window.removeEventListener('scroll', this.scrollHandler);
         window.removeEventListener('wheel', this.scrollHandler);
         window.removeEventListener('touchmove', this.scrollHandler);
         
-        // Start loading all remaining components
         this.loadRemainingComponents();
     }
 
@@ -86,7 +118,6 @@ class ComponentLoader {
        =============================== */
 
     async loadRemainingComponents() {
-        // Load all remaining components in order of priority
         const componentsToLoad = Array.from(this.remainingComponents);
         
         console.log('[Loader] Loading', componentsToLoad.length, 'remaining components');
@@ -95,8 +126,9 @@ class ComponentLoader {
             if (this.loadedComponents.has(name)) continue;
             this.enqueue(name);
             
-            // Yield every 2 components to keep UI responsive
-            if (componentsToLoad.indexOf(name) % 2 === 0) {
+            // Yield based on device performance
+            const yieldInterval = this.performanceTier === 'low' ? 1 : 2;
+            if (componentsToLoad.indexOf(name) % yieldInterval === 0) {
                 await this.yieldToMain();
             }
         }
@@ -129,12 +161,19 @@ class ComponentLoader {
         this.gsapReady = true;
         console.log('[Loader] GSAP core loaded');
 
-        // Load plugins in parallel
-        const pluginPromises = gsapScripts.slice(1).map(script => 
-            this.loadScript(script.src)
-        );
-
-        await Promise.all(pluginPromises);
+        // Load plugins - parallel on desktop, sequential on low-end mobile
+        if (this.isDesktop || this.performanceTier === 'high') {
+            const pluginPromises = gsapScripts.slice(1).map(script => 
+                this.loadScript(script.src)
+            );
+            await Promise.all(pluginPromises);
+        } else {
+            // Sequential loading for low-end devices
+            for (let i = 1; i < gsapScripts.length; i++) {
+                await this.loadScript(gsapScripts[i].src);
+                if (i % 2 === 0) await this.yieldToMain();
+            }
+        }
         
         await this.waitForGlobal('ScrollTrigger', 2000);
         await this.waitForGlobal('ScrollSmoother', 2000);
@@ -240,7 +279,7 @@ class ComponentLoader {
        =============================== */
 
     initPrefetchWorker() {
-        if (!window.Worker) return;
+        if (!window.Worker || this.performanceTier === 'low') return;
         
         try {
             this.prefetchWorker = new Worker('/js/prefetch.worker.js');
@@ -365,7 +404,7 @@ class ComponentLoader {
             };
             
             const isCritical = this.criticalComponents.has(name);
-            if (!isCritical && 'requestIdleCallback' in window) {
+            if (!isCritical && 'requestIdleCallback' in window && !this.isMobile) {
                 requestIdleCallback(() => document.body.appendChild(script), { timeout: 2000 });
             } else {
                 document.body.appendChild(script);
@@ -410,8 +449,8 @@ class ComponentLoader {
             
             const name = entry.target.getAttribute('data-component');
             
-            // If user hasn't scrolled yet, wait for scroll
-            if (!this.hasScrolled) {
+            // Mobile: Wait for scroll before loading non-critical
+            if (this.isMobile && !this.hasScrolled && !this.criticalComponents.has(name)) {
                 continue;
             }
             
@@ -430,9 +469,21 @@ class ComponentLoader {
         // Wait for GSAP core
         await this.waitForGSAP(5000);
         
-        // Load only critical components (above the fold)
-        const critical = ['header', 'hero', 'rotatingBadge', 'aboutUs'];
+        // Device-specific loading strategy
+        let critical;
         
+        if (this.isDesktop) {
+            // Desktop: Load more components upfront
+            critical = ['header', 'hero', 'rotatingBadge', 'aboutUs'];
+        } else if (this.performanceTier === 'low') {
+            // Low-end mobile: Minimal critical load
+            critical = ['header', 'hero'];
+        } else {
+            // Standard mobile/tablet
+            critical = ['header', 'hero', 'rotatingBadge'];
+        }
+        
+        // Load critical components
         for (const name of critical) {
             await this.loadComponent(name);
         }
@@ -454,7 +505,13 @@ class ComponentLoader {
             this.observer.observe(el);
         });
         
-        console.log(`[Loader] ${this.remainingComponents.size} components waiting for scroll`);
+        // Desktop: Start loading all components immediately
+        if (this.isDesktop) {
+            console.log(`[Loader] Desktop mode - loading ${this.remainingComponents.size} components`);
+            this.loadRemainingComponents();
+        } else {
+            console.log(`[Loader] Mobile mode - ${this.remainingComponents.size} components waiting for scroll`);
+        }
     }
 
     destroy() {

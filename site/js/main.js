@@ -1,4 +1,5 @@
-// OPTIMIZED main.js - iOS-FIXED + Reflow Optimized + Smart bfcache handling + GSAP wait logic
+// UNIFIED main.js - Optimized for BOTH Mobile & Desktop
+// Adaptive performance based on device capabilities
 
 // Wait for GSAP to be available
 async function waitForGSAP(timeout = 10000) {
@@ -27,9 +28,33 @@ async function waitForGSAP(timeout = 10000) {
     });
 }
 
-// Detect iOS and Mobile
+// Device Detection
 const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+const isTablet = /(iPad|tablet|playbook|silk)|(android(?!.*mobile))/i.test(navigator.userAgent);
+const isDesktop = !isMobile && !isTablet;
+
+// Performance tier detection
+const getPerformanceTier = () => {
+    const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    const memory = navigator.deviceMemory || 4;
+    const cores = navigator.hardwareConcurrency || 2;
+    
+    // Low-end: slow connection, low memory, few cores
+    if ((connection && connection.effectiveType === '2g') || memory < 4 || cores < 4) {
+        return 'low';
+    }
+    
+    // High-end: desktop or powerful mobile
+    if (isDesktop || (memory >= 8 && cores >= 8)) {
+        return 'high';
+    }
+    
+    return 'medium';
+};
+
+const performanceTier = getPerformanceTier();
+console.log(`[Main] Device: ${isMobile ? 'Mobile' : isTablet ? 'Tablet' : 'Desktop'}, Performance: ${performanceTier}`);
 
 // State
 let smoother;
@@ -78,10 +103,18 @@ document.addEventListener(
 
         await yieldToMain();
 
-        // Task 2: GSAP animations (can be deferred)
+        // Task 2: GSAP animations (can be deferred on mobile)
         try {
-            initIntroPinWithAboutUs();
-            console.log('[Main] Intro pin animations initialized');
+            if (isMobile && performanceTier === 'low') {
+                // Defer animations on low-end mobile
+                requestIdleCallback(() => {
+                    initIntroPinWithAboutUs();
+                    console.log('[Main] Intro pin animations initialized (deferred)');
+                }, { timeout: 3000 });
+            } else {
+                initIntroPinWithAboutUs();
+                console.log('[Main] Intro pin animations initialized');
+            }
         } catch (e) {
             console.error('[Main] Intro pin init failed:', e);
         }
@@ -98,24 +131,52 @@ function initScrollSmoother() {
 
     gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
-    // ✅ Configure ScrollTrigger to reduce reflows
+    // ✅ Configure ScrollTrigger based on device
     ScrollTrigger.config({
         autoRefreshEvents: "visibilitychange,DOMContentLoaded,load",
-        syncInterval: 250, // Reduce update frequency
+        syncInterval: isMobile ? 500 : 250, // Less frequent on mobile
     });
 
-    // iOS-optimized configuration
-    smoother = ScrollSmoother.create({
+    // Adaptive ScrollSmoother configuration
+    const smootherConfig = {
         wrapper: "#smooth-wrapper",
         content: "#smooth-content",
-        smooth: isIOS ? 0 : 1.5, // Disable smooth on iOS, keep on desktop
-        effects: isIOS ? false : true, // Disable effects on iOS
-        smoothTouch: false, // Always disable smoothTouch (causes iOS issues)
-        normalizeScroll: isIOS ? true : true, // normalizeScroll helps on iOS
         ignoreMobileResize: true,
-        speed: 1,
-        maxSpeed: 1,
-    });
+    };
+
+    if (isDesktop) {
+        // Desktop: Full smooth scrolling with effects
+        Object.assign(smootherConfig, {
+            smooth: 1.5,
+            effects: true,
+            smoothTouch: false,
+            normalizeScroll: true,
+            speed: 1,
+            maxSpeed: 1,
+        });
+    } else if (isTablet) {
+        // Tablet: Moderate smoothing
+        Object.assign(smootherConfig, {
+            smooth: performanceTier === 'high' ? 1.2 : 0,
+            effects: performanceTier === 'high',
+            smoothTouch: false,
+            normalizeScroll: true,
+            speed: 1,
+            maxSpeed: 1,
+        });
+    } else {
+        // Mobile: Native scrolling (iOS) or minimal smoothing (Android)
+        Object.assign(smootherConfig, {
+            smooth: isIOS ? 0 : (performanceTier === 'high' ? 0.8 : 0),
+            effects: false,
+            smoothTouch: false,
+            normalizeScroll: true,
+            speed: 1,
+            maxSpeed: 1,
+        });
+    }
+
+    smoother = ScrollSmoother.create(smootherConfig);
 
     // iOS-specific: Enable native momentum scrolling
     if (isIOS) {
@@ -129,6 +190,7 @@ function initScrollSmoother() {
     }
 
     // ✅ Debounced resize with RAF to prevent reflows
+    const resizeDelay = isMobile ? 500 : 250;
     window.addEventListener(
         "resize",
         debounce(() => {
@@ -136,17 +198,19 @@ function initScrollSmoother() {
                 cachedViewportWidth = window.innerWidth;
                 smoother?.refresh();
             });
-        }, 250),
+        }, resizeDelay),
         { passive: true },
     );
 
-    // ✅ Auto-refresh with ResizeObserver (more efficient)
-    const content = document.querySelector("#smooth-content");
-    if (content) {
-        const ro = new ResizeObserver(debounce(() => {
-            requestAnimationFrame(() => smoother?.refresh());
-        }, 500));
-        ro.observe(content);
+    // ✅ Auto-refresh with ResizeObserver (desktop only for better performance)
+    if (isDesktop) {
+        const content = document.querySelector("#smooth-content");
+        if (content) {
+            const ro = new ResizeObserver(debounce(() => {
+                requestAnimationFrame(() => smoother?.refresh());
+            }, 500));
+            ro.observe(content);
+        }
     }
 
     return smoother;
@@ -183,7 +247,7 @@ function initIntroPinWithAboutUs() {
     if (!intro) return;
 
     // ✅ SINGLE SOURCE OF TRUTH
-    const scroller = isIOS ? window : "#smooth-wrapper";
+    const scroller = (isIOS || isMobile) ? window : "#smooth-wrapper";
 
     // ✅ Batch all ScrollTrigger creation in single RAF to minimize reflows
     requestAnimationFrame(() => {
@@ -196,8 +260,8 @@ function initIntroPinWithAboutUs() {
             pinSpacing: false,
             scrub: true,
             scroller,
-            invalidateOnRefresh: false, // ✅ Prevent unnecessary recalculations
-            fastScrollEnd: true, // ✅ Optimize for fast scrolling
+            invalidateOnRefresh: false,
+            fastScrollEnd: true,
         });
         introTriggers.push(pinT);
 
@@ -211,7 +275,6 @@ function initIntroPinWithAboutUs() {
                 scroller,
                 invalidateOnRefresh: false,
                 fastScrollEnd: true,
-                // ✅ Use gsap.set instead of direct style manipulation to reduce reflows
                 onUpdate(self) {
                     gsap.set(intro, {
                         opacity: 1 - self.progress,
@@ -247,7 +310,7 @@ function initIntroPinWithAboutUs() {
     });
 }
 
-// ✅ Smart bfcache handling: Mobile reload, Desktop reinitialize
+// ✅ Smart bfcache handling: Device-aware approach
 window.addEventListener(
     "pageshow",
     async (event) => {
@@ -256,13 +319,13 @@ window.addEventListener(
             
             console.log('[Main] Page restored from bfcache');
             
-            // ✅ Mobile: Force reload for clean state
-            if (isMobile) {
+            // ✅ Mobile/Low-performance: Force reload for clean state
+            if (isMobile && performanceTier === 'low') {
                 window.location.reload();
                 return;
             }
             
-            // ✅ Desktop: Reinitialize GSAP/ScrollTrigger
+            // ✅ Desktop/High-performance: Reinitialize GSAP/ScrollTrigger
             cachedViewportWidth = window.innerWidth;
             
             // Wait for GSAP
@@ -312,14 +375,16 @@ window.addEventListener("load", () => {
     });
 });
 
-// Service Worker registration
+// Service Worker registration with device-aware strategy
 if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
+        const swPath = isMobile ? "/sw.js" : "/sw-desktop.js";
+        
         navigator.serviceWorker
-            .register("/sw.js", { scope: "/" })
+            .register(swPath, { scope: "/" })
             .then((reg) => {
-                console.log('[Main] ServiceWorker registered');
-                // Optional: listen for updates
+                console.log(`[Main] ServiceWorker registered (${isMobile ? 'mobile' : 'desktop'} strategy)`);
+                
                 reg.addEventListener("updatefound", () => {
                     const newSW = reg.installing;
                     newSW.addEventListener("statechange", () => {
