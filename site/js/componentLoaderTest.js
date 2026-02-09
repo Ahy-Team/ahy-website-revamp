@@ -27,8 +27,8 @@ class ComponentLoader {
         this.hasScrolled = false;
         this.scrollHandler = this.handleFirstScroll.bind(this);
 
-        // Critical components (load immediately) - aboutUs removed from priority
-        this.criticalComponents = new Set(['header', 'hero', 'rotatingBadge']);
+        // Critical components (load immediately)
+        this.criticalComponents = new Set(['header', 'hero', 'rotatingBadge', 'aboutUs']);
         
         // Components that need GSAP
         this.gsapDependent = new Set([
