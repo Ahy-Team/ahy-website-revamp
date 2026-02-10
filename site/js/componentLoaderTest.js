@@ -44,7 +44,7 @@ class ComponentLoader {
         this.remainingComponents = new Set();
 
         // Adaptive intersection observer settings
-        const rootMargin = '50px';
+        const rootMargin = this.isMobile ? '50px' : '100px';
         this.observer = new IntersectionObserver(
             this.handleIntersection.bind(this),
             { rootMargin }
