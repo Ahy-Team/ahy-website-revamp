@@ -6,7 +6,25 @@
         <title>Commerce & AI Systems Partner for Impact | Ahy Consulting</title>
         <meta name="description" content="Ahy Consulting partners with businesses to design resilient commerce and AI systems—focused on architecture, scale, and long-term outcomes." />
         <link
-            rel="preload" as="image"  href="/assets/blobs-mobile@2x.webp"  media="(min-width: 768px)"  fetchpriority="high"
+            rel="preload"
+            as="image"
+            href="/assets/blobs-mobile@2x.webp"
+            media="(max-width: 767px)"
+            fetchpriority="high"
+        >
+        <link
+            rel="preload"
+            as="image"
+            href="/assets/blobs-laptop.webp"
+            media="(min-width: 768px) and (max-width: 1440px)"
+            fetchpriority="high"
+        >
+        <link
+            rel="preload"
+            as="image"
+            href="/assets/blobs-desktop.webp"
+            media="(min-width: 1441px)"
+            fetchpriority="high"
         >
         <!-- Asset Version (DEV MODE) -->
         <script>
@@ -639,7 +657,7 @@
 
                 <!-- Fallback image -->
                 <img class="blob-img" src="/assets/blobs-desktop.webp" 
-                alt="blobs image" width="100%" height="100%" fetchpriority="high"/>
+                alt="blobs image" width="100%" height="100%" fetchpriority="high" loading="eager"/>
             </picture>
         </div>
 
