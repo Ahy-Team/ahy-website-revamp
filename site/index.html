@@ -5,29 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=10.0, user-scalable=yes" />
         <title>Commerce & AI Systems Partner for Impact | Ahy Consulting</title>
         <meta name="description" content="Ahy Consulting partners with businesses to design resilient commerce and AI systems—focused on architecture, scale, and long-term outcomes." />
-        
-
         <link
-            rel="preload"
-            as="image"
-            href="/assets/blobs-desktop.webp"
-            media="(min-width: 1441px)"
-            >
-
-            <link
-            rel="preload"
-            as="image"
-            href="/assets/blobs-laptop.webp"
-            media="(min-width: 768px) and (max-width: 1440px)"
-            >
-
-            <link
-            rel="preload"
-            as="image"
-            href="/assets/blobs-mobile.webp"
-            media="(max-width: 767px)"
-            >
-        
+            rel="preload" as="image"  href="/assets/blobs-desktop.webp"  media="(min-width: 768px)"  fetchpriority="high"
+        >
         <!-- Asset Version (DEV MODE) -->
         <script>
             window.ASSET_VERSION = Date.now();
@@ -652,12 +632,14 @@
                 <source srcset="/assets/blobs-laptop.webp" media="(min-width: 768px) and (max-width: 1440px)" />
 
                 <!-- Mobile: up to 767px -->
-                <source srcset="/assets/blobs-mobile.webp" 
+                <source srcset="/assets/blobs-mobile.webp 1x, 
+                                /assets/blobs-mobile@1.5x.webp 1.5x, 
+                                /assets/blobs-mobile@2x.webp 2x" 
                         media="(max-width: 767px)" />
 
                 <!-- Fallback image -->
                 <img class="blob-img" src="/assets/blobs-desktop.webp" 
-                alt="blobs image" width="100%" height="100%" fetchpriority="high" loading="eager"/>
+                alt="blobs image" width="100%" height="100%" fetchpriority="high"/>
             </picture>
         </div>
 
