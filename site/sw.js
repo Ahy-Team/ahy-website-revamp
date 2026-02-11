@@ -1,4 +1,4 @@
-// UNIFIED Service Worker - Optimized for Mobile & Desktop with LCP Priority
+// reverted Service Worker - Optimized for Mobile & Desktop with LCP Priority
 // Adaptive caching strategies based on device capabilities
 
 const CACHE_NAME = "ahy-cache-v5"; // Bump version for LCP optimization
