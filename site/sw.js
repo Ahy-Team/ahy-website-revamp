@@ -1,8 +1,8 @@
-// UNIFIED Service Worker - Optimized for Mobile & Desktop
+// UNIFIED Service Worker - Optimized for Mobile & Desktop with LCP Priority
 // Adaptive caching strategies based on device capabilities
 
-const CACHE_NAME = "ahy-cache-v4";
-const GSAP_CACHE_NAME = "ahy-gsap-v4";
+const CACHE_NAME = "ahy-cache-v5"; // Bump version for LCP optimization
+const GSAP_CACHE_NAME = "ahy-gsap-v5";
 
 const PRECACHE_URLS = [
     "/",
@@ -73,6 +73,13 @@ self.addEventListener("fetch", (event) => {
     if (!url.protocol.startsWith("http")) return;
 
     const isMobile = isMobileRequest(event.request);
+
+    // ⚡ CRITICAL LCP OPTIMIZATION: Bypass service worker for blob images
+    // These are LCP candidates and need immediate browser discovery
+    if (url.pathname.includes('/assets/blobs-')) {
+        // Don't intercept - let browser handle with native priority
+        return;
+    }
 
     // GSAP files: Ultra-fast cache-first with background revalidate
     if (GSAP_FILES.some(path => url.pathname.endsWith(path))) {
