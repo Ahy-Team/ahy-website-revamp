@@ -161,12 +161,12 @@
             // Create and load GA4 script
             const script = document.createElement("script");
             script.async = true;
-            script.src = "https://www.googletagmanager.com/gtag/js?id=G-8Q53P5QHZ5";
+            script.src = "https://www.googletagmanager.com/gtag/js?id=UA-72482257-1";
             document.head.appendChild(script);
 
             script.onload = () => {
                 gtag("js", new Date());
-                gtag("config", "G-8Q53P5QHZ5", {
+                gtag("config", "UA-72482257-1", {
                     anonymize_ip: true,
                 });
 

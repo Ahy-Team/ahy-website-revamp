@@ -1,0 +1,329 @@
+/* =============================================
+   TIMELINE ABOUT COMPONENT
+   ============================================= */
+
+.timelineAbout-container {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    margin-bottom: 3rem;
+}
+
+/* Title for the timeline section */
+.timelineAbout-title {
+    font-family: var(--ahy-heading-font-tomorrow);
+    font-size: 36px;
+    font-weight: var(--ahy-weight-extrabold);
+    text-align: center;
+    margin: 32px 0;
+    color: var(--text-dark);
+}
+
+/* Each timeline section uses CSS Grid with 3 columns */
+.timelineAbout-section {
+    display: grid;
+    grid-template-columns: 1fr 60px 2fr;
+    min-height: auto;
+    padding: 40px 0;
+    position: relative;
+}
+
+/* LEFT COLUMN: Year/Title */
+.timelineAbout-year-column {
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 30px;
+    padding-top: 40px;
+}
+
+.timelineAbout-year-container {
+    position: relative;
+    top: 0;
+    height: fit-content;
+    z-index: 30;
+}
+
+.timelineAbout-year-text {
+    font-size: 36px;
+    font-family: var(--ahy-body-font-grandstander);
+    font-weight: var(--ahy-weight-extrabold);
+    color: var(--text-dark);
+    line-height: 1.25;
+    text-align: right;
+    position: relative;
+    z-index: 31;
+    padding: 0.25rem 0.95rem 0.25rem 0.95rem !important;
+    border-radius: 18px;
+    transition: background-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* Laptop-specific padding: keep desktop default, but use this padding on laptop viewports */
+@media (min-width: 769px) and (max-width: 1500px) {
+    .timelineAbout-year-text {
+        padding: 0rem 0.95rem 0.65rem 0.95rem;
+    }
+}
+
+/* Active state for timeline year */
+.timelineAbout-year-container.is-active .timelineAbout-year-text {
+    background: var(--primary-theme-color);
+    color: #fff;
+    box-shadow: 0 10px 30px rgba(236, 25, 101, 0.18),
+        0 4px 12px rgba(236, 25, 101, 0.12);
+}
+
+/* Active state for the dot */
+.timelineAbout-year-dot {
+    position: absolute;
+    right: -71px;
+    top: 18px;
+    width: 20px;
+    height: 20px;
+    background: #ed1865;
+    border-radius: 50%;
+    z-index: 32;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.timelineAbout-year-container.is-active .timelineAbout-year-dot {
+    transform: scale(1.3);
+    box-shadow: 0 8px 18px rgba(236, 25, 101, 0.3),
+        0 0 30px rgba(236, 25, 101, 0.2);
+}
+
+/* MIDDLE COLUMN: Line */
+.timelineAbout-line-column {
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.timelineAbout-static-line {
+    display: none;
+}
+
+/* Continuous static track that spans the entire timeline container */
+.timelineAbout-static-track {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    background: rgba(0, 32, 70, 0.2);
+    z-index: 2;
+    transform: translateX(-50%);
+    pointer-events: none;
+}
+
+/* RIGHT COLUMN: Content */
+.timelineAbout-content-column {
+    padding: 60px 0 60px 30px;
+}
+
+.timelineAbout-content {
+    max-width: 600px;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.timelineAbout-content h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+    line-height: 1.3;
+    color: var(--text-dark);
+    font-weight: var(--ahy-weight-semibold);
+}
+
+.timelineAbout-content p {
+    font-size: 1.25rem;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    font-family: var(--ahy-body-font-grandstander);
+    font-weight: var(--ahy-weight-semibold);
+    color: var(--text-dark);
+}
+
+/* Content Cards */
+.timelineAbout-content-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 40px;
+}
+
+.timelineAbout-card {
+    background: #111;
+    border: 1px solid #222;
+    border-radius: 12px;
+    padding: 20px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: 0.3s ease;
+}
+
+.timelineAbout-card:hover {
+    transform: translateY(-5px);
+    border-color: #667eea;
+    box-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
+}
+
+.timelineAbout-card h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.timelineAbout-card p {
+    font-size: 14px;
+    color: #888;
+    margin: 0;
+}
+
+/* Checklist */
+.timelineAbout-checklist {
+    list-style: none;
+    margin-top: 20px;
+    padding: 0;
+}
+
+.timelineAbout-checklist li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    font-size: 18px;
+    color: #ddd;
+    opacity: 0;
+    transform: translateX(-20px);
+}
+
+.timelineAbout-checklist li::before {
+    content: "✓";
+    width: 24px;
+    height: 24px;
+    background: #10b981;
+    color: #000;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    flex-shrink: 0;
+}
+
+/* Spacer */
+.timelineAbout-spacer {
+    height: 8vh;
+}
+
+/* Progress line that animates with scroll */
+.timelineAbout-progress-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 0%;
+    background: linear-gradient(to bottom, #10a0b6, #ed1865);
+    box-shadow: 0 0 12px #ed1865;
+    z-index: 6;
+    pointer-events: none;
+    transform: translateX(-50%);
+    border-radius: 2px;
+}
+
+/* Optional moving highlight (uses primary theme color) */
+.timelineAbout-year-highlight {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    background: rgba(236, 25, 101, 0.12);
+    box-shadow: 0 12px 28px rgba(236, 25, 101, 0.12);
+    border-radius: 12px;
+    opacity: 0;
+    z-index: 29; /* behind the year content (31) */
+    transform: translateX(-50%);
+    transition: all 0.35s cubic-bezier(0.2, 0.9, 0.25, 1);
+}
+
+/* =============================================
+   MOBILE RESPONSIVE
+   ============================================= */
+
+@media (max-width: 768px) {
+    .timelineAbout-section {
+        grid-template-columns: 40px 1fr;
+        grid-template-rows: auto 1fr;
+        padding: 0 0;
+    }
+
+    .timelineAbout-year-column {
+        grid-column: 1 / -1;
+        grid-row: 1;
+        justify-content: flex-start;
+        padding: 20px 16px 12px 48px;
+    }
+
+    .timelineAbout-year-container {
+        position: relative;
+        top: 0;
+    }
+
+    .timelineAbout-year-dot {
+        /* Position will be set dynamically by JS to align with progress line */
+        right: auto;
+        top: 10px;
+        width: 14px;
+        height: 14px;
+    }
+
+    .timelineAbout-year-text {
+        font-size: 28px;
+        text-align: left;
+        padding: 6px 12px !important;
+    }
+
+    .timelineAbout-line-column {
+        grid-column: 1;
+        grid-row: 1 / -1;
+    }
+
+    .timelineAbout-content-column {
+        grid-column: 2;
+        grid-row: 2;
+        padding: 12px 16px 0px 16px;
+    }
+
+    .timelineAbout-content-cards {
+        grid-template-columns: 1fr;
+    }
+
+    /* Active state adjustments for mobile */
+    .timelineAbout-year-container.is-active .timelineAbout-year-dot {
+        transform: scale(1.2);
+    }
+
+    /* Clamp section headings on mobile to 2 lines with ellipsis */
+    .timelineAbout-content h2 {
+        font-size: 20px;
+        line-height: 1.18;
+        display: -webkit-box;
+        /* unprefixed for newer browsers / linters */
+        line-clamp: 2;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        word-break: break-word;
+    }
+
+    /* Make any line-split text slightly smaller on mobile for better fit */
+    .line-split-text,
+    .timelineAbout-line-split-text {
+        font-size: 16px;
+        line-height: 1.45;
+    }
+}
+
+
+

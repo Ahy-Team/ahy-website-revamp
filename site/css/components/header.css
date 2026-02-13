@@ -1,4 +1,4 @@
-/*UPDATED Menu Component CSS */
+/*PERFECTLY ALIGNED Menu Component CSS */
 
 /* Logo */
 .ahy-logo {
@@ -226,7 +226,6 @@
     transition: color 0.3s ease;
 }
 
-
 .menu-link,
 .menu-link:visited,
 .menu-link:active,
@@ -247,98 +246,176 @@
 
 .submenu {
     overflow: hidden;
-    /* needed for height animation */
-    background: rgba(26, 26, 26, 0.6);
-    backdrop-filter: blur(10px);
-    border-left: 2px solid rgba(236, 25, 101, 0.5);
+    background: rgba(20, 20, 20, 0.95);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-left: 3px solid var(--primary-theme-color);
+    border-radius: 6px;
     margin: 0 auto;
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
-    width: 80%;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    width: 85%;
     max-width: 500px;
 
     /* GSAP-controlled animation states */
     height: 0;
-    /* collapsed — removes empty space */
     opacity: 0;
-    /* invisible until animated */
     padding: 0;
-    /* avoid spacing when closed */
     transform: translateY(-8px);
     pointer-events: none;
-    /* avoid hover glitches when closed */
 
     list-style: none;
     z-index: 10;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
 }
 
-/* .has-submenu:hover .submenu {
-    max-height: 500px;
-    opacity: 1;
-    padding: 1rem 0;
-} */
+/* ====================================
+   PERFECTLY ALIGNED GRID LAYOUTS
+   ==================================== */
 
-/* Grid Layout for Services Submenu */
-.modern-menu-item:has(.submenu .submenu-item:nth-child(3)) .submenu {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(3, auto);
-    gap: 0;
+/* 1-4 items: Single column, centered */
+.submenu[data-count="1"],
+.submenu[data-count="2"],
+.submenu[data-count="3"],
+.submenu[data-count="4"] {
+    display: flex;
+    flex-direction: column;
     max-width: 500px;
+}
+
+/* 5-6 items: 2 equal columns with fixed widths */
+.submenu[data-count="5"],
+.submenu[data-count="6"] {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    max-width: 800px;
+    align-items: start;
+}
+
+/* For 5 items, span the last item */
+.submenu[data-count="5"] .submenu-item:nth-child(5) {
+    grid-column: 1 / -1;
+}
+
+/* 7-12 items: 2 columns with equal distribution */
+.submenu[data-count="7"],
+.submenu[data-count="8"],
+.submenu[data-count="9"],
+.submenu[data-count="10"],
+.submenu[data-count="11"],
+.submenu[data-count="12"] {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    max-width: 900px;
+    align-items: start;
+}
+
+/* For odd counts, span the last item */
+.submenu[data-count="7"] .submenu-item:nth-child(7),
+.submenu[data-count="9"] .submenu-item:nth-child(9),
+.submenu[data-count="11"] .submenu-item:nth-child(11) {
+    grid-column: 1 / -1;
+}
+
+/* Remove default borders */
+.submenu-item {
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+/* Add subtle separators between items */
+.submenu[data-count] .submenu-item {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Remove border from last items in each column */
+.submenu[data-count="2"] .submenu-item:last-child,
+.submenu[data-count="3"] .submenu-item:last-child,
+.submenu[data-count="4"] .submenu-item:last-child {
+    border-bottom: none;
+}
+
+/* For 2-column grids, add vertical separator */
+.submenu[data-count="5"] .submenu-item:nth-child(odd):not(:last-child),
+.submenu[data-count="6"] .submenu-item:nth-child(odd),
+.submenu[data-count="7"] .submenu-item:nth-child(odd):not(:last-child),
+.submenu[data-count="8"] .submenu-item:nth-child(odd),
+.submenu[data-count="9"] .submenu-item:nth-child(odd):not(:last-child),
+.submenu[data-count="10"] .submenu-item:nth-child(odd),
+.submenu[data-count="11"] .submenu-item:nth-child(odd):not(:last-child),
+.submenu[data-count="12"] .submenu-item:nth-child(odd) {
+    border-right: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Remove bottom border from last row items */
+.submenu[data-count="6"] .submenu-item:nth-child(5),
+.submenu[data-count="6"] .submenu-item:nth-child(6),
+.submenu[data-count="8"] .submenu-item:nth-child(7),
+.submenu[data-count="8"] .submenu-item:nth-child(8),
+.submenu[data-count="10"] .submenu-item:nth-child(9),
+.submenu[data-count="10"] .submenu-item:nth-child(10),
+.submenu[data-count="12"] .submenu-item:nth-child(11),
+.submenu[data-count="12"] .submenu-item:nth-child(12) {
+    border-bottom: none;
+}
+
+/* Remove border from spanning items */
+.submenu[data-count="5"] .submenu-item:nth-child(5),
+.submenu[data-count="7"] .submenu-item:nth-child(7),
+.submenu[data-count="9"] .submenu-item:nth-child(9),
+.submenu[data-count="11"] .submenu-item:nth-child(11) {
+    border-bottom: none;
+    border-right: none;
+}
+
+.submenu-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.1rem 1.75rem;
+    color: #ffffff !important;
+    text-decoration: none !important;
+    font-size: 0.8rem;
+    font-family: var(--ahy-heading-font-tomorrow);
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    letter-spacing: 0.8px;
+    opacity: 0.88;
+    line-height: 1.3;
+    white-space: nowrap;
+    min-height: 3.2rem;
 }
 
 .submenu-item .submenu-link::after {
     content: "";
-    width: 18px;
-    height: 18px;
-    margin-left: 8px;
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    margin-left: 12px;
     display: inline-block;
-
-    /* Apply your SVG */
     mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M7 7h8.586L5.293 17.293l1.414 1.414L17 8.414V17h2V5H7v2z'/></svg>");
     mask-size: contain;
     mask-repeat: no-repeat;
-
-    /* Default color */
-    background-color: #ffffff;
-
-    transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-/* Hover effect: arrow turns pink (var(--primary-theme-color)) */
-.submenu-item:hover .submenu-link::after {
-    background-color: var(--primary-theme-color);
-    transform: translateX(4px);
-}
-
-.submenu-item:first-child .submenu-link {
-    white-space: nowrap;
-}
-
-.submenu-item {
-    margin: 0;
-    padding: 0;
-}
-
-.submenu-link {
-    display: block;
-    padding: 0.6rem 2rem;
-    color: #ffffff !important;
-    text-decoration: none !important;
-    font-size: 0.9rem;
-    font-family: var(--ahy-heading-font-tomorrow);
-    font-weight: 700;
-    text-transform: uppercase;
-    transition: all 0.3s ease;
-    letter-spacing: 0.5px;
-    opacity: 0.8;
+    background-color: rgba(255, 255, 255, 0.5);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .submenu-link:hover {
-    background: rgba(236, 25, 101, 0.15);
-    color: var(--primary-theme-color) !important;
-    padding-left: 2.5rem;
+    background: linear-gradient(90deg, 
+        rgba(236, 25, 101, 0.08) 0%, 
+        rgba(236, 25, 101, 0.12) 100%);
+    color: #ffffff !important;
     opacity: 1;
+    padding-left: 2.25rem;
+}
+
+.submenu-item:hover .submenu-link::after {
+    background-color: var(--primary-theme-color);
+    transform: translate(4px, -4px);
 }
 
 /* Indicator for items with submenu */
@@ -355,9 +432,6 @@
     transition: transform 0.3s ease;
 }
 
-/* .has-submenu:hover .menu-link::after {
-    transform: rotate(180deg);
-} */
 .has-submenu.open .menu-link::after {
     transform: rotate(180deg);
 }
@@ -377,37 +451,34 @@
         transform: translateY(40px) translateX(0);
     }
 
-    /* Remove grid layout on mobile */
-    .modern-menu-item:has(.submenu .submenu-item:nth-child(3)) .submenu {
-        display: block;
-        grid-template-columns: none;
-        grid-template-rows: none;
-        max-width: 100%;
-        width: 90%;
-    }
-
-    .submenu {
-        width: 90%;
+    /* Reset all grid layouts to single column on mobile */
+    .submenu[data-count] {
+        display: flex !important;
+        flex-direction: column !important;
+        grid-template-columns: none !important;
+        max-width: 100% !important;
+        width: 90% !important;
         margin-left: 1rem;
     }
 
+    /* Reset all special grid positioning */
+    .submenu-item {
+        grid-column: auto !important;
+        max-width: 100% !important;
+        border-right: none !important;
+    }
+
     .submenu-link {
-        padding: 0.5rem 1rem;
-        font-size: 1.2rem;
+        padding: 0.9rem 1.25rem;
+        font-size: 0.85rem;
+        white-space: normal;
+        min-height: auto;
     }
 
     .submenu-link:hover {
-        padding-left: 1.5rem;
+        padding-left: 1.75rem;
     }
 
-
-
-
-
-
-
-
-    /* Logo */
     .ahy-logo {
         width: 50px;
         height: 50px;
@@ -417,8 +488,6 @@
         left: 0.7rem;
     }
 
-
-    /* Toggle Button */
     .menu-toggle {
         position: fixed;
         top: 1.5rem;
@@ -443,23 +512,17 @@
     }
 }
 
-
 .menu-link a {
     text-decoration: none !important;
     color: white !important;
-
 }
 
 .modern-menu-item:hover .menu-link a {
     color: var(--primary-theme-color) !important;
 }
 
-
-
-
 .menu-copy {
     left: 30px;
-    /* static */
     transform: translateX(0);
     transition: transform 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
     will-change: transform;
