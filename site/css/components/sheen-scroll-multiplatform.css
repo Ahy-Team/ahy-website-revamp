@@ -1,0 +1,78 @@
+/* ========== Team Intro Section ========== */
+
+.team-intro-section {
+    min-height: 100vh;
+    min-height: 100dvh;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #000;
+    color: #ffffff;
+    text-align: center;
+    padding: 0 2rem;
+}
+
+.team-intro-text {
+    opacity: 0;
+    font-size: 5rem;
+    width: 70%;
+    font-weight: var(--ahy-weight-medium);
+    line-height: 1.3;
+    animation: fadeIn 1.5s ease forwards;
+    font-family: var(--ahy-heading-font-tomorrow);
+}
+
+.team-intro-text .highlight {
+    color: #ec1965;
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+/* Responsive */
+@media (max-width: 1440px) {
+    .team-intro-text {
+        font-size: 4rem;
+        width: 80%;
+    }
+}
+
+@media (max-width: 1024px) {
+    .team-intro-text {
+        font-size: 3.5rem;
+        width: 80%;
+    }
+}
+
+@media (max-width: 768px) {
+    .team-intro-text {
+        font-size: 3rem;
+        line-height: 1.4;
+        width: 80%;
+    }
+}
+
+@media (max-width: 425px) {
+    .team-intro-text {
+        font-size: 2.7rem;
+        line-height: 1.5;
+        width: 100%;
+        padding: 0.5rem;
+    }
+}
+@media (max-width: 375px) {
+    .team-intro-text {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 320px) {
+    .team-intro-text {
+        font-size: 2.2rem;
+    }
+}

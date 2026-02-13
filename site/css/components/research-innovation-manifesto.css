@@ -1,0 +1,504 @@
+/* Wrapper section with overflow control */
+.marquee-section {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
+    position: relative;
+    padding: 100px 0;
+    /* background-color: var(--bg-color); */
+    padding: 0 !important;
+}
+
+/* Scoped reset only for marquee section */
+.marquee-section *,
+.marquee-section *::before,
+.marquee-section *::after {
+    box-sizing: border-box;
+}
+
+.marquee-img {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    will-change: transform;
+    top: 0;
+    left: 0;
+    background: #ffffff;
+}
+
+.marquee-description {
+    font-size: clamp(1.5rem, 1.2vw, 1.25rem);
+    font-weight: 400;
+    line-height: 1.6;
+    color: #fff;
+    font-family: var(--ahy-body-font-grandstander);
+}
+
+.marquee-title {
+    color: #fff;
+    /* Reduced size for marquee title to avoid overpowering the marquee */
+    font-size: clamp(1.6rem, 2.2vw, 2.2rem);
+    line-height: 1.2;
+    word-wrap: break-word;
+}
+
+.marquee-cards {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.marquee-card {
+    width: 100%;
+    max-width: 100%;
+    height: 100vh;
+    min-height: 100vh;
+    position: relative;
+    padding: 0;
+    margin: 0 0 25vh 0;
+    overflow: clip;
+    z-index: 1;
+}
+
+.marquee-card:last-child {
+    margin-bottom: 0;
+}
+
+.marquee-card-marquee {
+    position: absolute;
+    width: 100%;
+    max-width: 100%;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    overflow: clip;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.marquee-track {
+    display: flex;
+    will-change: transform;
+    width: auto;
+    flex-wrap: nowrap; /* Prevent items from wrapping to next line */
+}
+
+.marquee-track h1 {
+    flex: 0 0 auto;
+    white-space: nowrap;
+    display: inline-block;
+    word-break: keep-all; /* avoid breaking words */
+    overflow: visible;
+    hyphens: none;
+    font-size: clamp(6rem, 10vw, 12rem); /* Larger marquee text */
+    font-weight: 700;
+    margin-right: clamp(40px, 6vw, 120px); /* increased spacing between words */
+    color: rgba(255, 255, 255, 0.95);
+    letter-spacing: -0.02em;
+}
+
+.marquee-text {
+    white-space: nowrap;
+    font-size: clamp(3rem, 8vw, 8rem);
+    font-weight: 600;
+    margin-right: clamp(15px, 2vw, 30px);
+    color: rgba(255, 255, 255, 0.841);
+    flex-shrink: 0;
+}
+
+.marquee-card-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100vw;
+    height: 100vh;
+    will-change: transform;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+}
+
+.marquee-card-img {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: var(--primary-color, #000);
+    border-radius: clamp(25px, 8vw, 150px);
+    overflow: clip;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    will-change: transform, border-radius;
+}
+
+/* Dark overlay that fades in on scroll */
+.marquee-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.815);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1;
+    transition: opacity 0.2s linear;
+}
+
+/* ensure image is below overlay and content above */
+.marquee-card .marquee-img {
+    z-index: 0;
+}
+.marquee-card .marquee-card-content {
+    z-index: 2;
+}
+
+.marquee-card-content {
+    position: relative;
+    width: 80%;
+    height: 100%;
+    padding: clamp(2rem, 4vw, 4rem) clamp(1rem, 2.5vw, 2.5rem);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: clamp(0.75rem, 5.5vw, 4.5rem);
+    z-index: 1;
+}
+
+.marquee-card-title {
+    width: 100%;
+    max-width: 95%;
+    text-align: center;
+}
+
+.marquee-card-description {
+    width: 90%;
+    text-align: center;
+    transform: translateX(40px);
+    opacity: 0;
+    padding: 0 clamp(0.5rem, 1vw, 1rem);
+}
+
+/* Char animation wrapper */
+.marquee-section .char {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+}
+
+.marquee-section .char span {
+    transform: translateX(100%);
+    display: inline-block;
+}
+
+.marquee-section .word {
+    display: inline-block;
+    white-space: nowrap;
+    margin-right: 0.25em;
+}
+
+/* BUTTON */
+.blreveal-center-btn {
+    opacity: 0;
+    transform: translateY(30px);
+}
+.blreveal-center-btn {
+    --btn-bg: #ffffff;
+    --btn-text: #000;
+    --btn-padding: 1.4rem 2.2rem;
+    --btn-radius: 24px;
+
+    position: relative;
+    margin-top: 1rem;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--btn-bg);
+    color: var(--btn-text);
+    padding: var(--btn-padding);
+    border-radius: var(--btn-radius);
+    font-family: var(--ahy-body-font-grandstander);
+    font-size: clamp(1rem, 4vw, 1.8rem);
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+    line-height: 1.2;
+    cursor: pointer;
+    overflow: hidden;
+    box-sizing: border-box;
+    box-shadow: 0 2px 8px -1px rgb(0 0 0 / 62%);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    min-width: 220px;
+    border: none;
+}
+
+.blreveal-center-btn:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px -2px var(--primary-color);
+}
+
+.blreveal-btn-text-wrapper {
+    display: grid;
+    place-items: center;
+    position: relative;
+    overflow: hidden;
+    height: 1.5em;
+}
+
+.text-default,
+.text-hover {
+    grid-area: 1 / 1;
+    display: flex;
+    white-space: nowrap;
+    will-change: transform;
+}
+
+.char {
+    display: inline-block;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+}
+
+.text-hover .char {
+    transform: translateY(100%);
+    opacity: 0;
+}
+
+.text-default .char {
+    transform: translateY(0%);
+    opacity: 1;
+}
+/* Laptop/Desktop */
+@media (max-width: 1200px) {
+    .marquee-section {
+        padding: 80px 0;
+    }
+
+    .marquee-card-img {
+        border-radius: clamp(50px, 6vw, 100px);
+    }
+
+    .marquee-track h1 {
+        font-size: clamp(5rem, 9vw, 10rem);
+        margin-right: clamp(30px, 5vw, 80px);
+    }
+}
+
+
+
+
+/* Tablet */
+@media (max-width: 900px) {
+    .marquee-section {
+        padding: 60px 0;
+    }
+
+    .marquee-card {
+        margin-bottom: 20vh;
+    }
+
+    .marquee-text {
+        font-size: clamp(2.5rem, 7vw, 6rem);
+    }
+
+    .marquee-card-img {
+        border-radius: clamp(40px, 5vw, 80px);
+    }
+
+    .marquee-track h1 {
+        font-size: clamp(4rem, 7vw, 8rem);
+        margin-right: 40px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .marquee-section {
+        padding: 50px 0;
+    }
+
+    .marquee-card {
+        margin-bottom: 15vh;
+        height: 100vh;
+    }
+
+    .marquee-card-img {
+        border-radius: clamp(30px, 8vw, 50px);
+    }
+
+    .marquee-text {
+        font-size: clamp(2rem, 10vw, 4rem);
+        margin-right: 15px;
+    }
+
+    .marquee-track h1 {
+        font-size: clamp(3rem, 8vw, 6rem);
+        margin-right: 20px;
+    }
+
+    .marquee-card-description {
+       width: 100%;
+    }
+
+    .marquee-card-content {
+        padding: 1.5rem 1rem;
+        /* padding-top: 4rem; */
+    }
+    .marquee-card-content{
+        width: 95%;
+    }
+}
+
+/* Small Mobile */
+@media (max-width: 400px) {
+    .marquee-section {
+        padding: 40px 0;
+    }
+
+    .marquee-card-img {
+        border-radius: 25px;
+    }
+
+    .marquee-text {
+        font-size: 2.5rem;
+        margin-right: 10px;
+    }
+
+    .marquee-track h1 {
+        font-size: clamp(2.5rem, 9vw, 4rem);
+        margin-right: 12px;
+    }
+
+    .marquee-card-content {
+        padding: 1rem 0.75rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .blreveal-center-btn {
+        padding: 1.2rem 2.5rem;
+        min-width: 200px;
+    }
+
+    h1.block-featured-heading {
+        font-size: 1.6rem;
+        line-height: 2rem;
+    }
+
+    .block-featured-animate-text {
+        font-size: 1.6rem;
+    }
+
+    .block-featured-subtext {
+        font-size: 1.05rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hide-on-sm {
+        display: none;
+    }
+
+    .block-reveal-draw-colr {
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 425px) {
+    .blreveal-center-btn {
+        padding: 1rem 2rem;
+        min-width: auto;
+        width: 90%;
+    }
+
+    h1.block-featured-heading {
+        font-size: 2.05rem;
+        line-height: 2.75rem;
+    }
+
+    .block-featured-animate-text {
+        font-size: 1.25rem;
+    }
+
+    .block-featured-subtext {
+        font-size: 1.25rem;
+        padding-top: 3rem;
+    }
+
+    .blreveal-center-btn {
+        font-size: 0.95rem;
+        padding: 0.85rem 1.6rem;
+    }
+}
+.marquee-title {
+    color: #fff;
+    font-size: clamp(1.6rem, 5vw, 4rem);
+    line-height: 1.2;
+    word-break: keep-all;
+    overflow-wrap: normal;
+    letter-spacing: 0.5px;
+}
+
+.marquee-section .word {
+    display: inline-block;
+    white-space: nowrap;
+    margin-right: 0.25em;
+}
+
+.marquee-section .char {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+}
+
+.marquee-section .char span {
+    transform: translateX(100%);
+    display: inline-block;
+}
+@media (max-width:1440px) {
+    .marquee-title{
+        font-size: 3rem;
+    }
+}
+@media (max-width:1215px) {
+    .marquee-title{
+        font-size: 2rem;
+    }
+}
+
+@media (max-width:425px) {
+    .marquee-title{
+        font-size: 1.7rem;
+    }
+    
+}
+
+@media (min-width:425px) and (max-width:768px){
+    .marquee-card-content{
+        padding-top: 4rem;
+    }
+}
+
+
+.marquee-card-img {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: clamp(25px, 8vw, 150px);
+    overflow: clip;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    will-change: transform, border-radius;
+}
+
+/* Remove the .marquee-img since we're using background on parent */
+.marquee-card-img .marquee-img {
+    display: none;
+}

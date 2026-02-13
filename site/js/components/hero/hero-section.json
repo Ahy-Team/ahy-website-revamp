@@ -42,5 +42,57 @@
     "partners": {
         "title": "Partners",
         "subtitle": "We collaborate with a global network of trusted technology and solution partners. Together, we deliver enterprise-grade systems that combine proven platforms, deep expertise, and outcomes that create measurable business value."
+    },
+    "our-story": {
+        "title": "Our Story",
+        "subtitle": "We help businesses solve complex commerce and operational challenges by building integrated digital systems that connect strategy, user experience, and AI-driven workflows. Our focus is on long-term outcomes, not just technology."
+    },
+    "omniCommerce-systems": {
+        "title": "Omni Commerce",
+        "subtitle": "We enable brands to unify commerce across all channels, simplifying backend complexity and orchestrating operations. Our systems improve performance, efficiency, and resilience while removing technical friction."
+    },
+    "composable-commerce": {
+        "title": "Composable <br> Commerce",
+        "subtitle": "We design modular commerce architectures that balance flexibility, scale, and maintainability. Our approach allows businesses to adapt across channels and regions, making systems future-ready without locking them into a single platform."
+    },
+    "commerce-ai": {
+        "title": "Commerce AI",
+        "subtitle": "We empower brands with AI-driven merchandising, optimized operations, and real-time insights. By automating complex workflows, we reduce manual bottlenecks and enable intelligent, scalable commerce systems."
+    },
+    "product-experience-design": {
+        "title": "Product Design",
+        "subtitle": "We create enterprise-grade, user-centric designs that are functional, accessible, and built to scale. Our approach blends UX strategy, in-depth research, and thoughtful design thinking to deliver seamless digital experiences that support complex systems."
+    },
+    "digital-experience-engineering": {
+        "title": "Digital Experience",
+        "subtitle": "We build scalable UX and design systems that evolve with AI and growing complexity. By combining usability research with strategic UX engineering, we deliver intuitive, high-performing digital experiences."
+    },
+    "mobile-multiplatform-apps": {
+        "title": "Cross-Platform Apps",
+        "subtitle": "We build native and cross-platform applications designed to scale with your business. Our systems integrate AI and commerce capabilities to create intelligent, high-performing mobile experiences that solve real-world problems."
+    },
+    "research-innovation": {
+        "title": "Research Innovation",
+        "subtitle": "We drive applied innovation through exploration, prototyping, and emerging technologies. Our focus is on practical R&D that transforms ideas into effective systems, bridging cutting-edge research with business impact."
+    },
+    "our-approach": {
+        "title": "Our Approach",
+        "subtitle": "We approach challenges thoughtfully, evaluating trade-offs to craft solutions that fit each business’s unique needs. Rather than one-size-fits-all, we focus on outcomes and systems that scale over time."
+    },
+    "architecture-platforms": {
+        "title": "Architecture Platforms",
+        "subtitle": "We design scalable, high-performing architectures guided by strategy, resilience, and long-term growth. Platform choices are framed as architectural decisions that support business outcomes, not as technology showcases."
+    },
+    "ai-genai-intelligent-systems": {
+        "title": "AI, GenAI Intelligent Systems",
+        "subtitle": "We develop production-grade AI solutions, including LLMs, agents, and complex automations. Our focus is on responsible, reliable, and integrated AI that streamlines workflows and enhances decision-making."
+    },
+    "design-systems-usability": {
+        "title": "Design Systems Usability",
+        "subtitle": "We create research-driven, scalable design systems that prioritize usability, accessibility, and performance. Our designs support engineering, AI workflows, and complex business processes, ensuring long-term maintainability."
+    },
+    "insights": {
+        "title": "Insights",
+        "subtitle": "Explore articles, expert opinions, and lessons from real-world projects. Gain practical insights that reflect hands-on experience, highlighting what works, what doesn’t, and how to approach complex commerce and AI challenges."
     }
 }

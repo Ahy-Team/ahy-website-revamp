@@ -1,0 +1,315 @@
+/* ----------------------------------------------------
+   BASE RESET + TYPOGRAPHY
+---------------------------------------------------- */
+
+.sanser-body {
+    overflow-x: hidden;
+}
+
+/* ----------------------------------------------------
+   SECTION + CIRCLE WRAPPER
+---------------------------------------------------- */
+.sanser-body {
+    padding: 0 !important;
+}
+
+.sanser-section2 {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: #000000;
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+}
+.services-we-offer-heading {
+    font-size: 3.5rem;
+    font-weight: var(--ahy-weight-semibold);
+    font-family: var(--ahy-heading-font-tomorrow);
+    text-align: center;
+    text-transform: capitalize;
+    /* padding-top: 5rem; */
+    color: #ffffff;
+}
+
+
+.services-we-offer-heading span {
+    background: linear-gradient(90deg, #ff3d82 0%, #ec1965 50%, #c01454 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    padding-top: 1rem;
+}
+
+.sanser-cards {
+    position: relative;
+    width: min(90vw, 550px);
+    aspect-ratio: 1;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1500px;
+    transform-style: preserve-3d;
+    margin-top: 4rem;
+}
+
+.sanser-background {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg,
+            #ec1965 var(--sanser-conic-t, 0%),
+            transparent var(--sanser-conic-b, 0%));
+    filter: drop-shadow(0 0 30px rgba(236, 25, 101, 0.6));
+    z-index: -1;
+}
+
+/* ----------------------------------------------------
+   CARD (FRONT + BACK SURFACES)
+---------------------------------------------------- */
+
+.sanser-card {
+    position: relative;
+    width: 72%;
+    height: 72%;
+    max-width: 420px;
+    max-height: 420px;
+    background: var(--primary-color);
+    border: 2px solid #ec1965;
+    border-radius: 2rem;
+    transform-style: preserve-3d;
+    transition: transform 0.8s cubic-bezier(0.2, 0.7, 0.4, 1);
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(236, 25, 101, 0.4);
+}
+
+/* Shared face styling */
+.sanser-card-face {
+    position: absolute;
+    inset: 0;
+    padding: 2rem;
+    border-radius: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+.sanser-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+/* FRONT */
+.sanser-front {
+    background: #000000;
+    transform: rotateY(0deg);
+}
+
+.sanser-front-title {
+    font-family: var(--ahy-heading-font-tomorrow);
+    font-size: 2rem;
+    color: #ffffff;
+}
+
+.sanser-front-info {
+    font-family: var(--ahy-body-font-grandstander);
+    font-size: 1.3rem;
+    color: #ffffff;
+}
+
+/* BACK */
+.sanser-back {
+    background: #000000;
+    transform: rotateY(180deg);
+}
+
+.sanser-back-title {
+    font-family: var(--ahy-heading-font-tomorrow);
+    font-size: 2rem;
+    color: #ffffff;
+}
+
+.sanser-back-info {
+    font-family: var(--ahy-body-font-grandstander);
+    font-size: 1.3rem;
+    color: #ffffff;
+}
+
+/* ----------------------------------------------------
+   CONTENT ELEMENTS
+---------------------------------------------------- */
+
+.sanser-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    font-size: 1.8rem;
+}
+
+.sanser-count {
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+    color: #ec1965;
+}
+
+.sanser-main-number {
+    font-size: 3.4rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #ec1965, #ffffff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.sanser-title {
+    margin-top: 2rem;
+    font-size: 2.4rem;
+    font-weight: 600;
+    text-align: left;
+    color: #ffffff;
+}
+
+.sanser-info {
+    margin-top: 1.5rem;
+    font-size: 1.3rem;
+    line-height: 1.6;
+    text-align: left;
+    color: #ffffff;
+}
+
+.sanser-svg-container {
+    width: 100px;
+    height: 100px;
+    margin: 1.5rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.sanser-svg-container svg {
+    width: 100%;
+    height: 180%;
+}
+
+.sanser-svg-fill {
+    fill: #ec1965;
+    stroke: #ec1965;
+    stroke-width: 2.5;
+    transition: fill 0.3s ease, stroke 0.3s ease;
+}
+
+.sanser-card:hover .sanser-svg-fill {
+    fill: #ffffff;
+    stroke: #ffffff;
+}
+
+.sanser-card:hover {
+    border-color: #ff3d82;
+    box-shadow: 0 15px 50px rgba(236, 25, 101, 0.6);
+}
+/* Default: same line (desktop & tablet) */
+.mobile-break {
+    display: inline;
+}
+
+/* Mobile only */
+@media (max-width: 768px) {
+    .mobile-break {
+        display: block;
+       
+    }
+}
+
+/* ----------------------------------------------------
+   RESPONSIVENESS
+---------------------------------------------------- */
+
+@media (max-width: 768px) {
+    .sanser-card {
+        width: 82%;
+        height: 82%;
+    }
+
+    .services-we-offer-heading {
+        font-size: 2rem;
+        padding-top: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .sanser-section2 {
+        /* padding: 6rem 1rem; */
+        padding-top: 6rem;
+        padding-right: 1rem;
+        padding-left: 1rem;
+        padding-bottom: 0 !important;
+    }
+
+    .sanser-cards {
+        max-width: 360px;
+    }
+
+    .sanser-card {
+        width: 80%;
+        height: 81%;
+    }
+
+    .sanser-front-title {
+        font-size: 1.3rem;
+    }
+
+    .services-we-offer-heading {
+        font-size: 1.8rem;
+    }
+
+    .sanser-svg-container {
+        width: 50px;
+        height: 50px;
+    }
+
+    .sanser-front-info {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 320px) {
+    .sanser-content-wrapper {
+        display: flex;
+        gap: 0.1rem;
+    }
+
+    .sanser-front-title {
+        font-size: 1rem;
+    }
+
+    .sanser-front-info {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width:1440px) {
+    .sanser-cards{
+        width: min(90vw, 470px);
+    }
+    .sanser-section2{
+        gap: 1rem;
+    }
+    .sanser-card-face{
+        padding-top: 0px;
+    }
+    .sanser-section2{
+        padding-top: 6rem;
+        padding-bottom: 1rem;
+
+    }
+}

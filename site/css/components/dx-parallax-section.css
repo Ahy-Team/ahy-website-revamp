@@ -1,0 +1,314 @@
+/* === Scoped Dummy Sections === */
+.pk-dummy {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f3e6ff;
+}
+
+.pk-dummy__heading {
+    font-size: 3rem;
+    color: #4c0070;
+}
+
+/* === Main Scroll Section === */
+.pk-scroll {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+    background-color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    perspective: 1000px;
+}
+
+.pk-scroll__content {
+    position: relative;
+    z-index: 10;
+}
+
+.pk-scroll__kicker {
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    font-family: var(--ahy-body-font-grandstander);
+    color: rgb(255, 255, 255);
+}
+
+.pk-scroll__title {
+
+    font-family: var(--ahy-heading-font-tomorrow);
+    font-weight: var(--ahy-weight-semibold);
+    font-size: clamp(2rem, 5vw, 3.9rem);
+    line-height: 1.2;
+    color: rgb(255, 255, 255);
+    margin-bottom: 2rem;
+}
+
+.pk-scroll__btn {
+    background: #000;
+    color: #fff;
+    border: none;
+    padding: 1rem 2rem;
+    margin-top: 2rem;
+    cursor: pointer;
+    font-size: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background 0.3s ease;
+}
+
+.pk-scroll__btn:hover {
+    background: #333;
+}
+
+/* === Floating Images === */
+.pk-scroll__img {
+    position: absolute;
+    width: 250px;
+    will-change: transform;
+    transform-style: preserve-3d;
+    cursor: pointer;
+    z-index: 2;
+    transition: transform 0.3s ease;
+}
+
+.pk-scroll__img--1 {
+    top: 8%;
+    left: 8%;
+}
+
+.pk-scroll__img--2 {
+    top: 10%;
+    right: 10%;
+}
+
+.pk-scroll__img--3 {
+    bottom: 10%;
+    left: 15%;
+}
+
+.pk-scroll__img--4 {
+    bottom: 8%;
+    right: 15%;
+}
+
+.pk-scroll__img {
+    position: absolute;
+    width: 250px;
+    /* keep original size */
+    will-change: transform;
+    transform-style: preserve-3d;
+    cursor: pointer;
+    z-index: 2;
+    transition: transform 0.3s ease;
+    /* add perspective variation */
+}
+
+.pk-scroll__img--1 {
+    top: 5%;
+    left: 10%;
+    transform: rotate(-10deg) translateZ(0px);
+}
+
+.pk-scroll__img--2 {
+    top: 15%;
+    right: 5%;
+    transform: rotate(5deg) translateZ(20px);
+}
+
+.pk-scroll__img--3 {
+    bottom: -10%;
+    left: 10%;
+    transform: rotate(15deg) translateZ(40px);
+}
+
+.pk-scroll__img--4 {
+    bottom: -18%;
+    right: 15%;
+    transform: rotate(-5deg) translateZ(60px);
+}
+
+.pk-scroll__content {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.parallax-content-container {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.parallax-content-container p {
+    font-size: 1.2rem;
+    margin-top: 2rem;
+    line-height: 1.7;
+    font-family: var(--ahy-body-font-grandstander);
+    color: #f0f0f0;
+}
+
+/* ============================
+   RESPONSIVE   LARGE DESKTOP
+   ============================ */
+@media (max-width: 1400px) {
+    .pk-scroll__title {
+        font-size: 4.2rem;
+    }
+
+    .pk-scroll__img {
+        width: 200px;
+    }
+}
+
+/* ============================
+   RESPONSIVE   LAPTOP
+   ============================ */
+@media (max-width: 1200px) {
+    .pk-scroll__title {
+        font-size: 3.8rem;
+        padding: 0px 10.5px;
+    }
+
+    .pk-scroll__img {
+        width: 180px;
+    }
+}
+
+/* ============================
+   RESPONSIVE   TABLET
+   ============================ */
+@media (max-width: 992px) {
+    .pk-scroll {
+        padding: 0 2rem;
+    }
+
+    .pk-scroll__title {
+        font-size: 3rem;
+    }
+
+    .pk-scroll__img {
+        width: 150px;
+    }
+
+    .pk-scroll__img--1 {
+        top: 5%;
+        left: 5%;
+    }
+
+    .pk-scroll__img--2 {
+        top: 6%;
+        right: 6%;
+    }
+
+    .pk-scroll__img--3 {
+        bottom: 6%;
+        left: 10%;
+    }
+
+    .pk-scroll__img--4 {
+        bottom: 5%;
+        right: 10%;
+    }
+
+    .parallax-content-container {
+        width: 95%;
+    }
+}
+
+/* ============================
+   RESPONSIVE   MOBILE
+   ============================ */
+@media (max-width: 768px) {
+    .pk-scroll__title {
+        font-size: 2.3rem;
+        line-height: 1.1;
+    }
+
+    .pk-scroll__kicker {
+        font-size: 1rem;
+    }
+
+    .pk-scroll__btn {
+        padding: 0.9rem 1.6rem;
+        font-size: 0.9rem;
+    }
+
+    .pk-scroll__img {
+        width: 110px;
+        opacity: 0.60;
+    }
+
+    .pk-scroll__img--1 {
+        top: 8%;
+        left: 3%;
+    }
+
+    .pk-scroll__img--2 {
+        top: 10%;
+        right: 3%;
+    }
+
+    .pk-scroll__img--3 {
+        bottom: 12%;
+        left: 5%;
+    }
+
+    .pk-scroll__img--4 {
+        bottom: 10%;
+        right: 5%;
+    }
+}
+
+/* ============================
+   RESPONSIVE   SMALL MOBILE
+   ============================ */
+@media (max-width: 500px) {
+    .pk-scroll {
+        padding: 0 1rem;
+    }
+
+    .pk-scroll__title {
+        font-size: 1.8rem;
+        line-height: 1.4;
+    }
+
+    .pk-scroll__img {
+        width: 85px;
+        opacity: 0.50;
+    }
+
+    .pk-scroll__img--1 {
+        top: 10%;
+        left: 5%;
+    }
+
+    .pk-scroll__img--2 {
+        top: 20%;
+        right: 5%;
+    }
+
+    .pk-scroll__img--3 {
+        bottom: -17%;
+        left: 8%;
+    }
+
+    .pk-scroll__img--4 {
+        bottom: -25%;
+        right: 8%;
+    }
+}
+.pk-scroll__title{
+    font-size: clamp(2rem, 5vw, 3.9rem);
+}
+.pk-section-wrapper{
+    padding: 0 !important;
+}

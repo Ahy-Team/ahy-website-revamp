@@ -226,11 +226,15 @@
 @media (max-width: 1024px) {
     .line-split-text-hero {
         font-size: 2rem;
-        padding: 6%;
+        padding: 0;
     }
 
     .service-hero-title {
-        font-size: 7rem;
+        font-size: 4.5rem;
+    }
+    .line-split-container{
+        width: 99vw;
+
     }
 }
 
