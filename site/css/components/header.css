@@ -201,7 +201,7 @@
 }
 
 .modern-menu-item {
-    font-size: clamp(2rem, 3vw, 3rem);
+    font-size: clamp(2rem, 3vw, 2.2rem);
     font-family: var(--ahy-heading-font-tomorrow);
     font-weight: var(--ahy-weight-semibold);
     text-transform: uppercase;
