@@ -260,7 +260,11 @@
         }
 
         .contactUs-btn-text-wrapper {
-            height: 3.5rem; /* Adjust height for smaller font size */
+            height: 4rem; /* Adjust height for smaller font size */
+        }
+        .contactUs-center-btn{
+            display: flex;
+            justify-content: center;
         }
 
     }

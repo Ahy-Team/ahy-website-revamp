@@ -287,9 +287,9 @@
 .submenu[data-count="5"],
 .submenu[data-count="6"] {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    /* grid-template-columns: 1fr 1fr; */
     gap: 0;
-    max-width: 800px;
+    max-width: 500px;
     align-items: start;
 }
 
@@ -306,9 +306,9 @@
 .submenu[data-count="11"],
 .submenu[data-count="12"] {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    /* grid-template-columns: 1fr 1fr; */
     gap: 0;
-    max-width: 900px;
+    max-width: 500px;
     align-items: start;
 }
 
@@ -437,7 +437,7 @@
 }
 @media (max-width: 1440px) {
     .modern-menu-item {
-        font-size: 2.2rem;
+        font-size: 2rem;
         margin: 0.7rem 0;
     }
 }
@@ -542,6 +542,3 @@
     backface-visibility: hidden;
     -webkit-font-smoothing: antialiased;
 }
-
-
-
