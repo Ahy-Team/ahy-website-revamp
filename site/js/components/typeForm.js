@@ -471,7 +471,7 @@
         const submitBtn = document.querySelector('[data-step="5"] .btn-submit');
 
         try {
-            const response = await fetch("https://auto.yellowgap.com/webhook/contact-form-secure", {
+            const response = await fetch("https://auto.yellowgap.com/webhook/e968bdeb-2428-4d03-a8cf-98c2577ebea6", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData),
