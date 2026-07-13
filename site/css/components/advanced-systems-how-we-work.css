@@ -1,0 +1,90 @@
+/* Advanced Systems — How We Work
+   Namespaced under .adv-how; uses the site's dark theme and CSS vars. */
+
+.adv-how {
+    position: relative;
+    z-index: 0;
+    background-color: var(--primary-color);
+    padding: 4rem 2rem 4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.adv-how-title {
+    color: var(--bg-light);
+    font-family: var(--ahy-heading-font-tomorrow);
+    text-align: center;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    margin-bottom: 1rem;
+}
+
+.adv-how-lead {
+    color: #ccc;
+    font-family: var(--ahy-body-font-grandstander);
+    text-align: center;
+    max-width: 640px;
+    line-height: 1.6;
+    font-size: clamp(0.9rem, 1.6vw, 1.05rem);
+    margin-bottom: 2.5rem;
+}
+
+.adv-how-list {
+    width: 80%;
+    /* max-width: 960px; */
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.adv-how-item {
+    background-color: var(--primary-color);
+    padding: 28px 26px;
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+}
+
+.adv-how-num {
+    font-family: var(--ahy-heading-font-tomorrow);
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: #efefd5;
+    opacity: 0.6;
+    flex-shrink: 0;
+    line-height: 1.8;
+}
+
+.adv-how-body h3 {
+    font-family: var(--ahy-body-font-grandstander);
+    font-weight: var(--ahy-weight-bold);
+    color: #fff;
+    font-size: clamp(1.05rem, 2vw, 1.25rem);
+    margin: 0 0 8px;
+}
+
+.adv-how-body p {
+    font-family: var(--ahy-body-font-grandstander);
+    color: #ccc;
+    line-height: 1.6;
+    font-size: clamp(0.85rem, 1.5vw, 1rem);
+    margin: 0;
+}
+.adv-how-body h3{
+    color: #EC1965;
+}
+/* Tablet: two cards per row */
+@media (max-width: 1024px) {
+    .adv-how-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Mobile: one card per row */
+@media (max-width: 768px) {
+    .adv-how-list {
+        width: 100%;
+        grid-template-columns: 1fr;
+    }
+}
