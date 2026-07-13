@@ -87,6 +87,10 @@
         "title": "AI, GenAI Intelligent Systems",
         "subtitle": "We develop production-grade AI solutions, including LLMs, agents, and complex automations. Our focus is on responsible, reliable, and integrated AI that streamlines workflows and enhances decision-making."
     },
+    "advanced-systems": {
+        "title": "Systems and AI",
+        "subtitle": "We design and operate distributed systems, AI runtime integration, and system orchestration for regulated, high-stakes environments. We build for enterprise teams in banking, healthcare, and education, where downtime is a business failure."
+    },
     "design-systems-usability": {
         "title": "Design Systems Usability",
         "subtitle": "We create research-driven, scalable design systems that prioritize usability, accessibility, and performance. Our designs support engineering, AI workflows, and complex business processes, ensuring long-term maintainability."

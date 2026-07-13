@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=10.0, user-scalable=yes" />
+        <title>Advanced Systems &amp; AI Infrastructure | Ahy Consulting</title>
+
+        <meta name="description" content="AHY engineering capability in distributed systems, AI runtime integration, control plane architecture, secure identity, and enterprise deployment. Built for reliability and validated under stress before production exposure." />
+        <!-- Cookie Consent (OrestBida v2) -->
+        <link
+            rel="preload"
+            href="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@v2.8.0/dist/cookieconsent.css"
+            as="style"
+            onload="
+                this.onload = null;
+                this.rel = 'stylesheet';
+            "
+        />
+
+        <noscript>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@v2.8.0/dist/cookieconsent.css" />
+        </noscript>
+
+        <link rel="preload" href="/css/cookieConsent.css" as="style" />
+        <link rel="stylesheet" href="/css/cookieConsent.css" media="print" onload="this.media = 'all'" />
+
+        <script defer src="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@v2.8.0/dist/cookieconsent.js"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+
+            let gaLoaded = false;
+
+            function loadGA() {
+                if (gaLoaded) return;
+                gaLoaded = true;
+
+                const s = document.createElement("script");
+                s.src = "https://www.googletagmanager.com/gtag/js?id=UA-72482257-1";
+                s.async = true;
+                document.head.appendChild(s);
+
+                gtag("js", new Date());
+                gtag("config", "UA-72482257-1", {
+                    send_page_view: true,
+                });
+            }
+
+            ["scroll", "click", "mousemove", "touchstart"].forEach((e) => window.addEventListener(e, loadGA, { once: true, passive: true }));
+        </script>
+        <script>
+            window.ASSET_VERSION = Date.now();
+        </script>
+
+        <link rel="stylesheet" href="css/main.css?v=dev" />
+        <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrambleTextPlugin.min.js"></script>
+        <link rel="shortcut icon" href="/assets/ahy-logo.webp" type="image/webp" />
+        <div data-component="header"></div>
+        <style>
+            h1 {
+                font-family: var(--ahy-heading-font-tomorrow);
+                font-weight: var(--ahy-weight-bold);
+                font-size: clamp(2.2rem, 4vw, 3.5rem);
+                line-height: 1.1;
+            }
+
+            section h1 {
+                font-size: clamp(1.8rem, 3vw, 2.6rem);
+            }
+
+            /* Sticky section sub-navigation (revealed at Core Capabilities) */
+            .caps-subnav {
+                position: fixed;
+                top: 2.4rem;
+                left: 50%;
+                transform: translate(-50%, 0);
+                z-index: 1500;
+                display: flex;
+                gap: 2px;
+                padding: 6px 8px;
+                background: rgba(20, 20, 24, 0.45);
+                -webkit-backdrop-filter: blur(18px) saturate(160%);
+                backdrop-filter: blur(18px) saturate(160%);
+                border: 1px solid rgba(255, 255, 255, 0.18);
+                border-radius: 8em;
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+                max-width: calc(100vw - 220px);
+                overflow-x: auto;
+                scrollbar-width: none;
+            }
+            .caps-subnav::-webkit-scrollbar { display: none; }
+            .caps-subnav a {
+                white-space: nowrap;
+                font-family: var(--ahy-body-font-grandstander);
+                color: #cbd5e1;
+                text-decoration: none;
+                font-size: clamp(0.72rem, 1.4vw, 0.85rem);
+                letter-spacing: 0.4px;
+                padding: 8px 16px;
+                border-radius: 8em;
+                transition: color 0.2s ease, background 0.2s ease;
+            }
+            .caps-subnav a:hover {
+                color: #fff;
+                background: rgba(255, 255, 255, 0.1);
+            }
+            .caps-subnav a.active {
+                color: #ec1965;
+                font-weight: 700;
+                background: rgba(255, 255, 255, 0.1);
+            }
+            @media (max-width: 768px) {
+                .caps-subnav {
+                    top: auto;
+                    bottom: 1.1rem;
+                    transform: translate(-50%, 0);
+                    max-width: calc(100vw - 24px);
+                }
+            }
+        </style>
+
+        <!-- Schema.Org Text -->
+        <!-- 1. Website -->
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "WebSite",
+                "name": "Ahy Consulting",
+                "alternateName": "eCommerce Website Design Agency",
+                "url": "https://www.ahyconsulting.com/our-capabilities"
+            }
+        </script>
+
+        <!-- 2. Breadcrumb -->
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "Home",
+                        "item": "https://www.ahyconsulting.com/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 2,
+                        "name": "our-capabilities",
+                        "item": "https://www.ahyconsulting.com/our-capabilities"
+                    }
+                ]
+            }
+        </script>
+
+        <!-- 3. Professional Service -->
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": ["ProfessionalService", "CreativeWork", "Service"],
+                "@id": "https://www.ahyconsulting.com/",
+                "name": "Advanced Systems and AI Infrastructure",
+                "description": "Distributed systems, AI runtime integration, control plane architecture, secure identity, and enterprise deployment engineering.",
+                "address": {
+                    "@type": "PostalAddress",
+                    "streetAddress": "Thane",
+                    "addressLocality": "Mumbai",
+                    "addressRegion": "MH",
+                    "postalCode": "400601",
+                    "addressCountry": "IN"
+                },
+                "telephone": "+91 9167676599",
+                "brand": "Ahy Consulting",
+                "slogan": "Technology Simplified"
+            }
+        </script>
+
+        <!-- 4. Organization -->
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "Organization",
+                "url": "https://www.ahyconsulting.com",
+                "logo": "https://www.ahyconsulting.com/img/logo/ahyblacklogo.png"
+            }
+        </script>
+    </head>
+
+    <body data-page="advanced-systems">
+        <style>
+            .blob-img {
+                width: 100%;
+                height: 100%;
+            }
+            @media (min-width: 768px) {
+                .blob-img {
+                    height: auto;
+                    width: 100%;
+                }
+            }
+        </style>
+        <!-- ScrollSmoother wrapper structure -->
+        <div class="gradient-blobs">
+            <video class="blobs-video" src="/assets/video/background-video.mp4" autoplay muted loop playsinline></video>
+            <picture>
+                <!-- Desktop: 1441px and above -->
+                <source srcset="/assets/blobs-desktop.webp" media="(min-width: 1441px)" type="image/webp" />
+
+                <!-- Laptop: 768px up to 1440px -->
+                <source srcset="/assets/blobs-laptop.webp" media="(min-width: 768px) and (max-width: 1440px)" type="image/webp" />
+
+                <!-- Mobile: up to 767px with 2x DPI support -->
+                <source srcset="/assets/blobs-mobile.webp 1x, /assets/blobs-mobile@2x.webp 2x" media="(max-width: 767px)" type="image/webp" />
+
+                <!-- Fallback image with critical attributes -->
+                <img class="blob-img" src="/assets/blobs-mobile@2x.webp" alt="Abstract gradient background" width="1534" height="1024" fetchpriority="high" decoding="async" />
+            </picture>
+        </div>
+        <div id="smooth-wrapper">
+            <div id="smooth-content">
+                <main>
+                    <div data-component="heroSection"></div>
+                    <div data-component="advanced-systems-capabilities"></div>
+                    <div data-component="advanced-systems-how-we-work"></div>
+                    <div data-component="advanced-systems-team-depth"></div>
+                    <!-- <div id="contact" data-component="contactUsSection"></div> -->
+                </main>
+                <div data-component="footer"></div>
+            </div>
+        </div>
+        <div data-component="rotatingBadge"></div>
+
+        <!-- Sticky section navigation (top-center; reveals at Core Capabilities) -->
+        <nav class="caps-subnav" aria-label="Section navigation">
+            <a href="#capabilities" data-scroll-link>Core Capabilities</a>
+            <a href="#how-we-work" data-scroll-link>How We Work</a>
+            <a href="#team-depth" data-scroll-link>Team Depth</a>
+            <!-- <a href="#contact" data-scroll-link>Contact</a> -->
+        </nav>
+
+        <!-- GSAP Scripts -->
+        <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+        <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
+        <script defer src="https://unpkg.com/gsap@3/dist/MorphSVGPlugin.min.js"></script>
+        <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollSmoother.min.js"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/circletype@2.3.0/dist/circletype.min.js"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollToPlugin.min.js"></script>
+        <script defer src="/js/cookieConsent-otherPages.js?v=dev"></script>
+        <script defer src="js/cachingSolution.js?v=dev"></script>
+
+        <!-- Section-nav: smooth scroll (ScrollSmoother-aware) -->
+        <script>
+            (function () {
+                var nav = document.querySelector(".caps-subnav");
+                if (!nav) return;
+
+                var links = Array.prototype.slice.call(nav.querySelectorAll("[data-scroll-link]"));
+
+                nav.addEventListener("click", function (e) {
+                    var link = e.target.closest("[data-scroll-link]");
+                    if (!link) return;
+                    var target = document.querySelector(link.getAttribute("href"));
+                    if (!target) return;
+                    e.preventDefault();
+                    var smoother = window.ScrollSmoother && ScrollSmoother.get && ScrollSmoother.get();
+                    if (smoother) {
+                        smoother.scrollTo(target, true, "top 100px");
+                    } else {
+                        target.scrollIntoView({ behavior: "smooth", block: "start" });
+                    }
+                });
+
+                // Highlight the active section link (#ec1965) as each is reached.
+                // Sections load lazily, so wire each one up as it appears.
+                var ids = ["#capabilities", "#how-we-work", "#team-depth", "#contact"];
+                var wired = {};
+                var tries = 0;
+                (function setup() {
+                    if (window.ScrollTrigger) {
+                        var added = false;
+                        ids.forEach(function (id) {
+                            if (wired[id]) return;
+                            var sec = document.querySelector(id);
+                            if (!sec) return;
+                            wired[id] = true;
+                            added = true;
+                            ScrollTrigger.create({
+                                trigger: sec,
+                                start: "top center",
+                                end: "bottom center",
+                                onToggle: function (self) {
+                                    if (!self.isActive) return;
+                                    links.forEach(function (a) {
+                                        a.classList.toggle("active", a.getAttribute("href") === id);
+                                    });
+                                },
+                            });
+                        });
+                        if (added) ScrollTrigger.refresh();
+                    }
+                    if (Object.keys(wired).length < ids.length && tries++ < 600) {
+                        requestAnimationFrame(setup);
+                    }
+                })();
+            })();
+        </script>
+
+        <script defer src="js/main.js"></script>
+    </body>
+</html>

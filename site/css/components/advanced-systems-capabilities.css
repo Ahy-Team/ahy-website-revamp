@@ -1,0 +1,120 @@
+/* Advanced Systems — Core Capabilities
+   Visual language mirrors the site's expandable-section component,
+   but fully namespaced under .adv-capabilities so it is self-contained. */
+
+.adv-capabilities {
+    position: relative;
+    z-index: 0;
+    background-color: var(--primary-color);
+    padding: 4rem 2rem 4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.adv-caps-title {
+    color: var(--bg-light);
+    font-family: var(--ahy-heading-font-tomorrow);
+    text-align: center;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    margin-bottom: 1rem;
+}
+
+.adv-caps-lead {
+    color: #ccc;
+    font-family: var(--ahy-body-font-grandstander);
+    text-align: center;
+    max-width: 640px;
+    line-height: 1.6;
+    font-size: clamp(0.9rem, 1.6vw, 1.05rem);
+    margin-bottom: 2.5rem;
+}
+
+.adv-caps-list {
+    width: 80%;
+    /* max-width: 960px; */
+}
+
+.adv-card {
+    border-bottom: 1px solid #444;
+    font-family: var(--ahy-body-font-grandstander);
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.03);
+    padding: 30px;
+    backdrop-filter: blur(8px);
+}
+
+.adv-card-title {
+    font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+    font-weight: var(--ahy-weight-bold);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    color: white;
+    margin: 0;
+}
+
+.adv-icon {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    transition: transform 0.3s ease;
+    color: #efefd5;
+    transform: scaleX(1.5);
+    flex-shrink: 0;
+}
+
+.adv-card-content {
+    overflow: hidden;
+    height: 0;
+    opacity: 0;
+    color: #ccc;
+    margin-top: 0.5rem;
+    padding: 0 10px;
+    transition: height 0.3s ease, opacity 0.3s ease;
+}
+
+.adv-card-text {
+    opacity: 0;
+    line-height: 1.6;
+    word-spacing: 1px;
+    font-size: clamp(0.85rem, 1.5vw, 1rem);
+    margin: 10px 0 0;
+    transition: opacity 0.3s ease;
+}
+
+.adv-keywords {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 16px 0 4px;
+}
+
+.adv-kw {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    color: #efefd5;
+    font-family: var(--ahy-body-font-grandstander);
+    font-size: clamp(0.7rem, 1.4vw, 0.8rem);
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    padding: 4px 12px;
+    border-radius: 4px;
+}
+
+/* Fallback expanded state when GSAP is unavailable */
+.adv-card.is-open .adv-card-content {
+    height: auto;
+    opacity: 1;
+}
+.adv-card.is-open .adv-card-text {
+    opacity: 1;
+}
+
+@media (max-width: 768px) {
+    .adv-caps-list {
+        width: 100%;
+    }
+    .adv-card {
+        padding: 22px 18px;
+    }
+}
