@@ -89,6 +89,7 @@
                 max-width: calc(100vw - 220px);
                 overflow-x: auto;
                 scrollbar-width: none;
+                z-index: 1;
             }
             .caps-subnav::-webkit-scrollbar { display: none; }
             .caps-subnav a {
@@ -117,6 +118,7 @@
                     bottom: 1.1rem;
                     transform: translate(-50%, 0);
                     max-width: calc(100vw - 24px);
+                    z-index: 999;
                 }
             }
         </style>
@@ -292,10 +294,17 @@
                                 start: "top center",
                                 end: "bottom center",
                                 onToggle: function (self) {
-                                    if (!self.isActive) return;
-                                    links.forEach(function (a) {
-                                        a.classList.toggle("active", a.getAttribute("href") === id);
-                                    });
+                                    if (self.isActive) {
+                                        // Entered this section: highlight only its link
+                                        links.forEach(function (a) {
+                                            a.classList.toggle("active", a.getAttribute("href") === id);
+                                        });
+                                    } else {
+                                        // Left this section: clear its link so hero/footer show none
+                                        links.forEach(function (a) {
+                                            if (a.getAttribute("href") === id) a.classList.remove("active");
+                                        });
+                                    }
                                 },
                             });
                         });
