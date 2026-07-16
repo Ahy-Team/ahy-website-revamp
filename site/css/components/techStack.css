@@ -1,7 +1,7 @@
 .footer {
     position: relative;
     width: 100vw;
-    height: 100vh;
+    height: 80vh;
     padding: 2rem;
     overflow: hidden;
     color: #0f0f0f;
@@ -42,7 +42,7 @@
     transition: opacity 0.3s ease;
     position: absolute;
     width: max-content;
-    font-size: 2rem;
+    font-size: 1.3rem;
     font-weight: 500;
     background-color: #0f0f0f;
     color: #ffffff;
