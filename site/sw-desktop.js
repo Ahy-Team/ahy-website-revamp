@@ -1,107 +1,73 @@
-// sw-desktop.js 
-const CACHE_NAME = "ahy-cache-v3"; // ✅ Bump version to force cache refresh
-const PRECACHE_URLS = [
-    "/",
-    "/index.html",
-];
+// sw-desktop.js
+// The service worker caches ONLY heavy, rarely-changing assets:
+//   - images, fonts, video, and anything under /assets/  -> CACHE FIRST + background revalidate
+// HTML, CSS, JS and /components/ are NOT handled here — they go straight to the
+// network so a deploy is visible on a normal reload (freshness for those is
+// handled by versioned URLs in the component loader).
+// Bump CACHE_VERSION on every deploy so old caches are deleted on activate.
+
+const CACHE_VERSION = "v5";
+const CACHE_NAME = `ahy-cache-desktop-${CACHE_VERSION}`;
+
+function isStaticAsset(url) {
+    return /\.(png|jpe?g|gif|svg|ico|webp|avif|woff2?|ttf|eot|mp4|webm)$/i.test(url.pathname);
+}
 
 self.addEventListener("install", (event) => {
-    // Install immediately
     self.skipWaiting();
-
-    event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(PRECACHE_URLS)));
 });
 
 self.addEventListener("activate", (event) => {
-    // Take control of all clients immediately
     event.waitUntil(
         Promise.all([
             self.clients.claim(),
-            caches.keys().then((cacheNames) => {
-                return Promise.all(
-                    cacheNames.map((cache) => {
-                        if (cache !== CACHE_NAME) {
-                            return caches.delete(cache);
-                        }
-                    }),
-                );
-            }),
-        ]),
+            caches.keys().then((cacheNames) =>
+                Promise.all(
+                    cacheNames
+                        .filter((name) => name !== CACHE_NAME)
+                        .map((name) => caches.delete(name))
+                )
+            ),
+        ])
     );
 });
 
 self.addEventListener("fetch", (event) => {
     const url = new URL(event.request.url);
 
-    // Skip non-http requests
     if (!url.protocol.startsWith("http")) return;
+    if (event.request.method !== "GET") return;
 
-    // 1. Cache First for Static Assets & Components
-    //    ✅ NOW CACHES THE FINAL RESPONSE AFTER REDIRECTS
-    if (url.pathname.match(/\.(js|css|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot|ico|mp4|webm|avif|webp)$/) ||
-        url.pathname.includes("/components/") ||
-        url.pathname.includes("/assets/")) {
-
-        event.respondWith(
-            caches.match(event.request).then((cachedResponse) => {
-                if (cachedResponse) {
-                    return cachedResponse;
-                }
-
-                // ✅ Follow redirects automatically
-                return fetch(event.request, {
-                    redirect: 'follow'
-                }).then((networkResponse) => {
-                    // ✅ Cache the FINAL response (after all redirects)
-                    if (!networkResponse || networkResponse.status !== 200) {
-                        return networkResponse;
-                    }
-
-                    // Clone and cache
-                    const responseToCache = networkResponse.clone();
-                    caches.open(CACHE_NAME).then((cache) => {
-                        cache.put(event.request, responseToCache);
-                    });
-
-                    return networkResponse;
-                }).catch(err => {
-                    console.error('Fetch failed for:', event.request.url, err);
-                    // Return from cache if network fails
-                    return caches.match(event.request);
-                });
-            }),
-        );
+    // Images / fonts / video, and anything under /assets/: cache-first + background revalidate.
+    if (isStaticAsset(url) || url.pathname.includes("/assets/")) {
+        event.respondWith(cacheFirstRevalidate(event.request, CACHE_NAME));
         return;
     }
 
-    // 2. Stale-While-Revalidate for HTML Pages
-    //    Provides instant load (if cached) while updating in background
-    if (event.request.mode === "navigate" && !url.pathname.includes("/components/")) {
-        event.respondWith(
-            caches.match(event.request).then((cachedResponse) => {
-                const fetchPromise = fetch(event.request, {
-                    redirect: 'follow'  // ✅ Follow redirects for HTML too
-                })
-                    .then((networkResponse) => {
-                        if (networkResponse && networkResponse.status === 200) {
-                            const responseToCache = networkResponse.clone();
-                            caches.open(CACHE_NAME).then((cache) => {
-                                cache.put(event.request, responseToCache);
-                            });
-                        }
-                        return networkResponse;
-                    })
-                    .catch((err) => {
-                        console.log("Network fetch failed for page", err);
-                        return cachedResponse; // Fallback to cache
-                    });
-
-                return cachedResponse || fetchPromise;
-            }),
-        );
-        return;
-    }
-
-    // 3. Network First for everything else (API calls, etc.)
-    event.respondWith(fetch(event.request));
+    // HTML, CSS, JS and /components/ are intentionally NOT handled — straight to network.
+    return;
 });
+
+async function cacheFirstRevalidate(request, cacheName) {
+    const cache = await caches.open(cacheName);
+    const cached = await cache.match(request);
+
+    if (cached) {
+        fetch(request, { redirect: "follow" })
+            .then((response) => {
+                if (response && response.ok) cache.put(request, response);
+            })
+            .catch(() => {});
+        return cached;
+    }
+
+    try {
+        const response = await fetch(request, { redirect: "follow" });
+        if (response && response.ok) {
+            cache.put(request, response.clone());
+        }
+        return response;
+    } catch (err) {
+        return new Response("Offline", { status: 503 });
+    }
+}

@@ -1,34 +1,18 @@
+// Per-page-load cache-busting token. Every reload requests a brand-new URL for
+// component HTML/CSS/JS, so the latest version always loads without clearing the
+// cache. (To re-enable browser caching later, replace Date.now() with a fixed
+// string like "1.0.0" and bump it on each deploy.)
+const COMPONENT_VERSION = Date.now();
+
 class ComponentLoader {
     constructor() {
-        // ✅ CRITICAL FIX: Changed from relative (./) to absolute (/) paths
-        // This prevents the server from redirecting requests
-        this.componentsPath = "/components/"; // Was: "./components/"
-        this.cssPath = "/css/components/"; // Was: "./css/components/"
-        this.jsPath = "/js/components/"; // Was: "./js/components/"
-
+        // Absolute paths (leading "/") — prevents the server from redirecting
+        // requests, which would drop the ?v= version query and cause 404s.
+        this.componentsPath = '/components/';
+        this.cssPath = '/css/components/';
+        this.jsPath = '/js/components/';
+        this.version = COMPONENT_VERSION;
         this.loadedComponents = new Set();
-        this.loadingQueue = [];
-        this.isProcessingQueue = false;
-
-        this.observer = new IntersectionObserver(this.handleIntersection.bind(this), {
-            rootMargin: "50px",
-        });
-    }
-
-    // Yield to main thread helper
-    async yieldToMain() {
-        return new Promise((resolve) => {
-            if ("scheduler" in window && "yield" in scheduler) {
-                scheduler.yield().then(resolve);
-            } else {
-                setTimeout(resolve, 0);
-            }
-        });
-    }
-
-    // Check if we should yield (every ~50ms of work)
-    shouldYield() {
-        return navigator.scheduling?.isInputPending?.() || false;
     }
 
     async loadComponent(name) {
@@ -36,52 +20,33 @@ class ComponentLoader {
 
         try {
             // Load HTML
-            const htmlResponse = await fetch(`${this.componentsPath}${name}`);
-
+            const htmlResponse = await fetch(`${this.componentsPath}${name}.html?v=${this.version}`);
             const html = await htmlResponse.text();
-
-            // Yield before DOM manipulation
-            await this.yieldToMain();
 
             // Load CSS
             await this.loadCSS(name);
 
-            // Yield before inserting HTML
-            if (this.shouldYield()) {
-                await this.yieldToMain();
-            }
-
             // Insert HTML into all placeholders
             const placeholders = document.querySelectorAll(`[data-component="${name}"]`);
-            placeholders.forEach((placeholder) => {
+            placeholders.forEach(placeholder => {
                 placeholder.innerHTML = html;
-                placeholder.removeAttribute("data-component");
+                placeholder.removeAttribute('data-component');
             });
-
-            // Yield before JS execution
-            await this.yieldToMain();
 
             // Load and execute JS
             await this.loadJS(name);
 
             this.loadedComponents.add(name);
         } catch (error) {
-            console.error(`Error loading component ${name}:`, error);
+            // console.error(`Error loading component ${name}:`, error);
         }
     }
 
     loadCSS(name) {
         return new Promise((resolve) => {
-            // Check if already loaded
-            const existing = document.querySelector(`link[href*="${name}.css"]`);
-            if (existing) {
-                resolve();
-                return;
-            }
-
-            const link = document.createElement("link");
-            link.rel = "stylesheet";
-            link.href = `${this.cssPath}${name}.css`;
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = `${this.cssPath}${name}.css?v=${this.version}`;
             link.onload = resolve;
             link.onerror = () => resolve();
             document.head.appendChild(link);
@@ -90,121 +55,43 @@ class ComponentLoader {
 
     loadJS(name) {
         return new Promise((resolve) => {
-            // Check if already loaded
-            const existing = document.querySelector(`script[src*="${name}.js"]`);
-            if (existing) {
-                resolve();
-                return;
-            }
-
-            const script = document.createElement("script");
-            script.src = `${this.jsPath}${name}.js`;
-            script.async = true; // Non-blocking
+            const script = document.createElement('script');
+            script.src = `${this.jsPath}${name}.js?v=${this.version}`;
             script.onload = resolve;
             script.onerror = () => resolve();
             document.body.appendChild(script);
         });
     }
 
-    handleIntersection(entries) {
-        entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                const name = entry.target.getAttribute("data-component");
-                if (name) {
-                    this.loadComponent(name);
-                    this.observer.unobserve(entry.target);
-                }
-            }
-        });
-    }
-
-    // Process queue with yielding to prevent TBT spikes
-    async processQueue() {
-        if (this.isProcessingQueue || this.loadingQueue.length === 0) return;
-
-        this.isProcessingQueue = true;
-
-        while (this.loadingQueue.length > 0) {
-            const name = this.loadingQueue.shift();
-
-            // Load component
-            await this.loadComponent(name);
-
-            // Yield after each component to keep main thread responsive
-            await this.yieldToMain();
-        }
-
-        this.isProcessingQueue = false;
-    }
-
-    // Queue remaining components for background loading
-    async queueRemainingComponents() {
-        // Wait a bit for critical content to settle
-        await new Promise((resolve) => setTimeout(resolve, 100));
-
-        // Get all remaining unloaded components
-        const remaining = document.querySelectorAll("[data-component]");
-        const componentNames = new Set();
-
-        remaining.forEach((el) => {
-            const name = el.getAttribute("data-component");
-            if (name && !this.loadedComponents.has(name)) {
-                componentNames.add(name);
-            }
-        });
-
-        // Add to queue
-        this.loadingQueue.push(...componentNames);
-
-        // Start processing queue when idle
-        if ("requestIdleCallback" in window) {
-            requestIdleCallback(() => this.processQueue(), { timeout: 2000 });
-        } else {
-            setTimeout(() => this.processQueue(), 1000);
-        }
-    }
-
     async loadAll() {
-        // Load LCP-critical components in parallel
-        const lcpCritical = ["heroSection", "header"];
+        const components = document.querySelectorAll('[data-component]');
+        const componentNames = [...components].map(el => el.getAttribute('data-component'));
+        const uniqueNames = [...new Set(componentNames)];
 
-        await Promise.all(lcpCritical.map((name) => this.loadComponent(name)));
+        // Load critical components first so the page can show/hide loaders sooner.
+        const critical = ['heroSection', 'header', 'rotatingBadge'];
+        const criticalToLoad = uniqueNames.filter(n => critical.includes(n));
+        const remaining = uniqueNames.filter(n => !critical.includes(n));
 
-        document.body.style.opacity = "1";
+        // Load critical components sequentially
+        for (const name of criticalToLoad) {
+            await this.loadComponent(name);
+        }
 
-        await this.yieldToMain();
+        // Notify listeners that critical components are available
+        document.dispatchEvent(new CustomEvent('criticalComponentsLoaded', { detail: { components: criticalToLoad } }));
 
-        document.dispatchEvent(new CustomEvent("componentsLoaded"));
+        // Load remaining components sequentially
+        for (const name of remaining) {
+            await this.loadComponent(name);
+        }
 
-        await this.yieldToMain();
-
-        // Observe remaining components for lazy loading
-        const criticalComponents = [...lcpCritical];
-        const allComponents = document.querySelectorAll("[data-component]");
-
-        allComponents.forEach((el) => {
-            const name = el.getAttribute("data-component");
-            if (name && !criticalComponents.includes(name)) {
-                this.observer.observe(el);
-            }
-        });
-
-        // Background loading
-        this.queueRemainingComponents();
-    }
-
-    // Cleanup method
-    destroy() {
-        this.observer.disconnect();
-        this.loadingQueue = [];
+        // Final event when all components finished loading
+        document.dispatchEvent(new CustomEvent('componentsLoaded'));
     }
 }
 
-// Initialize on DOM ready
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener('DOMContentLoaded', () => {
     const loader = new ComponentLoader();
     loader.loadAll();
-
-    // Store reference for cleanup if needed
-    window.componentLoader = loader;
 });

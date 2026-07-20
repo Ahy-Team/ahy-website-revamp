@@ -1,8 +1,16 @@
+// Cache-busting version for component HTML/CSS/JS.
+// Uses a per-page-load timestamp so every reload requests a brand-new URL.
+// A never-before-seen URL cannot be served from ANY cache (browser HTTP cache
+// or a stale service worker), so edits always appear on reload with no cache
+// clearing. Trade-off: components are re-fetched each load (no browser caching).
+const COMPONENT_VERSION = Date.now();
+
 class ComponentLoader {
     constructor() {
         this.componentsPath = '/components/';
         this.cssPath = '/css/components/';
         this.jsPath = './js/components/';
+        this.version = COMPONENT_VERSION;
 
         this.loadedComponents = new Set();
         this.loadingQueue = [];
@@ -288,7 +296,7 @@ class ComponentLoader {
 
         try {
             // Load HTML
-            const res = await fetch(`${this.componentsPath}${name}.html`);
+            const res = await fetch(`${this.componentsPath}${name}.html?v=${this.version}`);
             const html = await res.text();
 
             await this.yieldToMain();
@@ -332,7 +340,7 @@ class ComponentLoader {
 
     loadCSS(name) {
         return new Promise(resolve => {
-            const href = `${this.cssPath}${name}.css`;
+            const href = `${this.cssPath}${name}.css?v=${this.version}`;
             if (document.querySelector(`link[href="${href}"]`)) {
                 resolve();
                 return;
@@ -348,7 +356,7 @@ class ComponentLoader {
 
     loadJS(name) {
         return new Promise(resolve => {
-            const src = `${this.jsPath}${name}.js`;
+            const src = `${this.jsPath}${name}.js?v=${this.version}`;
             if (document.querySelector(`script[src="${src}"]`)) {
                 resolve();
                 return;
