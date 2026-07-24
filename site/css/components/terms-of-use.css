@@ -116,6 +116,12 @@
     background-position: left bottom;
     background-size: 100% 2px;
     padding-bottom: 2px;
+    transition: color 0.25s ease, background-size 0.25s ease;
+}
+
+.legal-container a:hover {
+    color: #ffffff;
+    background-size: 100% 100%;
 }
 
 /* Contact / address block */
