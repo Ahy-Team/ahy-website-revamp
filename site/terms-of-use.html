@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=10.0, user-scalable=yes" />
+        <title>Terms of Use | Ahy Consulting</title>
+
+        <meta name="description" content="AHY Consulting LLP's Terms of Use govern your access to and use of our websites, applications, software, platforms, and digital services." />
+
+        <!-- Cookie Consent (OrestBida v2) -->
+        <link
+            rel="preload"
+            href="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@v2.8.0/dist/cookieconsent.css"
+            as="style"
+            onload="
+                this.onload = null;
+                this.rel = 'stylesheet';
+            "
+        />
+
+        <noscript>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@v2.8.0/dist/cookieconsent.css" />
+        </noscript>
+
+        <link rel="preload" href="/css/cookieConsent.css" as="style" />
+        <link rel="stylesheet" href="/css/cookieConsent.css" media="print" onload="this.media = 'all'" />
+
+        <script defer src="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@v2.8.0/dist/cookieconsent.js"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+
+            let gaLoaded = false;
+
+            function loadGA() {
+                if (gaLoaded) return;
+                gaLoaded = true;
+
+                const s = document.createElement("script");
+                s.src = "https://www.googletagmanager.com/gtag/js?id=UA-72482257-1";
+                s.async = true;
+                document.head.appendChild(s);
+
+                gtag("js", new Date());
+                gtag("config", "UA-72482257-1", {
+                    send_page_view: true,
+                });
+            }
+
+            ["scroll", "click", "mousemove", "touchstart"].forEach((e) => window.addEventListener(e, loadGA, { once: true, passive: true }));
+        </script>
+        <script>
+            window.ASSET_VERSION = Date.now();
+        </script>
+
+        <link rel="stylesheet" href="css/main.css?v=dev" />
+        <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrambleTextPlugin.min.js"></script>
+        <link rel="shortcut icon" href="/assets/ahy-logo.webp" type="image/webp" />
+        <div data-component="header"></div>
+
+        <!-- Schema.Org -->
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "WebSite",
+                "name": "Ahy Consulting",
+                "url": "https://www.ahyconsulting.com/terms-of-use"
+            }
+        </script>
+
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "Home",
+                        "item": "https://www.ahyconsulting.com/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 2,
+                        "name": "Terms of Use",
+                        "item": "https://www.ahyconsulting.com/terms-of-use"
+                    }
+                ]
+            }
+        </script>
+
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "Organization",
+                "url": "https://www.ahyconsulting.com",
+                "logo": "https://www.ahyconsulting.com/assets/ahy-logo.webp"
+            }
+        </script>
+    </head>
+
+    <body data-page="terms-of-use">
+        <style>
+            /* Black background only on the content wrapper (main), NOT the body,
+               so the footer keeps the default gradient-blob background. */
+            main {
+                background-color: var(--primary-color);
+            }
+
+            .blob-img {
+                width: 100%;
+                height: 100%;
+            }
+            @media (min-width: 768px) {
+                .blob-img {
+                    height: auto;
+                    width: 100%;
+                }
+            }
+
+            /* Full-screen dot loader (mirrors the hero section loader) */
+            .legal-loader {
+                position: fixed;
+                inset: 0;
+                width: 100vw;
+                height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: var(--primary-color);
+                z-index: 40;
+                transition: opacity 0.5s ease-out;
+            }
+            .legal-loader .loader {
+                position: relative;
+                width: 350px;
+                height: 50px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .legal-loader .dot {
+                animation-name: legal-movement;
+                animation-duration: 2s;
+                animation-iteration-count: infinite;
+                animation-timing-function: ease-in-out;
+                height: 10px;
+                width: 10px;
+                position: absolute;
+                top: 20px;
+                transform: translate3d(0, -25px, 0) scale(1);
+            }
+            .legal-loader .dot::before {
+                animation-name: legal-size-opacity;
+                animation-duration: 2s;
+                animation-iteration-count: infinite;
+                animation-timing-function: ease;
+                background: #fff;
+                border-radius: 50%;
+                content: "";
+                display: block;
+                height: 100%;
+                width: 100%;
+            }
+            .legal-loader .dot:nth-of-type(even)::before {
+                background-color: #ec1966dc;
+                box-shadow: inset 0 0 4px #d11456;
+            }
+            .legal-loader .dot:nth-of-type(1) { animation-delay: -0.1s; left: 325px; }
+            .legal-loader .dot:nth-of-type(1)::before { animation-delay: -0.1s; }
+            .legal-loader .dot:nth-of-type(2) { animation-delay: -1.2s; left: 325px; }
+            .legal-loader .dot:nth-of-type(2)::before { animation-delay: -1.2s; }
+            .legal-loader .dot:nth-of-type(3) { animation-delay: -0.3s; left: 300px; }
+            .legal-loader .dot:nth-of-type(3)::before { animation-delay: -0.3s; }
+            .legal-loader .dot:nth-of-type(4) { animation-delay: -1.4s; left: 300px; }
+            .legal-loader .dot:nth-of-type(4)::before { animation-delay: -1.4s; }
+            .legal-loader .dot:nth-of-type(5) { animation-delay: -0.5s; left: 275px; }
+            .legal-loader .dot:nth-of-type(5)::before { animation-delay: -0.5s; }
+            .legal-loader .dot:nth-of-type(6) { animation-delay: -1.6s; left: 275px; }
+            .legal-loader .dot:nth-of-type(6)::before { animation-delay: -1.6s; }
+            .legal-loader .dot:nth-of-type(7) { animation-delay: -0.7s; left: 250px; }
+            .legal-loader .dot:nth-of-type(7)::before { animation-delay: -0.7s; }
+            .legal-loader .dot:nth-of-type(8) { animation-delay: -1.8s; left: 250px; }
+            .legal-loader .dot:nth-of-type(8)::before { animation-delay: -1.8s; }
+            .legal-loader .dot:nth-of-type(9) { animation-delay: -0.9s; left: 225px; }
+            .legal-loader .dot:nth-of-type(9)::before { animation-delay: -0.9s; }
+            .legal-loader .dot:nth-of-type(10) { animation-delay: -2s; left: 225px; }
+            .legal-loader .dot:nth-of-type(10)::before { animation-delay: -2s; }
+            .legal-loader .dot:nth-of-type(11) { animation-delay: -1.1s; left: 200px; }
+            .legal-loader .dot:nth-of-type(11)::before { animation-delay: -1.1s; }
+            .legal-loader .dot:nth-of-type(12) { animation-delay: -2.2s; left: 200px; }
+            .legal-loader .dot:nth-of-type(12)::before { animation-delay: -2.2s; }
+            .legal-loader .dot:nth-of-type(13) { animation-delay: -1.3s; left: 175px; }
+            .legal-loader .dot:nth-of-type(13)::before { animation-delay: -1.3s; }
+            .legal-loader .dot:nth-of-type(14) { animation-delay: -2.4s; left: 175px; }
+            .legal-loader .dot:nth-of-type(14)::before { animation-delay: -2.4s; }
+            .legal-loader .dot:nth-of-type(15) { animation-delay: -1.5s; left: 150px; }
+            .legal-loader .dot:nth-of-type(15)::before { animation-delay: -1.5s; }
+            .legal-loader .dot:nth-of-type(16) { animation-delay: -2.6s; left: 150px; }
+            .legal-loader .dot:nth-of-type(16)::before { animation-delay: -2.6s; }
+            .legal-loader .dot:nth-of-type(17) { animation-delay: -1.7s; left: 125px; }
+            .legal-loader .dot:nth-of-type(17)::before { animation-delay: -1.7s; }
+            .legal-loader .dot:nth-of-type(18) { animation-delay: -2.8s; left: 125px; }
+            .legal-loader .dot:nth-of-type(18)::before { animation-delay: -2.8s; }
+            .legal-loader .dot:nth-of-type(19) { animation-delay: -1.9s; left: 100px; }
+            .legal-loader .dot:nth-of-type(19)::before { animation-delay: -1.9s; }
+            .legal-loader .dot:nth-of-type(20) { animation-delay: -3s; left: 100px; }
+            .legal-loader .dot:nth-of-type(20)::before { animation-delay: -3s; }
+            .legal-loader .dot:nth-of-type(21) { animation-delay: -2.1s; left: 75px; }
+            .legal-loader .dot:nth-of-type(21)::before { animation-delay: -2.1s; }
+            .legal-loader .dot:nth-of-type(22) { animation-delay: -3.2s; left: 75px; }
+            .legal-loader .dot:nth-of-type(22)::before { animation-delay: -3.2s; }
+            .legal-loader .dot:nth-of-type(23) { animation-delay: -2.3s; left: 50px; }
+            .legal-loader .dot:nth-of-type(23)::before { animation-delay: -2.3s; }
+            .legal-loader .dot:nth-of-type(24) { animation-delay: -3.4s; left: 50px; }
+            .legal-loader .dot:nth-of-type(24)::before { animation-delay: -3.4s; }
+            .legal-loader .dot:nth-of-type(25) { animation-delay: -2.5s; left: 25px; }
+            .legal-loader .dot:nth-of-type(25)::before { animation-delay: -2.5s; }
+            .legal-loader .dot:nth-of-type(26) { animation-delay: -3.6s; left: 25px; }
+            .legal-loader .dot:nth-of-type(26)::before { animation-delay: -3.6s; }
+
+            @keyframes legal-movement {
+                0% { transform: translate3d(0, -25px, 0); z-index: 0; }
+                50% { transform: translate3d(0, 25px, 0); z-index: 10; }
+                100% { transform: translate3d(0, -25px, 0); z-index: -5; }
+            }
+            @keyframes legal-size-opacity {
+                0% { opacity: 1; transform: scale(1); }
+                25% { transform: scale(1.5); }
+                50% { opacity: 1; }
+                75% { opacity: 0.35; transform: scale(0.5); }
+                100% { opacity: 1; transform: scale(1); }
+            }
+
+            @media (max-width: 768px) {
+                .legal-loader .loader { width: 200px; }
+                .legal-loader .dot:nth-of-type(1) { left: 175px; }
+                .legal-loader .dot:nth-of-type(2) { left: 175px; }
+                .legal-loader .dot:nth-of-type(3) { left: 160px; }
+                .legal-loader .dot:nth-of-type(4) { left: 160px; }
+                .legal-loader .dot:nth-of-type(5) { left: 145px; }
+                .legal-loader .dot:nth-of-type(6) { left: 145px; }
+                .legal-loader .dot:nth-of-type(7) { left: 130px; }
+                .legal-loader .dot:nth-of-type(8) { left: 130px; }
+                .legal-loader .dot:nth-of-type(9) { left: 115px; }
+                .legal-loader .dot:nth-of-type(10) { left: 115px; }
+                .legal-loader .dot:nth-of-type(11) { left: 100px; }
+                .legal-loader .dot:nth-of-type(12) { left: 100px; }
+                .legal-loader .dot:nth-of-type(13) { left: 85px; }
+                .legal-loader .dot:nth-of-type(14) { left: 85px; }
+                .legal-loader .dot:nth-of-type(15) { left: 70px; }
+                .legal-loader .dot:nth-of-type(16) { left: 70px; }
+                .legal-loader .dot:nth-of-type(17) { left: 55px; }
+                .legal-loader .dot:nth-of-type(18) { left: 55px; }
+                .legal-loader .dot:nth-of-type(19) { left: 40px; }
+                .legal-loader .dot:nth-of-type(20) { left: 40px; }
+                .legal-loader .dot:nth-of-type(21) { left: 25px; }
+                .legal-loader .dot:nth-of-type(22) { left: 25px; }
+                .legal-loader .dot:nth-of-type(23) { left: 10px; }
+                .legal-loader .dot:nth-of-type(24) { left: 10px; }
+                .legal-loader .dot:nth-of-type(25) { left: -5px; }
+                .legal-loader .dot:nth-of-type(26) { left: -5px; }
+            }
+            @media (max-width: 425px) {
+                .legal-loader .loader { width: 150px; }
+                .legal-loader .dot { height: 8px; width: 8px; }
+                .legal-loader .dot:nth-of-type(1) { left: 130px; }
+                .legal-loader .dot:nth-of-type(2) { left: 130px; }
+                .legal-loader .dot:nth-of-type(3) { left: 120px; }
+                .legal-loader .dot:nth-of-type(4) { left: 120px; }
+                .legal-loader .dot:nth-of-type(5) { left: 110px; }
+                .legal-loader .dot:nth-of-type(6) { left: 110px; }
+                .legal-loader .dot:nth-of-type(7) { left: 100px; }
+                .legal-loader .dot:nth-of-type(8) { left: 100px; }
+                .legal-loader .dot:nth-of-type(9) { left: 90px; }
+                .legal-loader .dot:nth-of-type(10) { left: 90px; }
+                .legal-loader .dot:nth-of-type(11) { left: 80px; }
+                .legal-loader .dot:nth-of-type(12) { left: 80px; }
+                .legal-loader .dot:nth-of-type(13) { left: 70px; }
+                .legal-loader .dot:nth-of-type(14) { left: 70px; }
+                .legal-loader .dot:nth-of-type(15) { left: 60px; }
+                .legal-loader .dot:nth-of-type(16) { left: 60px; }
+                .legal-loader .dot:nth-of-type(17) { left: 50px; }
+                .legal-loader .dot:nth-of-type(18) { left: 50px; }
+                .legal-loader .dot:nth-of-type(19) { left: 40px; }
+                .legal-loader .dot:nth-of-type(20) { left: 40px; }
+                .legal-loader .dot:nth-of-type(21) { left: 30px; }
+                .legal-loader .dot:nth-of-type(22) { left: 30px; }
+                .legal-loader .dot:nth-of-type(23) { left: 20px; }
+                .legal-loader .dot:nth-of-type(24) { left: 20px; }
+                .legal-loader .dot:nth-of-type(25) { left: 10px; }
+                .legal-loader .dot:nth-of-type(26) { left: 10px; }
+            }
+        </style>
+        <!-- Gradient blob background (footer sits over this) -->
+        <div class="gradient-blobs">
+            <video class="blobs-video" src="/assets/video/background-video.mp4" autoplay muted loop playsinline></video>
+            <picture>
+                <source srcset="/assets/blobs-desktop.webp" media="(min-width: 1441px)" type="image/webp" />
+                <source srcset="/assets/blobs-laptop.webp" media="(min-width: 768px) and (max-width: 1440px)" type="image/webp" />
+                <source srcset="/assets/blobs-mobile.webp 1x, /assets/blobs-mobile@2x.webp 2x" media="(max-width: 767px)" type="image/webp" />
+                <img class="blob-img" src="/assets/blobs-mobile@2x.webp" alt="Abstract gradient background" width="1534" height="1024" fetchpriority="high" decoding="async" />
+            </picture>
+        </div>
+
+        <!-- Dot loader overlay (outside smooth-wrapper so position:fixed stays viewport-relative) -->
+        <div id="legalLoader" class="legal-loader">
+            <div class="loader">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                <div class="dot"></div><div class="dot"></div>
+            </div>
+        </div>
+
+        <!-- ScrollSmoother wrapper structure -->
+        <div id="smooth-wrapper">
+            <div id="smooth-content">
+                <main>
+                    <div data-component="terms-of-use" style="min-height: 100vh; background-color: var(--primary-color);"></div>
+                </main>
+                <script>
+                    /* Load the legal content immediately and in parallel (not queued behind the
+                       header). Show the dot loader briefly, then hide it as soon as the content
+                       is ready — with a minimum so it's actually seen and a hard 1s cap. */
+                    (function () {
+                        var name = "terms-of-use";
+                        var host = document.querySelector('[data-component="' + name + '"]');
+                        if (!host) return;
+                        host.removeAttribute("data-component"); // remove from the sequential queue
+
+                        // Load the component CSS with a cache-busting version (avoids stale
+                        // service-worker cache serving old styles).
+                        var css = document.createElement("link");
+                        css.rel = "stylesheet";
+                        css.href = "/css/components/" + name + ".css?v=" + Date.now();
+                        document.head.appendChild(css);
+
+                        var MIN_MS = 500;  // keep the loader visible at least this long
+                        var MAX_MS = 1000; // never show it longer than this
+                        var start = Date.now();
+                        var hidden = false;
+
+                        function hideLoader() {
+                            if (hidden) return;
+                            hidden = true;
+                            var el = document.getElementById("legalLoader");
+                            if (!el) return;
+                            el.style.opacity = "0";
+                            setTimeout(function () { el.remove(); }, 500); // matches the 0.5s fade
+                        }
+
+                        fetch("/components/" + name + ".html?v=" + Date.now(), { cache: "no-store" })
+                            .then(function (r) { return r.text(); })
+                            .then(function (html) {
+                                host.innerHTML = html;
+                                var wait = Math.max(0, MIN_MS - (Date.now() - start));
+                                setTimeout(hideLoader, wait);
+                            })
+                            .catch(hideLoader);
+
+                        setTimeout(hideLoader, MAX_MS); // hard cap
+                    })();
+                </script>
+                <div data-component="footer"></div>
+            </div>
+        </div>
+        <div data-component="rotatingBadge"></div>
+
+        <!-- GSAP Scripts -->
+        <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+        <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
+        <script defer src="https://unpkg.com/gsap@3/dist/MorphSVGPlugin.min.js"></script>
+        <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollSmoother.min.js"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/circletype@2.3.0/dist/circletype.min.js"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollToPlugin.min.js"></script>
+        <script defer src="/js/cookieConsent-otherPages.js?v=dev"></script>
+        <script defer src="js/componentLoader.js?v=dev"></script>
+
+        <script defer src="js/main.js"></script>
+    </body>
+</html>
