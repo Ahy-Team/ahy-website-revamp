@@ -172,3 +172,6 @@
         padding: 40% 1rem 0 1rem !important;
     }
 }
+    .BTwords-content > a {
+        display: contents;
+    }
