@@ -38,55 +38,38 @@
 /* Grid layout for images */
 .BTwords-content {
     width: 100%;
-    max-width: 1280px;
+    max-width: 860px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: auto;
-    gap: 50px 80px;
+    gap: 28px 36px;
     justify-items: center;
     align-items: center;
     position: relative;
-    margin-top: 100px;
+    margin-top: 80px;
 }
 
 /* Image styling */
 .BTwords-image {
     width: 100%;
-    max-width: 250px;
-    height: 180px;
+    aspect-ratio: 4 / 3;
+    height: auto;
     object-fit: cover;
-    border-radius: 8px;
+    border-radius: 12px;
     position: relative;
 }
 
-/* Make 3rd, 5th, and 6th images taller */
-.BTwords-image:nth-child(3),
-.BTwords-image:nth-child(5),
-.BTwords-image:nth-child(6) {
-    height: 100%;
-    max-height: 300px;
-    /* ensures nice visual balance */
-}
-.BTwords-image:nth-child(1) {
-    max-width: 350px;
-    height: 200px;
-}
-.BTwords-image:nth-child(2) {
-    max-width: 350px;
-    height: 200px;
-}
 .BTwords-image:nth-child(3) {
     z-index: 10;
 }
-/* .BTwords-image:nth-child(4) {
-    max-width: 250px;
-    height: 350px;
-} */
+
 /* Center image 3 and 6 */
 .BTwords-image:nth-child(3),
 .BTwords-image:nth-child(6) {
     grid-column: 1 / span 2;
     justify-self: center;
+    max-width: 420px;
+    width: 100%;
 }
 
 .BTwords-outer {
@@ -107,39 +90,34 @@
     font-weight: bold;
 }
 
-/* Responsive layout for smaller screens */
+/* Responsive layout for mobile */
 @media (max-width: 768px) {
     .BTwords-content {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 30px 30px;
-        padding: 0 10px;
-        z-index: 10;
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 0 20px;
+        margin-top: 40px;
     }
 
     .BTwords-image {
-        max-width: 140px;
-        height: 120px;
+        aspect-ratio: 4 / 3;
+        height: auto;
+        border-radius: 10px;
+        max-width: 100%;
     }
 
-    /* Make 3rd, 5th, 6th taller even on mobile */
     .BTwords-image:nth-child(3),
-    .BTwords-image:nth-child(5),
     .BTwords-image:nth-child(6) {
-        height: 180px;
+        grid-column: 1;
+        max-width: 100%;
     }
 
     .BTwords-pin-text {
         z-index: 10;
         opacity: 0.75;
         padding: 0px;
-        font-size: 30px;
+        font-size: 26px;
         line-height: 1.4;
-    }
-
-    .BTwords-image:nth-child(3),
-    .BTwords-image:nth-child(6) {
-        grid-column: 1 / span 2;
-        justify-self: center;
     }
 
     .BTword-featured-animate-text-end {

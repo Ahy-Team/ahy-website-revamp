@@ -1,5 +1,13 @@
 !(function () {
     function e() {
+        // Set dynamic showreel year range
+        var currentYear = new Date().getFullYear();
+        var yearLabel = (currentYear - 1) + ' - ' + currentYear;
+        var mobileYear = document.getElementById('showreel-year-mobile');
+        var desktopYear = document.getElementById('showreel-year-desktop');
+        if (mobileYear) mobileYear.textContent = yearLabel;
+        if (desktopYear) desktopYear.textContent = yearLabel;
+
         // Videos are static in HTML; just attempt to play the visible one and pause the other
         function playVisibleHeroVideo() {
             try {
