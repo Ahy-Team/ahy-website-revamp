@@ -6,6 +6,9 @@
         const secondLastImage = document.querySelector(
             ".BTwords-image:nth-last-child(2)"
         );
+        const isMobile = window.innerWidth <= 768;
+
+        if (!isMobile) {
 
         // Pin the text
         ScrollTrigger.create({
@@ -43,6 +46,7 @@
                 });
             }
         });
+    }
     }
 
     if (document.readyState === "loading") {
